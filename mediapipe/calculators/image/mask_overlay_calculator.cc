@@ -24,9 +24,9 @@ enum { ATTRIB_VERTEX, ATTRIB_TEXTURE_POSITION, NUM_ATTRIBUTES };
 
 namespace mediapipe {
 
-using ::mediapipe::MaskOverlayCalculatorOptions_MaskChannel_ALPHA;
-using ::mediapipe::MaskOverlayCalculatorOptions_MaskChannel_RED;
-using ::mediapipe::MaskOverlayCalculatorOptions_MaskChannel_UNKNOWN;
+using ::mediapipe::MaskOverlayCalculatorOptions_MaskChannel_OVERLAY_MASK_CHANNEL_ALPHA;
+using ::mediapipe::MaskOverlayCalculatorOptions_MaskChannel_OVERLAY_MASK_CHANNEL_RED;
+using ::mediapipe::MaskOverlayCalculatorOptions_MaskChannel_OVERLAY_MASK_CHANNEL_UNKNOWN;
 
 // Mixes two frames using a third mask frame or constant value.
 //
@@ -190,11 +190,11 @@ absl::Status MaskOverlayCalculator::GlSetup(
 
   std::string mask_component;
   switch (mask_channel) {
-    case MaskOverlayCalculatorOptions_MaskChannel_UNKNOWN:
-    case MaskOverlayCalculatorOptions_MaskChannel_RED:
+    case MaskOverlayCalculatorOptions_MaskChannel_OVERLAY_MASK_CHANNEL_UNKNOWN:
+    case MaskOverlayCalculatorOptions_MaskChannel_OVERLAY_MASK_CHANNEL_RED:
       mask_component = "r";
       break;
-    case MaskOverlayCalculatorOptions_MaskChannel_ALPHA:
+    case MaskOverlayCalculatorOptions_MaskChannel_OVERLAY_MASK_CHANNEL_ALPHA:
       mask_component = "a";
       break;
   }

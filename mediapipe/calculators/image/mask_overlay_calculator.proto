@@ -24,11 +24,11 @@ message MaskOverlayCalculatorOptions {
   }
 
   enum MaskChannel {
-    UNKNOWN = 0;
-    RED = 1;
-    ALPHA = 2;
+    OVERLAY_MASK_CHANNEL_UNKNOWN = 0;
+    OVERLAY_MASK_CHANNEL_RED = 1;
+    OVERLAY_MASK_CHANNEL_ALPHA = 2;
   }
 
   // Selects which channel of the MASK input to use for masking.
-  optional MaskChannel mask_channel = 1 [default = RED];
+  optional MaskChannel mask_channel = 1 [default = OVERLAY_MASK_CHANNEL_RED];
 }
