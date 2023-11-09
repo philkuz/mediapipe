@@ -18,14 +18,14 @@ package mediapipe;
 
 message GpuOrigin {
   enum Mode {
-    DEFAULT = 0;
+    ORIGIN_MODE_DEFAULT = 0;
 
     // OpenGL: bottom-left origin
     // Metal : top-left origin
-    CONVENTIONAL = 1;
+    ORIGIN_MODE_CONVENTIONAL = 1;
 
     // OpenGL: top-left origin
     // Metal : top-left origin
-    TOP_LEFT = 2;
+    ORIGIN_MODE_TOP_LEFT = 2;
   }
 }

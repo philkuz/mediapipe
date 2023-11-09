@@ -357,7 +357,7 @@ absl::Status TensorsToImageCalculator::GlSetup(CalculatorContext* cc) {
   std::string maybe_flip_y_define;
 #if !defined(__APPLE__)
   const auto& options = cc->Options<TensorsToImageCalculatorOptions>();
-  if (options.gpu_origin() != mediapipe::GpuOrigin::TOP_LEFT) {
+  if (options.gpu_origin() != mediapipe::GpuOrigin::ORIGIN_MODE_TOP_LEFT) {
     maybe_flip_y_define = R"(
       #define FLIP_Y_COORD
     )";

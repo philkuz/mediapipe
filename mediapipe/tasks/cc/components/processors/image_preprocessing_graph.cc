@@ -109,7 +109,7 @@ absl::Status ConfigureImageToTensorCalculator(
   }
   // TODO: need to support different GPU origin on different
   // platforms or applications.
-  options->set_gpu_origin(mediapipe::GpuOrigin::TOP_LEFT);
+  options->set_gpu_origin(mediapipe::GpuOrigin::ORIGIN_MODE_TOP_LEFT);
   return absl::OkStatus();
 }
 

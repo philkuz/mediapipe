@@ -204,7 +204,7 @@ OutputTensorParams GetOutputTensorParams(const T& options) {
 // Returns whether the GPU input format starts at the bottom.
 template <typename T>
 bool DoesGpuInputStartAtBottom(const T& options) {
-  return options.gpu_origin() != mediapipe::GpuOrigin_Mode_TOP_LEFT;
+  return options.gpu_origin() != mediapipe::GpuOrigin_Mode_ORIGIN_MODE_TOP_LEFT;
 }
 
 // Converts the BorderMode proto into struct.

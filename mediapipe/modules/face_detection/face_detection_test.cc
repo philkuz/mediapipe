@@ -113,7 +113,7 @@ FaceDetectionOptions GetCpuOptions() {
 // Returns the FaceDetectionOptions needed to enable GPU processing.
 FaceDetectionOptions GetGpuOptions() {
   FaceDetectionOptions result;
-  result.set_gpu_origin(mediapipe::GpuOrigin_Mode::GpuOrigin_Mode_TOP_LEFT);
+  result.set_gpu_origin(mediapipe::GpuOrigin_Mode::GpuOrigin_Mode_ORIGIN_MODE_TOP_LEFT);
   result.mutable_delegate()->mutable_gpu()->set_use_advanced_gpu_api(true);
   return result;
 }

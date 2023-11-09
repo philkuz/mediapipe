@@ -152,7 +152,7 @@ void ConfigureTensorsToSegmentationCalculator(
     mediapipe::TensorsToSegmentationCalculatorOptions* options) {
   options->set_activation(
       mediapipe::TensorsToSegmentationCalculatorOptions_Activation_SIGMOID);
-  options->set_gpu_origin(mediapipe::GpuOrigin::TOP_LEFT);
+  options->set_gpu_origin(mediapipe::GpuOrigin::ORIGIN_MODE_TOP_LEFT);
 }
 
 void ConfigureRefineLandmarksFromHeatmapCalculator(
@@ -210,7 +210,7 @@ void ConfigureAlignmentPointsRectsCalculator(
 void ConfigureWarpAffineCalculator(
     mediapipe::WarpAffineCalculatorOptions* options) {
   options->set_border_mode(mediapipe::WarpAffineCalculatorOptions::BORDER_ZERO);
-  options->set_gpu_origin(mediapipe::GpuOrigin::TOP_LEFT);
+  options->set_gpu_origin(mediapipe::GpuOrigin::ORIGIN_MODE_TOP_LEFT);
 }
 
 // A "mediapipe.tasks.vision.pose_landmarker.SinglePoseLandmarksDetectorGraph"

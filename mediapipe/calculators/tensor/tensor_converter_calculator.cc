@@ -78,10 +78,10 @@ absl::StatusOr<bool> ShouldFlipVertically(
   }
 
   switch (options.gpu_origin()) {
-    case mediapipe::GpuOrigin::TOP_LEFT:
+    case mediapipe::GpuOrigin::ORIGIN_MODE_TOP_LEFT:
       return false;
-    case mediapipe::GpuOrigin::DEFAULT:
-    case mediapipe::GpuOrigin::CONVENTIONAL:
+    case mediapipe::GpuOrigin::ORIGIN_MODE_DEFAULT:
+    case mediapipe::GpuOrigin::ORIGIN_MODE_CONVENTIONAL:
       // TOP_LEFT on Metal, BOTTOM_LEFT on OpenGL.
 #ifdef __APPLE__
       return false;

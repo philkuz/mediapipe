@@ -162,7 +162,7 @@ void ConfigureLandmarksToDetectionCalculator(
 void ConfigureTensorsToImageCalculator(
     const ImageToTensorCalculatorOptions& image_to_tensor_options,
     TensorsToImageCalculatorOptions* tensors_to_image_options) {
-  tensors_to_image_options->set_gpu_origin(mediapipe::GpuOrigin_Mode_TOP_LEFT);
+  tensors_to_image_options->set_gpu_origin(mediapipe::GpuOrigin_Mode_ORIGIN_MODE_TOP_LEFT);
   if (image_to_tensor_options.has_output_tensor_float_range()) {
     auto* mutable_range =
         tensors_to_image_options->mutable_input_tensor_float_range();

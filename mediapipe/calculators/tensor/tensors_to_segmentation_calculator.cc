@@ -161,7 +161,7 @@ class TensorsToSegmentationCalculator : public CalculatorBase {
   void GlRender();
 
   bool DoesGpuTextureStartAtBottom() {
-    return options_.gpu_origin() != mediapipe::GpuOrigin_Mode_TOP_LEFT;
+    return options_.gpu_origin() != mediapipe::GpuOrigin_Mode_ORIGIN_MODE_TOP_LEFT;
   }
 
 #if !MEDIAPIPE_DISABLE_OPENCV

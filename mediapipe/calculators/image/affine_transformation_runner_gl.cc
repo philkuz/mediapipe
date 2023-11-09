@@ -45,14 +45,14 @@ using mediapipe::GpuOrigin;
 
 bool IsMatrixVerticalFlipNeeded(GpuOrigin::Mode gpu_origin) {
   switch (gpu_origin) {
-    case GpuOrigin::DEFAULT:
-    case GpuOrigin::CONVENTIONAL:
+    case GpuOrigin::ORIGIN_MODE_DEFAULT:
+    case GpuOrigin::ORIGIN_MODE_CONVENTIONAL:
 #ifdef __APPLE__
       return false;
 #else
       return true;
 #endif  //  __APPLE__
-    case GpuOrigin::TOP_LEFT:
+    case GpuOrigin::ORIGIN_MODE_TOP_LEFT:
       return false;
     default:
       ABSL_LOG(ERROR) << "Incorrect GpuOrigin: "
