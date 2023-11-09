@@ -24,10 +24,10 @@ message CopyCalculatorOptions {
   }
 
   enum Rotation {
-    NONE = 0;
-    CCW = 1;       // rotate 90 degrees counterclockwise
-    CCW_FLIP = 2;  // hack to rectify convfloat
+    ROTATION_NONE = 0;
+    ROTATION_CCW = 1;       // rotate 90 degrees counterclockwise
+    ROTATION_CCW_FLIP = 2;  // hack to rectify convfloat
   }
 
-  optional Rotation rotation = 1 [default = NONE];
+  optional Rotation rotation = 1 [default = ROTATION_NONE];
 }
