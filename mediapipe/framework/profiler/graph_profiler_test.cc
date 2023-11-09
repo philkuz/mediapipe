@@ -495,7 +495,7 @@ TEST_F(GraphProfilerTestPeer, PauseResumeReset) {
 
   // Checks works without making any change.
   {
-    GraphProfiler::Scope profiler_scope(GraphTrace::PROCESS, context.get(),
+    GraphProfiler::Scope profiler_scope(GraphTrace::EVENT_TYPE_PROCESS, context.get(),
                                         &profiler_);
     simulation_clock->Sleep(absl::Microseconds(10));
   }
@@ -505,7 +505,7 @@ TEST_F(GraphProfilerTestPeer, PauseResumeReset) {
   // Pause: profile should not change on calling Process().
   profiler_.Pause();
   {
-    GraphProfiler::Scope profiler_scope(GraphTrace::PROCESS, context.get(),
+    GraphProfiler::Scope profiler_scope(GraphTrace::EVENT_TYPE_PROCESS, context.get(),
                                         &profiler_);
     simulation_clock->Sleep(absl::Microseconds(100));
   }
@@ -515,7 +515,7 @@ TEST_F(GraphProfilerTestPeer, PauseResumeReset) {
   // Resume: profile should update again on calling Process().
   profiler_.Resume();
   {
-    GraphProfiler::Scope profiler_scope(GraphTrace::PROCESS, context.get(),
+    GraphProfiler::Scope profiler_scope(GraphTrace::EVENT_TYPE_PROCESS, context.get(),
                                         &profiler_);
     simulation_clock->Sleep(absl::Microseconds(1000));
   }
@@ -529,7 +529,7 @@ TEST_F(GraphProfilerTestPeer, PauseResumeReset) {
 
   // Checks still works after calling Reset().
   {
-    GraphProfiler::Scope profiler_scope(GraphTrace::PROCESS, context.get(),
+    GraphProfiler::Scope profiler_scope(GraphTrace::EVENT_TYPE_PROCESS, context.get(),
                                         &profiler_);
     simulation_clock->Sleep(absl::Microseconds(10000));
   }
@@ -559,7 +559,7 @@ TEST_F(GraphProfilerTestPeer, AddPacketInfoUsingPacketTimestamp) {
 
   std::string input_stream_name = "input_stream";
   Packet packet = MakePacket<std::string>("hello").At(Timestamp(100));
-  profiler_.LogEvent(TraceEvent(GraphTrace::PROCESS)
+  profiler_.LogEvent(TraceEvent(GraphTrace::EVENT_TYPE_PROCESS)
                          .set_stream_id(&input_stream_name)
                          .set_input_ts(packet.Timestamp())
                          .set_packet_ts(packet.Timestamp())
@@ -598,7 +598,7 @@ TEST_F(GraphProfilerTestPeer, AddPacketInfoUsingProfilerClock) {
   simulation_clock->Sleep(absl::Microseconds(200));
   std::string input_stream_name = "input_stream";
   Packet packet = MakePacket<std::string>("hello").At(Timestamp(110));
-  profiler_.LogEvent(TraceEvent(GraphTrace::PROCESS)
+  profiler_.LogEvent(TraceEvent(GraphTrace::EVENT_TYPE_PROCESS)
                          .set_stream_id(&input_stream_name)
                          .set_input_ts(packet.Timestamp())
                          .set_packet_ts(packet.Timestamp())
@@ -635,7 +635,7 @@ TEST_F(GraphProfilerTestPeer, AddPacketInfoWhenNoConsumer) {
 
   std::string input_stream_name = "input_stream1";
   Packet packet = MakePacket<std::string>("hello").At(Timestamp(100));
-  profiler_.LogEvent(TraceEvent(GraphTrace::PROCESS)
+  profiler_.LogEvent(TraceEvent(GraphTrace::EVENT_TYPE_PROCESS)
                          .set_stream_id(&input_stream_name)
                          .set_input_ts(packet.Timestamp())
                          .set_packet_ts(packet.Timestamp())
@@ -643,7 +643,7 @@ TEST_F(GraphProfilerTestPeer, AddPacketInfoWhenNoConsumer) {
   ASSERT_EQ(GetPacketInfo(GetPacketsInfoMap(), {"input_stream", 100}), nullptr);
 
   std::string input_stream_name2 = "input_stream2";
-  profiler_.LogEvent(TraceEvent(GraphTrace::PROCESS)
+  profiler_.LogEvent(TraceEvent(GraphTrace::EVENT_TYPE_PROCESS)
                          .set_stream_id(&input_stream_name2)
                          .set_input_ts(packet.Timestamp())
                          .set_packet_ts(packet.Timestamp())
@@ -674,7 +674,7 @@ TEST_F(GraphProfilerTestPeer, SetOpenRuntime) {
                              {"input_stream"}, {"output_stream"});
   context.AddInputs({MakePacket<std::string>("15").At(Timestamp(100))});
   {
-    GraphProfiler::Scope profiler_scope(GraphTrace::OPEN, context.get(),
+    GraphProfiler::Scope profiler_scope(GraphTrace::EVENT_TYPE_OPEN, context.get(),
                                         &profiler_);
     simulation_clock->Sleep(absl::Microseconds(100));
   }
@@ -728,7 +728,7 @@ TEST_F(GraphProfilerTestPeer, SetOpenRuntimeWithStreamLatency) {
 
   simulation_clock->SleepUntil(absl::FromUnixMicros(1000));
   {
-    GraphProfiler::Scope profiler_scope(GraphTrace::OPEN, source_context.get(),
+    GraphProfiler::Scope profiler_scope(GraphTrace::EVENT_TYPE_OPEN, source_context.get(),
                                         &profiler_);
     simulation_clock->Sleep(absl::Microseconds(150));
   }
@@ -794,7 +794,7 @@ TEST_F(GraphProfilerTestPeer, SetCloseRuntime) {
                              {"input_stream"}, {"output_stream"});
   context.AddInputs({MakePacket<std::string>("15").At(Timestamp(100))});
   {
-    GraphProfiler::Scope profiler_scope(GraphTrace::CLOSE, context.get(),
+    GraphProfiler::Scope profiler_scope(GraphTrace::EVENT_TYPE_CLOSE, context.get(),
                                         &profiler_);
     simulation_clock->Sleep(absl::Microseconds(100));
   }
@@ -849,7 +849,7 @@ TEST_F(GraphProfilerTestPeer, SetCloseRuntimeWithStreamLatency) {
       source_context.get(), Timestamp::PostStream());
   simulation_clock->SleepUntil(absl::FromUnixMicros(1000));
   {
-    GraphProfiler::Scope profiler_scope(GraphTrace::CLOSE, source_context.get(),
+    GraphProfiler::Scope profiler_scope(GraphTrace::EVENT_TYPE_CLOSE, source_context.get(),
                                         &profiler_);
     simulation_clock->Sleep(absl::Microseconds(100));
   }
@@ -1023,7 +1023,7 @@ TEST_F(GraphProfilerTestPeer, AddProcessSample) {
   context.AddOutputs({{MakePacket<std::string>("15").At(Timestamp(100))}});
 
   {
-    GraphProfiler::Scope profiler_scope(GraphTrace::PROCESS, context.get(),
+    GraphProfiler::Scope profiler_scope(GraphTrace::EVENT_TYPE_PROCESS, context.get(),
                                         &profiler_);
     simulation_clock->Sleep(absl::Microseconds(150));
   }
@@ -1080,7 +1080,7 @@ TEST_F(GraphProfilerTestPeer, AddProcessSampleWithStreamLatency) {
   int64 when_source_finished = when_source_started + 150;
   simulation_clock->SleepUntil(absl::FromUnixMicros(when_source_started));
   {
-    GraphProfiler::Scope profiler_scope(GraphTrace::PROCESS,
+    GraphProfiler::Scope profiler_scope(GraphTrace::EVENT_TYPE_PROCESS,
                                         source_context.get(), &profiler_);
     simulation_clock->Sleep(absl::Microseconds(150));
   }
@@ -1128,7 +1128,7 @@ TEST_F(GraphProfilerTestPeer, AddProcessSampleWithStreamLatency) {
 
   simulation_clock->SleepUntil(absl::FromUnixMicros(2000));
   {
-    GraphProfiler::Scope profiler_scope(GraphTrace::PROCESS,
+    GraphProfiler::Scope profiler_scope(GraphTrace::EVENT_TYPE_PROCESS,
                                         consumer_context.get(), &profiler_);
     simulation_clock->Sleep(absl::Microseconds(250));
   }

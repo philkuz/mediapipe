@@ -89,29 +89,29 @@ struct TraceEvent {
   }
 
   // GraphTrace::EventType constants, repeated here to match GraphProfilerStub.
-  static constexpr EventType UNKNOWN = GraphTrace::UNKNOWN;
-  static constexpr EventType OPEN = GraphTrace::OPEN;
-  static constexpr EventType PROCESS = GraphTrace::PROCESS;
-  static constexpr EventType CLOSE = GraphTrace::CLOSE;
-  static constexpr EventType NOT_READY = GraphTrace::NOT_READY;
-  static constexpr EventType READY_FOR_PROCESS = GraphTrace::READY_FOR_PROCESS;
-  static constexpr EventType READY_FOR_CLOSE = GraphTrace::READY_FOR_CLOSE;
-  static constexpr EventType THROTTLED = GraphTrace::THROTTLED;
-  static constexpr EventType UNTHROTTLED = GraphTrace::UNTHROTTLED;
-  static constexpr EventType CPU_TASK_USER = GraphTrace::CPU_TASK_USER;
-  static constexpr EventType CPU_TASK_SYSTEM = GraphTrace::CPU_TASK_SYSTEM;
-  static constexpr EventType GPU_TASK = GraphTrace::GPU_TASK;
-  static constexpr EventType DSP_TASK = GraphTrace::DSP_TASK;
-  static constexpr EventType TPU_TASK = GraphTrace::TPU_TASK;
-  static constexpr EventType GPU_CALIBRATION = GraphTrace::GPU_CALIBRATION;
-  static constexpr EventType PACKET_QUEUED = GraphTrace::PACKET_QUEUED;
-  static constexpr EventType GPU_TASK_INVOKE = GraphTrace::GPU_TASK_INVOKE;
-  static constexpr EventType TPU_TASK_INVOKE = GraphTrace::TPU_TASK_INVOKE;
-  static constexpr EventType CPU_TASK_INVOKE = GraphTrace::CPU_TASK_INVOKE;
+  static constexpr EventType UNKNOWN = GraphTrace::EVENT_TYPE_UNKNOWN;
+  static constexpr EventType OPEN = GraphTrace::EVENT_TYPE_OPEN;
+  static constexpr EventType PROCESS = GraphTrace::EVENT_TYPE_PROCESS;
+  static constexpr EventType CLOSE = GraphTrace::EVENT_TYPE_CLOSE;
+  static constexpr EventType NOT_READY = GraphTrace::EVENT_TYPE_NOT_READY;
+  static constexpr EventType READY_FOR_PROCESS = GraphTrace::EVENT_TYPE_READY_FOR_PROCESS;
+  static constexpr EventType READY_FOR_CLOSE = GraphTrace::EVENT_TYPE_READY_FOR_CLOSE;
+  static constexpr EventType THROTTLED = GraphTrace::EVENT_TYPE_THROTTLED;
+  static constexpr EventType UNTHROTTLED = GraphTrace::EVENT_TYPE_UNTHROTTLED;
+  static constexpr EventType CPU_TASK_USER = GraphTrace::EVENT_TYPE_CPU_TASK_USER;
+  static constexpr EventType CPU_TASK_SYSTEM = GraphTrace::EVENT_TYPE_CPU_TASK_SYSTEM;
+  static constexpr EventType GPU_TASK = GraphTrace::EVENT_TYPE_GPU_TASK;
+  static constexpr EventType DSP_TASK = GraphTrace::EVENT_TYPE_DSP_TASK;
+  static constexpr EventType TPU_TASK = GraphTrace::EVENT_TYPE_TPU_TASK;
+  static constexpr EventType GPU_CALIBRATION = GraphTrace::EVENT_TYPE_GPU_CALIBRATION;
+  static constexpr EventType PACKET_QUEUED = GraphTrace::EVENT_TYPE_PACKET_QUEUED;
+  static constexpr EventType GPU_TASK_INVOKE = GraphTrace::EVENT_TYPE_GPU_TASK_INVOKE;
+  static constexpr EventType TPU_TASK_INVOKE = GraphTrace::EVENT_TYPE_TPU_TASK_INVOKE;
+  static constexpr EventType CPU_TASK_INVOKE = GraphTrace::EVENT_TYPE_CPU_TASK_INVOKE;
   static constexpr EventType GPU_TASK_INVOKE_ADVANCED =
-      GraphTrace::GPU_TASK_INVOKE_ADVANCED;
+      GraphTrace::EVENT_TYPE_GPU_TASK_INVOKE_ADVANCED;
   static constexpr EventType TPU_TASK_INVOKE_ASYNC =
-      GraphTrace::TPU_TASK_INVOKE_ASYNC;
+      GraphTrace::EVENT_TYPE_TPU_TASK_INVOKE_ASYNC;
 };
 
 // Packet trace log buffer.

@@ -288,8 +288,8 @@ void GraphProfiler::LogEvent(const TraceEvent& event) {
   // Record event info in the event trace log.
 
   if (packet_tracer_) {
-    if (event.event_type == GraphTrace::GPU_TASK ||
-        event.event_type == GraphTrace::GPU_CALIBRATION) {
+    if (event.event_type == GraphTrace::EVENT_TYPE_GPU_TASK ||
+        event.event_type == GraphTrace::EVENT_TYPE_GPU_CALIBRATION) {
       packet_tracer_->LogEvent(event);
     } else {
       absl::Time time_now = clock_->TimeNow();
@@ -298,7 +298,7 @@ void GraphProfiler::LogEvent(const TraceEvent& event) {
   }
 
   // Record event info in the profiling histograms.
-  if (event.event_type == GraphTrace::PROCESS && event.node_id == -1) {
+  if (event.event_type == GraphTrace::EVENT_TYPE_PROCESS && event.node_id == -1) {
     AddPacketInfo(event);
   }
 }

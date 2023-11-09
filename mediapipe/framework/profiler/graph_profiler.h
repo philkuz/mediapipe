@@ -198,17 +198,17 @@ class GraphProfiler : public std::enable_shared_from_this<ProfilingContext> {
       if (profiler_->is_profiling_) {
         int64 end_time_usec = profiler_->TimeNowUsec();
         switch (calculator_method_) {
-          case GraphTrace::OPEN:
+          case GraphTrace::EVENT_TYPE_OPEN:
             profiler_->SetOpenRuntime(calculator_context_, start_time_usec_,
                                       end_time_usec);
             break;
 
-          case GraphTrace::PROCESS:
+          case GraphTrace::EVENT_TYPE_PROCESS:
             profiler_->AddProcessSample(calculator_context_, start_time_usec_,
                                         end_time_usec);
             break;
 
-          case GraphTrace::CLOSE:
+          case GraphTrace::EVENT_TYPE_CLOSE:
             profiler_->SetCloseRuntime(calculator_context_, start_time_usec_,
                                        end_time_usec);
             break;

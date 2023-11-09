@@ -174,7 +174,7 @@ void CacheOutputTraceLookup(const mediapipe::GraphProfile& profile,
                             TimestampNodeIdToCalcTrace* start_time_lookup) {
   for (const auto& graph_trace : profile.graph_trace()) {
     for (const auto& calc_trace : graph_trace.calculator_trace()) {
-      if (calc_trace.event_type() != mediapipe::GraphTrace_EventType_PROCESS) {
+      if (calc_trace.event_type() != mediapipe::GraphTrace_EventType_EVENT_TYPE_PROCESS) {
         continue;
       }
       if (calc_trace.has_start_time() && !calc_trace.has_finish_time()) {
@@ -238,7 +238,7 @@ void Reporter::Accumulate(const mediapipe::GraphProfile& profile) {
 
   for (const auto& graph_trace : profile.graph_trace()) {
     for (const auto& calc_trace : graph_trace.calculator_trace()) {
-      if (calc_trace.event_type() != mediapipe::GraphTrace_EventType_PROCESS) {
+      if (calc_trace.event_type() != mediapipe::GraphTrace_EventType_EVENT_TYPE_PROCESS) {
         continue;
       }
 

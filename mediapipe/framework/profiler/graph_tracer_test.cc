@@ -137,10 +137,10 @@ TEST_F(GraphTracerTest, CalculatorTrace) {
   absl::Time curr_time = start_time_;
 
   // PCalculator_1 processes one packet from stream "input_stream".
-  LogInputPackets("PCalculator_1", GraphTrace::PROCESS, curr_time,
+  LogInputPackets("PCalculator_1", GraphTrace::EVENT_TYPE_PROCESS, curr_time,
                   {MakePacket<std::string>("hello").At(start_timestamp_)});
   curr_time += absl::Microseconds(10000);
-  LogOutputPackets("PCalculator_1", GraphTrace::PROCESS, curr_time,
+  LogOutputPackets("PCalculator_1", GraphTrace::EVENT_TYPE_PROCESS, curr_time,
                    {{MakePacket<std::string>("goodbye").At(start_timestamp_)}});
 
   // Validate the GraphTrace data.
@@ -177,11 +177,11 @@ TEST_F(GraphTracerTest, GraphTrace) {
   absl::Time curr_time = start_time_;
 
   // PCalculator_1 sends one packet to stream "up_1", and two to "up_2".
-  LogInputPackets("PCalculator_1", GraphTrace::PROCESS, curr_time,
+  LogInputPackets("PCalculator_1", GraphTrace::EVENT_TYPE_PROCESS, curr_time,
                   {MakePacket<std::string>("hello").At(start_timestamp_)});
   curr_time += absl::Microseconds(10000);
   LogOutputPackets(
-      "PCalculator_1", GraphTrace::PROCESS, curr_time,
+      "PCalculator_1", GraphTrace::EVENT_TYPE_PROCESS, curr_time,
       {
           {MakePacket<std::string>("up").At(start_timestamp_)},
           {MakePacket<std::string>("up").At(start_timestamp_),
@@ -191,19 +191,19 @@ TEST_F(GraphTracerTest, GraphTrace) {
 
   // PCalculator_2 processes one packet from stream "up_1".
   SetUpCalculatorContext("PCalculator_2", /*node_id=*/1, {"up_1"}, {"down_1"});
-  LogInputPackets("PCalculator_2", GraphTrace::PROCESS, curr_time,
+  LogInputPackets("PCalculator_2", GraphTrace::EVENT_TYPE_PROCESS, curr_time,
                   {MakePacket<std::string>("up").At(start_timestamp_)});
   curr_time += absl::Microseconds(10000);
-  LogOutputPackets("PCalculator_2", GraphTrace::PROCESS, curr_time,
+  LogOutputPackets("PCalculator_2", GraphTrace::EVENT_TYPE_PROCESS, curr_time,
                    {{MakePacket<std::string>("down_1").At(start_timestamp_)}});
   curr_time -= absl::Microseconds(5000);
 
   // PCalculator_3 processes two packets from stream "up_2".
   SetUpCalculatorContext("PCalculator_3", /*node_id=*/2, {"up_2"}, {"down_2"});
-  LogInputPackets("PCalculator_3", GraphTrace::PROCESS, curr_time,
+  LogInputPackets("PCalculator_3", GraphTrace::EVENT_TYPE_PROCESS, curr_time,
                   {MakePacket<std::string>("up").At(start_timestamp_)});
   curr_time += absl::Microseconds(20000);
-  LogOutputPackets("PCalculator_3", GraphTrace::PROCESS, curr_time,
+  LogOutputPackets("PCalculator_3", GraphTrace::EVENT_TYPE_PROCESS, curr_time,
                    {{MakePacket<std::string>("out").At(start_timestamp_)}});
   curr_time += absl::Microseconds(2000);
 
@@ -216,11 +216,11 @@ TEST_F(GraphTracerTest, GraphTrace) {
   // context, so for now we just create a separate TestContextBuilder instead of
   // clearing it. TODO: revise this test.
   SetUpCalculatorContext("PCalculator_3a", /*node_id=*/2, {"up_2"}, {"down_2"});
-  LogInputPackets("PCalculator_3a", GraphTrace::PROCESS, curr_time,
+  LogInputPackets("PCalculator_3a", GraphTrace::EVENT_TYPE_PROCESS, curr_time,
                   {MakePacket<std::string>("pup").At(start_timestamp_ + 5)});
   curr_time += absl::Microseconds(20000);
   LogOutputPackets(
-      "PCalculator_3a", GraphTrace::PROCESS, curr_time,
+      "PCalculator_3a", GraphTrace::EVENT_TYPE_PROCESS, curr_time,
       {{MakePacket<std::string>("pout").At(start_timestamp_ + 5)}});
   curr_time += absl::Microseconds(1000);
 
