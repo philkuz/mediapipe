@@ -25,13 +25,13 @@ message RecolorCalculatorOptions {
   }
 
   enum MaskChannel {
-    UNKNOWN = 0;
-    RED = 1;
-    ALPHA = 2;
+    MASK_CHANNEL_UNKNOWN = 0;
+    MASK_CHANNEL_RED = 1;
+    MASK_CHANNEL_ALPHA = 2;
   }
 
   // Selects which channel of the MASK input to use for masking.
-  optional MaskChannel mask_channel = 1 [default = RED];
+  optional MaskChannel mask_channel = 1 [default = MASK_CHANNEL_RED];
 
   // Color to blend into input image where mask is > 0.
   // The blending is based on the input image luminosity.

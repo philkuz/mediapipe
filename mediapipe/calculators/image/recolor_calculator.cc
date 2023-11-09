@@ -243,7 +243,7 @@ absl::Status RecolorCalculator::RenderCpu(CalculatorContext* cc) {
   if (mask_mat.channels() > 1) {
     std::vector<cv::Mat> channels;
     cv::split(mask_mat, channels);
-    if (mask_channel_ == mediapipe::RecolorCalculatorOptions_MaskChannel_ALPHA)
+    if (mask_channel_ == mediapipe::RecolorCalculatorOptions_MaskChannel_MASK_CHANNEL_ALPHA)
       mask_mat = channels[3];
     else
       mask_mat = channels[0];
@@ -430,11 +430,11 @@ absl::Status RecolorCalculator::InitGpu(CalculatorContext* cc) {
 
   std::string mask_component;
   switch (mask_channel_) {
-    case mediapipe::RecolorCalculatorOptions_MaskChannel_UNKNOWN:
-    case mediapipe::RecolorCalculatorOptions_MaskChannel_RED:
+    case mediapipe::RecolorCalculatorOptions_MaskChannel_MASK_CHANNEL_UNKNOWN:
+    case mediapipe::RecolorCalculatorOptions_MaskChannel_MASK_CHANNEL_RED:
       mask_component = "r";
       break;
-    case mediapipe::RecolorCalculatorOptions_MaskChannel_ALPHA:
+    case mediapipe::RecolorCalculatorOptions_MaskChannel_MASK_CHANNEL_ALPHA:
       mask_component = "a";
       break;
   }
