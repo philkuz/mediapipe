@@ -44,13 +44,13 @@ message ImageCroppingCalculatorOptions {
   enum BorderMode {
     // First unspecified value is required by the guideline. See details here:
     // https://developers.google.com/protocol-buffers/docs/style#enums
-    BORDER_UNSPECIFIED = 0;
-    BORDER_ZERO = 1;
-    BORDER_REPLICATE = 2;
+    CROP_BORDER_UNSPECIFIED = 0;
+    CROP_BORDER_ZERO = 1;
+    CROP_BORDER_REPLICATE = 2;
   }
 
   // Specifies behaviour for crops that go beyond image borders.
-  optional BorderMode border_mode = 8 [default = BORDER_ZERO];
+  optional BorderMode border_mode = 8 [default = CROP_BORDER_ZERO];
 
   // Specifies limits for the size of the output image. It will be scaled down,
   // preserving ratio, to fit within. These do not change which area of the

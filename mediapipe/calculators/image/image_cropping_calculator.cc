@@ -202,12 +202,12 @@ absl::Status ImageCroppingCalculator::ValidateBorderModeForGPU(
       cc->Options<mediapipe::ImageCroppingCalculatorOptions>();
 
   switch (options.border_mode()) {
-    case mediapipe::ImageCroppingCalculatorOptions::BORDER_ZERO:
+    case mediapipe::ImageCroppingCalculatorOptions::CROP_BORDER_ZERO:
       ABSL_LOG(WARNING)
           << "BORDER_ZERO mode is not supported by GPU "
           << "implementation and will fall back into BORDER_REPLICATE";
       break;
-    case mediapipe::ImageCroppingCalculatorOptions::BORDER_REPLICATE:
+    case mediapipe::ImageCroppingCalculatorOptions::CROP_BORDER_REPLICATE:
       break;
     default:
       RET_CHECK_FAIL() << "Unsupported border mode for GPU: "
@@ -566,10 +566,10 @@ absl::Status ImageCroppingCalculator::GetBorderModeForOpenCV(
       cc->Options<mediapipe::ImageCroppingCalculatorOptions>();
 
   switch (options.border_mode()) {
-    case mediapipe::ImageCroppingCalculatorOptions::BORDER_ZERO:
+    case mediapipe::ImageCroppingCalculatorOptions::CROP_BORDER_ZERO:
       *border_mode = cv::BORDER_CONSTANT;
       break;
-    case mediapipe::ImageCroppingCalculatorOptions::BORDER_REPLICATE:
+    case mediapipe::ImageCroppingCalculatorOptions::CROP_BORDER_REPLICATE:
       *border_mode = cv::BORDER_REPLICATE;
       break;
     default:
