@@ -5,6 +5,7 @@ package mediapipe;
 import "mediapipe/framework/calculator.proto";
 import "mediapipe/framework/calculator_options.proto";
 import "mediapipe/framework/deps/proto_descriptor.proto";
+import "mediapipe/framework/tool/calculator_graph_template_argument.proto";
 
 option java_package = "com.google.mediapipe.proto";
 option java_outer_classname = "GraphTemplateProto";
@@ -41,31 +42,6 @@ message CalculatorGraphTemplate {
 
   // The list of template rules.
   repeated TemplateExpression rule = 2;
-}
-
-// The value for a template parameter.
-// The value can be either a simple value, a dictionary, or a list.
-message TemplateArgument {
-  oneof param_value {
-    // A string value for the parameter.
-    string str = 1;
-    // A numeric value for the parameter.
-    double num = 2;
-    // A dictionary of values for the parameter.
-    TemplateDict dict = 3;
-  }
-  // An ordered list of values for the parameter.
-  repeated TemplateArgument element = 4;
-}
-
-// A dictionary of parameter values.
-message TemplateDict {
-  message Parameter {
-    optional string key = 1;
-    optional TemplateArgument value = 2;
-  }
-  // A map from parameter name to parameter value.
-  repeated Parameter arg = 1;
 }
 
 // Options for a mediapipe template subgraph consisting of

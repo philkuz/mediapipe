@@ -16,7 +16,7 @@
 // The forked proto must remain identical to the original proto and should be
 // ONLY used by mediapipe open source project.
 
-syntax = "proto2";
+syntax = "proto3";
 option go_package="github.com/google/mediapipe/mediapipe/framework/tool";
 package mediapipe;
 
@@ -24,10 +24,10 @@ package mediapipe;
 // along with a URL that describes the type of the serialized message.
 message MessageData {
   // A URL/resource name that identifies the type of serialized protbuf.
-  optional string type_url = 1;
+  string type_url = 1;
 
   // Must be a valid serialized protocol buffer of the above specified type.
-  optional bytes value = 2;
+  bytes value = 2;
 }
 
 // Data for one Protobuf field or one MediaPipe packet.

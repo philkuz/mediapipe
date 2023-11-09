@@ -77,7 +77,10 @@ cc_library(
 
 mediapipe_proto_library(
     name = "calculator_graph_template_proto",
-    srcs = ["calculator_graph_template.proto"],
+    srcs = [
+        "calculator_graph_template.proto",
+        "calculator_graph_template_argument.proto",
+    ],
     def_options_lib = False,
     visibility = ["//visibility:public"],
     deps = [
