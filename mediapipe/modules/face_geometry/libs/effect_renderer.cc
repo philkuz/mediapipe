@@ -619,7 +619,7 @@ class EffectRendererImpl : public EffectRenderer {
 
     // Matrix array must be in the OpenGL-friendly column-major order. If
     // `matrix_data` is in the row-major order, then transpose.
-    if (matrix_data.layout() == MatrixData::ROW_MAJOR) {
+    if (matrix_data.layout() == MatrixData::LAYOUT_ROW_MAJOR) {
       std::swap(matrix_array[1], matrix_array[4]);
       std::swap(matrix_array[2], matrix_array[8]);
       std::swap(matrix_array[3], matrix_array[12]);

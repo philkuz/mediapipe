@@ -36,7 +36,7 @@ void MatrixDataProtoFromMatrix(const Matrix& matrix, MatrixData* matrix_data) {
 void MatrixFromMatrixDataProto(const MatrixData& matrix_data, Matrix* matrix) {
   ABSL_CHECK_EQ(matrix_data.rows() * matrix_data.cols(),
                 matrix_data.packed_data_size());
-  if (matrix_data.layout() == MatrixData::ROW_MAJOR) {
+  if (matrix_data.layout() == MatrixData::LAYOUT_ROW_MAJOR) {
     matrix->resize(matrix_data.cols(), matrix_data.rows());
   } else {
     matrix->resize(matrix_data.rows(), matrix_data.cols());
@@ -44,7 +44,7 @@ void MatrixFromMatrixDataProto(const MatrixData& matrix_data, Matrix* matrix) {
 
   std::copy(matrix_data.packed_data().begin(), matrix_data.packed_data().end(),
             matrix->data());
-  if (matrix_data.layout() == MatrixData::ROW_MAJOR) {
+  if (matrix_data.layout() == MatrixData::LAYOUT_ROW_MAJOR) {
     matrix->transposeInPlace();
   }
 }
