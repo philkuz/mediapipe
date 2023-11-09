@@ -42,7 +42,7 @@ message TimeHistogram {
 
   // Size of the runtimes histogram intervals (in microseconds) to generate the
   // histogram of the Process() time. The last interval extends to +inf.
-  optional int64 interval_size_usec = 2 [default = 1000000 /* 1 sec */];
+  optional int64 interval_size_usec = 2 [default = 1000000];
 
   // Number of intervals to generate the histogram of the Process() runtime.
   optional int64 num_intervals = 3 [default = 1];
