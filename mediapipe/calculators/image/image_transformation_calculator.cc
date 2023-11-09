@@ -349,8 +349,8 @@ absl::Status ImageTransformationCalculator::Open(CalculatorContext* cc) {
 
   interpolation_mode_ = options_.interpolation_mode();
   if (options_.interpolation_mode() ==
-      ImageTransformationCalculatorOptions::DEFAULT) {
-    interpolation_mode_ = ImageTransformationCalculatorOptions::LINEAR;
+      ImageTransformationCalculatorOptions::INTERPOLATION_MODE_DEFAULT) {
+    interpolation_mode_ = ImageTransformationCalculatorOptions::INTERPOLATION_MODE_LINEAR;
   }
   if (use_gpu_) {
 #if !MEDIAPIPE_DISABLE_GPU
@@ -470,7 +470,7 @@ absl::Status ImageTransformationCalculator::RenderCpu(CalculatorContext* cc) {
   if (output_width_ > 0 && output_height_ > 0) {
     cv::Mat scaled_mat;
     if (scale_mode_ == mediapipe::ScaleMode::SCALE_MODE_STRETCH) {
-      if (interpolation_mode_ == ImageTransformationCalculatorOptions::LINEAR) {
+      if (interpolation_mode_ == ImageTransformationCalculatorOptions::INTERPOLATION_MODE_LINEAR) {
         // Use INTER_AREA for downscaling if interpolation mode is set to
         // LINEAR.
         if (input_mat.cols > output_width_ && input_mat.rows > output_height_) {
@@ -491,7 +491,7 @@ absl::Status ImageTransformationCalculator::RenderCpu(CalculatorContext* cc) {
       const int target_width = std::round(input_width * scale);
       const int target_height = std::round(input_height * scale);
 
-      if (interpolation_mode_ == ImageTransformationCalculatorOptions::LINEAR) {
+      if (interpolation_mode_ == ImageTransformationCalculatorOptions::INTERPOLATION_MODE_LINEAR) {
         // Use INTER_AREA for downscaling if interpolation mode is set to
         // LINEAR.
         if (scale < 1.0f) {
@@ -659,7 +659,7 @@ absl::Status ImageTransformationCalculator::RenderGpu(CalculatorContext* cc) {
   glActiveTexture(GL_TEXTURE1);
   glBindTexture(src1.target(), src1.name());
 
-  if (interpolation_mode_ == ImageTransformationCalculatorOptions::NEAREST) {
+  if (interpolation_mode_ == ImageTransformationCalculatorOptions::INTERPOLATION_MODE_NEAREST) {
     // TODO: revert texture params.
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
