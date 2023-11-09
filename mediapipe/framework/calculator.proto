@@ -75,7 +75,7 @@ message InputCollection {
   enum InputType {
     // An invalid default value.  This value is guaranteed to be the
     // lowest enum value (i.e. don't add negative enum values).
-    UNKNOWN = 0;
+    INPUT_TYPE_UNKNOWN = 0;
     // A recordio where each record is a serialized PacketManagerConfig.
     // Each PacketManagerConfig must have the same number of packet
     // factories in it as the number of side packet names.  Furthermore,
@@ -83,20 +83,20 @@ message InputCollection {
     // must not be set.  This is the most general input, and allows
     // multiple side packet values to be set in arbitrarily complicated
     // ways before each run.
-    RECORDIO = 1;
+    INPUT_TYPE_RECORDIO = 1;
     // A recordio where each record is a serialized packet payload.
     // For example a recordio of serialized OmniaFeature protos dumped
     // from Omnia.
-    FOREIGN_RECORDIO = 2;
+    INPUT_TYPE_FOREIGN_RECORDIO = 2;
     // A text file where each line is a comma separated list. The number
     // of elements for each csv string must be the same as the number
     // of side_packet_name (and the order must match).  Each line must
     // be less than 1MiB in size.  Lines comprising of only whitespace
     // or only whitespace and a pound comment will be skipped.
-    FOREIGN_CSV_TEXT = 3;
+    INPUT_TYPE_FOREIGN_CSV_TEXT = 3;
     // This and all higher values are invalid.  Update this value to
     // always be larger than any other enum values you add.
-    INVALID_UPPER_BOUND = 4;
+    INPUT_TYPE_INVALID_UPPER_BOUND = 4;
   }
   // Sets the source of the input collection data.
   // The default value is UNKNOWN.

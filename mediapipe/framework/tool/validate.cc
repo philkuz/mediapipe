@@ -32,8 +32,8 @@ absl::Status ValidateInput(const InputCollection& input_collection) {
         << "InputCollection " << input_collection.name()
         << " has improperly specified name: ";
   }
-  if (input_collection.input_type() <= InputCollection::UNKNOWN ||
-      input_collection.input_type() >= InputCollection::INVALID_UPPER_BOUND) {
+  if (input_collection.input_type() <= InputCollection::INPUT_TYPE_UNKNOWN ||
+      input_collection.input_type() >= InputCollection::INPUT_TYPE_INVALID_UPPER_BOUND) {
     return absl::InvalidArgumentError(
         "InputCollection must specify a valid input_type.");
   }
