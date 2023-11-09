@@ -1,0 +1,13 @@
+version: v1
+name: buf.build/gimletlabs/mediapipe
+build:
+  excludes:
+  - node_modules
+deps:
+- buf.build/gimletlabs/tensorflow:3799692af04142ca8b74619992dfeb76
+breaking:
+  use:
+  - FILE
+lint:
+  use:
+  - DEFAULT
