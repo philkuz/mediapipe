@@ -39,9 +39,9 @@ message OpenCvImageEncoderCalculatorResults {
   optional int32 width = 3;
 
   enum ColorSpace {
-    UNKNOWN = 0;
-    GRAYSCALE = 1;
-    RGB = 2;
+    COLOR_SPACE_UNKNOWN = 0;
+    COLOR_SPACE_GRAYSCALE = 1;
+    COLOR_SPACE_RGB = 2;
   }
 
   // Color space used.

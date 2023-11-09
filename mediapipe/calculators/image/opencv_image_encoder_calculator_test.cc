@@ -63,7 +63,7 @@ TEST(OpenCvImageEncoderCalculatorTest, TestJpegWithQualities) {
     const auto& result = packets[0].Get<OpenCvImageEncoderCalculatorResults>();
     ASSERT_EQ(input_mat.size().height, result.height());
     ASSERT_EQ(input_mat.size().width, result.width());
-    ASSERT_EQ(OpenCvImageEncoderCalculatorResults::RGB, result.colorspace());
+    ASSERT_EQ(OpenCvImageEncoderCalculatorResults::COLOR_SPACE_RGB, result.colorspace());
 
     cv::Mat expected_output = cv::imread(
         file::JoinPath("./", absl::Substitute("/mediapipe/calculators/image/"

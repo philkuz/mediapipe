@@ -75,13 +75,13 @@ absl::Status OpenCvImageEncoderCalculator::Process(CalculatorContext* cc) {
     case 1:
       input_mat = original_mat;
       encoded_result->set_colorspace(
-          OpenCvImageEncoderCalculatorResults::GRAYSCALE);
+          OpenCvImageEncoderCalculatorResults::COLOR_SPACE_GRAYSCALE);
       break;
     case 3:
       // OpenCV assumes the image to be BGR order. To use imencode(), do color
       // conversion first.
       cv::cvtColor(original_mat, input_mat, cv::COLOR_RGB2BGR);
-      encoded_result->set_colorspace(OpenCvImageEncoderCalculatorResults::RGB);
+      encoded_result->set_colorspace(OpenCvImageEncoderCalculatorResults::COLOR_SPACE_RGB);
       break;
     case 4:
       return mediapipe::UnimplementedErrorBuilder(MEDIAPIPE_LOC)
