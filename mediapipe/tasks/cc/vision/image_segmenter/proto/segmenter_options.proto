@@ -14,7 +14,7 @@ limitations under the License.
 ==============================================================================*/
 
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/tasks/cc/vision/image_segmenter/proto";
 package mediapipe.tasks.vision.image_segmenter.proto;
 
 option java_package = "com.google.mediapipe.tasks.vision.imagesegmenter.proto";

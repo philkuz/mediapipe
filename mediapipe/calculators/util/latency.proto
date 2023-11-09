@@ -1,6 +1,6 @@
 // Proto messages related to latency measurement for Soapbox.
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/calculators/util";
 // TODO: Switch to package mediapipe.
 package mediapipe;
 

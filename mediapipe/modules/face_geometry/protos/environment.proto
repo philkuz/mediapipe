@@ -13,7 +13,7 @@
 // limitations under the License.
 
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/modules/face_geometry/protos";
 package mediapipe.face_geometry;
 
 option java_package = "com.google.mediapipe.modules.facegeometry";

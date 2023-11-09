@@ -14,7 +14,7 @@
 
 // Proto messages used for the AutoFlip Pipeline.
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/examples/desktop/autoflip";
 package mediapipe.autoflip;
 
 import "mediapipe/framework/calculator_options.proto";

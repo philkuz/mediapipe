@@ -17,7 +17,7 @@
 // ONLY used by mediapipe open source project.
 
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/framework";
 package mediapipe;
 
 import "mediapipe/framework/calculator.proto";

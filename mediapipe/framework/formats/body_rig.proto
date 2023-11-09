@@ -13,7 +13,7 @@
 // limitations under the License.
 
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/framework/formats";
 package mediapipe;
 
 // Joint of a 3D human model (e.g. elbow, knee, wrist). Contains 3D rotation of

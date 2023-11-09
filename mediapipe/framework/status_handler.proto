@@ -19,7 +19,7 @@
 // Messages for specifying StatusHandlers.
 
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/framework";
 package mediapipe;
 
 import "mediapipe/framework/mediapipe_options.proto";

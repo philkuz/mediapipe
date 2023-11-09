@@ -19,7 +19,7 @@
 // same image location.
 
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/framework/formats";
 package mediapipe;
 
 import "mediapipe/framework/formats/location_data.proto";

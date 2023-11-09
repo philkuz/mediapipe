@@ -1,6 +1,6 @@
 // Options for FeatureDetectorCalculator
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/calculators/image";
 package mediapipe;
 
 import "mediapipe/framework/calculator.proto";

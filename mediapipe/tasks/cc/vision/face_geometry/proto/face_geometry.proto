@@ -13,7 +13,7 @@
 // limitations under the License.
 
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/tasks/cc/vision/face_geometry/proto";
 package mediapipe.tasks.vision.face_geometry.proto;
 
 import "mediapipe/framework/formats/matrix_data.proto";

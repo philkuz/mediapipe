@@ -13,7 +13,7 @@
 // limitations under the License.
 
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/tasks/cc/vision/face_stylizer/calculators";
 package mediapipe.tasks;
 
 import "mediapipe/framework/calculator.proto";

@@ -16,7 +16,7 @@
 // The forked proto must remain identical to the original proto and should be
 // ONLY used by mediapipe open source project.
 syntax = "proto3";
-
+option go_package="github.com/google/mediapipe/mediapipe/framework";
 package mediapipe;
 
 import public "mediapipe/framework/calculator_options.proto";

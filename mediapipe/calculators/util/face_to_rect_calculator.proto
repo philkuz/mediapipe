@@ -13,7 +13,7 @@
 // limitations under the License.
 
 syntax = "proto3";
-
+option go_package="github.com/google/mediapipe/mediapipe/calculators/util";
 package mediapipe;
 
 message FaceToRectCalculatorOptions {

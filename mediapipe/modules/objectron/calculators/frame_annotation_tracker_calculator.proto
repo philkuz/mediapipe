@@ -15,7 +15,7 @@
 // The option proto for the FrameAnnotationTrackerCalculatorOptions.
 
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/modules/objectron/calculators";
 package mediapipe;
 
 import "mediapipe/framework/calculator.proto";

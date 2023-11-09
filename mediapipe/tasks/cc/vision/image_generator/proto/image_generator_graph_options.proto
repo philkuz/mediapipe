@@ -14,7 +14,7 @@ limitations under the License.
 ==============================================================================*/
 
 syntax = "proto3";
-
+option go_package="github.com/google/mediapipe/mediapipe/tasks/cc/vision/image_generator/proto";
 package mediapipe.tasks.vision.image_generator.proto;
 
 import "mediapipe/tasks/cc/core/proto/external_file.proto";

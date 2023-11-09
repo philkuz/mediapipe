@@ -13,7 +13,7 @@
 // limitations under the License.
 
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/examples/desktop/autoflip/quality";
 package mediapipe.autoflip;
 
 // Focus point location (normalized w.r.t. frame_width and frame_height, i.e.

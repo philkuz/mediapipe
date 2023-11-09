@@ -15,7 +15,7 @@
 // The option proto for the TfLiteTensorsToClassificationCalculator.
 
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/calculators/tflite";
 package mediapipe;
 
 import "mediapipe/framework/calculator.proto";

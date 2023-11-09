@@ -14,7 +14,7 @@ limitations under the License.
 ==============================================================================*/
 
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/tasks/cc/vision/hand_landmarker/proto";
 package mediapipe.tasks.vision.hand_landmarker.proto;
 
 import "mediapipe/framework/calculator.proto";

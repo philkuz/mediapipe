@@ -20,7 +20,7 @@
 // frame is sharp, blurry or contains overlays.
 
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/util/tracking";
 package mediapipe;
 
 import "mediapipe/util/tracking/motion_models.proto";

@@ -13,7 +13,7 @@
 // limitations under the License.
 
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/framework/formats/annotation";
 package mediapipe;
 
 import "mediapipe/framework/formats/annotation/rasterization.proto";

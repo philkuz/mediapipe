@@ -14,7 +14,7 @@ limitations under the License.
 ==============================================================================*/
 
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/tasks/cc/components/processors/proto";
 package mediapipe.tasks.components.processors.proto;
 
 import "mediapipe/calculators/tensor/tensors_to_classification_calculator.proto";

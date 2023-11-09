@@ -14,7 +14,7 @@ limitations under the License.
 ==============================================================================*/
 
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/tasks/cc/audio/audio_embedder/proto";
 package mediapipe.tasks.audio.audio_embedder.proto;
 
 import "mediapipe/framework/calculator.proto";

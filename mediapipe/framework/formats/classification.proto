@@ -17,7 +17,7 @@
 // classifier confidence for the label.
 
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/framework/formats";
 package mediapipe;
 
 option java_package = "com.google.mediapipe.formats.proto";

@@ -1,5 +1,5 @@
 syntax = "proto3";
-
+option go_package="github.com/google/mediapipe/mediapipe/framework/testdata";
 package google_zoo;
 
 import "google/protobuf/any.proto";

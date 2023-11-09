@@ -18,7 +18,7 @@
 // See location.h for a helper wrapper to work with the LocationData.
 
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/framework/formats";
 package mediapipe;
 
 import "mediapipe/framework/formats/annotation/rasterization.proto";

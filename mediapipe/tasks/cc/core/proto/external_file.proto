@@ -14,7 +14,7 @@ limitations under the License.
 ==============================================================================*/
 
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/tasks/cc/core/proto";
 package mediapipe.tasks.core.proto;
 
 option java_package = "com.google.mediapipe.tasks.core.proto";

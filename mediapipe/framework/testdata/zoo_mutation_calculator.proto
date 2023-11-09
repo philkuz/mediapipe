@@ -1,7 +1,7 @@
 // We need to use proto2 for now as proto3 does not support Extensions. We will
 // be able to switch to proto3 when MediaPipe supports Any.
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/framework/testdata";
 package google_zoo;
 
 import "mediapipe/framework/packet_generator.proto";

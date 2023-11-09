@@ -16,7 +16,7 @@
 // Color transform are always specified for 3 channels (RGB).
 
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/util/tracking";
 package mediapipe;
 
 // Transforms a 3D color vector x = (c1, c2, c3) according to

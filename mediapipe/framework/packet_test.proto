@@ -15,7 +15,7 @@
 // Proto for testing the Packet.
 
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/framework";
 package mediapipe;
 
 message PacketTestProto {

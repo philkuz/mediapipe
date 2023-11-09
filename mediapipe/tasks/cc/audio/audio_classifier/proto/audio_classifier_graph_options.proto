@@ -14,7 +14,7 @@ limitations under the License.
 ==============================================================================*/
 
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/tasks/cc/audio/audio_classifier/proto";
 package mediapipe.tasks.audio.audio_classifier.proto;
 
 import "mediapipe/framework/calculator.proto";

@@ -1,5 +1,5 @@
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/framework/tool/testdata";
 package mediapipe;
 
 import "mediapipe/framework/packet_generator.proto";

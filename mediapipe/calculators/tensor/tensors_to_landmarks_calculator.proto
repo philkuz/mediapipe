@@ -15,7 +15,7 @@
 // The option proto for the TensorsToLandmarksCalculator.
 
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/calculators/tensor";
 package mediapipe;
 
 import "mediapipe/framework/calculator.proto";

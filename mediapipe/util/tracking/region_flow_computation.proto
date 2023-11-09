@@ -17,7 +17,7 @@
 // or obtained from segmentation).
 
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/util/tracking";
 package mediapipe;
 
 import "mediapipe/util/tracking/tone_estimation.proto";

@@ -13,7 +13,7 @@
 // limitations under the License.
 
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/tasks/cc/vision/face_geometry/calculators";
 package mediapipe.tasks.vision.face_geometry;
 
 import "mediapipe/framework/calculator_options.proto";

@@ -13,7 +13,7 @@
 // limitations under the License.
 
 syntax = "proto3";
-
+option go_package="github.com/google/mediapipe/mediapipe/modules/objectron/calculators";
 package mediapipe;
 
 import "mediapipe/modules/objectron/calculators/a_r_capture_metadata.proto";

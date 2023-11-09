@@ -14,7 +14,7 @@
 
 // Settings for MotionEstimation.
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/util/tracking";
 package mediapipe;
 
 // Note: In general for Estimation modes, the prefix are used as follows:

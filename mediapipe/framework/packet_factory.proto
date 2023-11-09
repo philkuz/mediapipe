@@ -19,7 +19,7 @@
 // Messages for PacketFactory and PacketManager.
 
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/framework";
 package mediapipe;
 
 option java_package = "com.google.mediapipe.proto";

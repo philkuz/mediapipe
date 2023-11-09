@@ -18,7 +18,7 @@
 // ONLY used by mediapipe open source project.
 
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/framework/stream_handler";
 package mediapipe;
 
 import "mediapipe/framework/mediapipe_options.proto";

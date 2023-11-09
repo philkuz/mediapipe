@@ -17,7 +17,7 @@
 // ONLY used by mediapipe open source project.
 
 syntax = "proto3";
-
+option go_package="github.com/google/mediapipe/mediapipe/framework/testdata";
 package mediapipe;
 
 message Proto3Options {

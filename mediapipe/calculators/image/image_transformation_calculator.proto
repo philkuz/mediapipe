@@ -13,7 +13,7 @@
 // limitations under the License.
 
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/calculators/image";
 package mediapipe;
 
 import "mediapipe/calculators/image/rotation_mode.proto";

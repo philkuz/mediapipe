@@ -22,7 +22,7 @@
 // transform. Follow this rule when adding new models.
 
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/util/tracking";
 package mediapipe;
 
 // Here x represents a 2D point in the image plane, in the following

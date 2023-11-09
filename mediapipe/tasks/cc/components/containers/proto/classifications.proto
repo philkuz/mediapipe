@@ -14,7 +14,7 @@ limitations under the License.
 ==============================================================================*/
 
 syntax = "proto2";
-
+option go_package="github.com/google/mediapipe/mediapipe/tasks/cc/components/containers/proto";
 package mediapipe.tasks.components.containers.proto;
 
 import "mediapipe/framework/formats/classification.proto";
