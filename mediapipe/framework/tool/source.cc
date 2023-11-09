@@ -54,7 +54,7 @@ class SidePacketsToStreamsCalculator : public CalculatorBase {
     }
     if (!options.vectors_of_packets() &&
         options.set_timestamp() ==
-            SidePacketsToStreamsCalculatorOptions::NONE) {
+            SidePacketsToStreamsCalculatorOptions::TIMESTAMP_MODE_NONE) {
       return absl::InvalidArgumentError(
           "If set_timestamp is NONE, vectors_of_packets must not be false.");
     }
@@ -110,18 +110,18 @@ class SidePacketsToStreamsCalculator : public CalculatorBase {
           packet = cc->InputSidePackets().Index(i);
         }
         switch (options.set_timestamp()) {
-          case SidePacketsToStreamsCalculatorOptions::VECTOR_INDEX:
+          case SidePacketsToStreamsCalculatorOptions::TIMESTAMP_MODE_VECTOR_INDEX:
             cc->Outputs().Index(i).AddPacket(packet.At(Timestamp(b)));
             break;
-          case SidePacketsToStreamsCalculatorOptions::WHOLE_STREAM:
+          case SidePacketsToStreamsCalculatorOptions::TIMESTAMP_MODE_WHOLE_STREAM:
             cc->Outputs().Index(i).AddPacket(
                 packet.At(Timestamp::PostStream()));
             break;
-          case SidePacketsToStreamsCalculatorOptions::PRE_STREAM:
+          case SidePacketsToStreamsCalculatorOptions::TIMESTAMP_MODE_PRE_STREAM:
             cc->Outputs().Index(i).AddPacket(packet.At(Timestamp::PreStream()));
             break;
           default:
-            // SidePacketsToStreamsCalculatorOptions::NONE
+            // SidePacketsToStreamsCalculatorOptions::TIMESTAMP_MODE_NONE
             cc->Outputs().Index(i).AddPacket(packet);
         }
       }

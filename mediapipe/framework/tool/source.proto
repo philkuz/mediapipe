@@ -34,19 +34,19 @@ message SidePacketsToStreamsCalculatorOptions {
   enum SetTimestampMode {
     // For vectors of packets, the timestamp is the index of the packet
     // within the vector.  For single packets, the timestamp is zero.
-    VECTOR_INDEX = 0;
+    TIMESTAMP_MODE_VECTOR_INDEX = 0;
     // Timestamps are always set to PreStream.
-    PRE_STREAM = 1;
+    TIMESTAMP_MODE_PRE_STREAM = 1;
     // Timestamps are always set to PostStream.
     // TODO Rename to POST_STREAM.
-    WHOLE_STREAM = 2;
+    TIMESTAMP_MODE_WHOLE_STREAM = 2;
     // Do not set timestamp.  Can only be used if vectors_of_packets is
     // true.  Will cause Timestamp::Unset() run-time errors if the inner
     // packets in the vectors do not already have Timestamps.
-    NONE = 3;
+    TIMESTAMP_MODE_NONE = 3;
   }
   // If true, then a timestamp is set for each packet.
-  optional SetTimestampMode set_timestamp = 2 [default = VECTOR_INDEX];
+  optional SetTimestampMode set_timestamp = 2 [default = TIMESTAMP_MODE_VECTOR_INDEX];
   // If true, then side packets are vectors of packets; otherwise,
   // they are single packets.
   optional bool vectors_of_packets = 3 [default = true];
