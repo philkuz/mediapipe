@@ -27,19 +27,20 @@ option cc_enable_arenas = true;
 message Locus {
   // Types of image loci on the granularity of the annotation.
   enum LocusType {
+    LOCUS_TYPE_UNKNOWN = 0;
     // The whole image, without localization.
-    GLOBAL = 1;
+    LOCUS_TYPE_GLOBAL = 1;
 
     // The locus refers to a specified bounding box.
     // Requires bounding_box below.
-    BOUNDING_BOX = 2;
+    LOCUS_TYPE_BOUNDING_BOX = 2;
 
     // The locus refers to specified regions in the image.
     // Requires region below.
-    REGION = 3;
+    LOCUS_TYPE_REGION = 3;
 
     // This locus refers to groups of loci. Requires component_locus below.
-    VIDEO_TUBE = 4;
+    LOCUS_TYPE_VIDEO_TUBE = 4;
   }
   optional LocusType locus_type = 1;
 
