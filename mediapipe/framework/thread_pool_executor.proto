@@ -44,9 +44,9 @@ message ThreadPoolExecutorOptions {
   optional int32 nice_priority_level = 3;
   // Processor performance enum.
   enum ProcessorPerformance {
-    NORMAL = 0;
-    LOW = 1;
-    HIGH = 2;
+    PROCESSOR_PERFORMANCE_NORMAL = 0;
+    PROCESSOR_PERFORMANCE_LOW = 1;
+    PROCESSOR_PERFORMANCE_HIGH = 2;
   }
   // The performance hint of the processor(s) that the threads will be bound to.
   // Framework will make the best effort to run the threads on the specific

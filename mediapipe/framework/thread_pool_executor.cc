@@ -61,10 +61,10 @@ absl::StatusOr<Executor*> ThreadPoolExecutor::Create(
   }
 #if defined(__linux__)
   switch (options.require_processor_performance()) {
-    case ThreadPoolExecutorOptions::LOW:
+    case ThreadPoolExecutorOptions::PROCESSOR_PERFORMANCE_LOW:
       thread_options.set_cpu_set(InferLowerCoreIds());
       break;
-    case ThreadPoolExecutorOptions::HIGH:
+    case ThreadPoolExecutorOptions::PROCESSOR_PERFORMANCE_HIGH:
       thread_options.set_cpu_set(InferHigherCoreIds());
       break;
     default:
