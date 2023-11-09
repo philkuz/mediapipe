@@ -208,23 +208,23 @@ ImageFormat::Format ImageFormatForGpuBufferFormat(GpuBufferFormat format) {
   switch (format) {
     case GpuBufferFormat::kBGRA32:
       // TODO: verify we are handling order of channels correctly.
-      return ImageFormat::SRGBA;
+      return ImageFormat::FORMAT_SRGBA;
     case GpuBufferFormat::kGrayFloat32:
-      return ImageFormat::VEC32F1;
+      return ImageFormat::FORMAT_VEC32F1;
     case GpuBufferFormat::kOneComponent8:
-      return ImageFormat::GRAY8;
+      return ImageFormat::FORMAT_GRAY8;
     case GpuBufferFormat::kBiPlanar420YpCbCr8VideoRange:
     case GpuBufferFormat::kBiPlanar420YpCbCr8FullRange:
       // TODO: should either of these be YCBCR420P10?
-      return ImageFormat::YCBCR420P;
+      return ImageFormat::FORMAT_YCBCR420P;
     case GpuBufferFormat::kRGB24:
-      return ImageFormat::SRGB;
+      return ImageFormat::FORMAT_SRGB;
     case GpuBufferFormat::kTwoComponentFloat32:
-      return ImageFormat::VEC32F2;
+      return ImageFormat::FORMAT_VEC32F2;
     case GpuBufferFormat::kRGBAFloat128:
-      return ImageFormat::VEC32F4;
+      return ImageFormat::FORMAT_VEC32F4;
     case GpuBufferFormat::kRGBA32:
-      // TODO: this likely maps to ImageFormat::SRGBA
+      // TODO: this likely maps to ImageFormat::FORMAT_SRGBA
     case GpuBufferFormat::kGrayHalf16:
     case GpuBufferFormat::kOneComponent8Alpha:
     case GpuBufferFormat::kOneComponent8Red:
@@ -236,29 +236,29 @@ ImageFormat::Format ImageFormatForGpuBufferFormat(GpuBufferFormat format) {
     case GpuBufferFormat::kI420:
     case GpuBufferFormat::kYV12:
     case GpuBufferFormat::kUnknown:
-      return ImageFormat::UNKNOWN;
+      return ImageFormat::FORMAT_UNKNOWN;
   }
 }
 
 GpuBufferFormat GpuBufferFormatForImageFormat(ImageFormat::Format format) {
   switch (format) {
-    case ImageFormat::SRGB:
+    case ImageFormat::FORMAT_SRGB:
       return GpuBufferFormat::kRGB24;
-    case ImageFormat::SRGBA:
+    case ImageFormat::FORMAT_SRGBA:
       // TODO: verify we are handling order of channels correctly.
       return GpuBufferFormat::kBGRA32;
-    case ImageFormat::VEC32F1:
+    case ImageFormat::FORMAT_VEC32F1:
       return GpuBufferFormat::kGrayFloat32;
-    case ImageFormat::VEC32F2:
+    case ImageFormat::FORMAT_VEC32F2:
       return GpuBufferFormat::kTwoComponentFloat32;
-    case ImageFormat::VEC32F4:
+    case ImageFormat::FORMAT_VEC32F4:
       return GpuBufferFormat::kRGBAFloat128;
-    case ImageFormat::GRAY8:
+    case ImageFormat::FORMAT_GRAY8:
       return GpuBufferFormat::kOneComponent8;
-    case ImageFormat::YCBCR420P:
+    case ImageFormat::FORMAT_YCBCR420P:
       // TODO: or video range?
       return GpuBufferFormat::kBiPlanar420YpCbCr8FullRange;
-    case ImageFormat::UNKNOWN:
+    case ImageFormat::FORMAT_UNKNOWN:
     default:
       return GpuBufferFormat::kUnknown;
   }

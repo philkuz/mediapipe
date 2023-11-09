@@ -55,7 +55,7 @@ TEST(OpenCvVideoDecoderCalculatorTest, TestMp4Avc720pVideo) {
                    .ValidateAsType<VideoHeader>());
   const mediapipe::VideoHeader& header =
       runner.Outputs().Tag(kVideoPrestreamTag).packets[0].Get<VideoHeader>();
-  EXPECT_EQ(ImageFormat::SRGB, header.format);
+  EXPECT_EQ(ImageFormat::FORMAT_SRGB, header.format);
   EXPECT_EQ(1280, header.width);
   EXPECT_EQ(640, header.height);
   EXPECT_FLOAT_EQ(6.0f, header.duration);
@@ -100,7 +100,7 @@ TEST(OpenCvVideoDecoderCalculatorTest, TestFlvH264Video) {
                    .ValidateAsType<VideoHeader>());
   const mediapipe::VideoHeader& header =
       runner.Outputs().Tag(kVideoPrestreamTag).packets[0].Get<VideoHeader>();
-  EXPECT_EQ(ImageFormat::SRGB, header.format);
+  EXPECT_EQ(ImageFormat::FORMAT_SRGB, header.format);
   EXPECT_EQ(640, header.width);
   EXPECT_EQ(320, header.height);
   // TODO: The actual header.duration is 6.0666666f and the frame_rate
@@ -143,7 +143,7 @@ TEST(OpenCvVideoDecoderCalculatorTest, TestMkvVp8Video) {
                    .ValidateAsType<VideoHeader>());
   const mediapipe::VideoHeader& header =
       runner.Outputs().Tag(kVideoPrestreamTag).packets[0].Get<VideoHeader>();
-  EXPECT_EQ(ImageFormat::SRGB, header.format);
+  EXPECT_EQ(ImageFormat::FORMAT_SRGB, header.format);
   EXPECT_EQ(640, header.width);
   EXPECT_EQ(320, header.height);
   EXPECT_FLOAT_EQ(6.0f, header.duration);

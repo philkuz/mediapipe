@@ -285,10 +285,10 @@ absl::Status TensorConverterCalculator::ProcessCPU(CalculatorContext* cc) {
     const int channels_preserved = std::min(channels, max_num_channels_);
     const mediapipe::ImageFormat::Format format = image_frame.Format();
 
-    if (!(format == mediapipe::ImageFormat::SRGBA ||
-          format == mediapipe::ImageFormat::SRGB ||
-          format == mediapipe::ImageFormat::GRAY8 ||
-          format == mediapipe::ImageFormat::VEC32F1))
+    if (!(format == mediapipe::ImageFormat::FORMAT_SRGBA ||
+          format == mediapipe::ImageFormat::FORMAT_SRGB ||
+          format == mediapipe::ImageFormat::FORMAT_GRAY8 ||
+          format == mediapipe::ImageFormat::FORMAT_VEC32F1))
       RET_CHECK_FAIL() << "Unsupported CPU input format.";
 
     output_tensors->emplace_back(

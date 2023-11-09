@@ -55,15 +55,15 @@ void ImageFrameSubmodule(pybind11::module* module) {
   VEC32F2: Two floats per pixel.
 )doc");
 
-  image_format.value("SRGB", mediapipe::ImageFormat::SRGB)
-      .value("SRGBA", mediapipe::ImageFormat::SRGBA)
-      .value("SBGRA", mediapipe::ImageFormat::SBGRA)
-      .value("GRAY8", mediapipe::ImageFormat::GRAY8)
-      .value("GRAY16", mediapipe::ImageFormat::GRAY16)
-      .value("SRGB48", mediapipe::ImageFormat::SRGB48)
-      .value("SRGBA64", mediapipe::ImageFormat::SRGBA64)
-      .value("VEC32F1", mediapipe::ImageFormat::VEC32F1)
-      .value("VEC32F2", mediapipe::ImageFormat::VEC32F2)
+  image_format.value("SRGB", mediapipe::ImageFormat::FORMAT_SRGB)
+      .value("SRGBA", mediapipe::ImageFormat::FORMAT_SRGBA)
+      .value("SBGRA", mediapipe::ImageFormat::FORMAT_SBGRA)
+      .value("GRAY8", mediapipe::ImageFormat::FORMAT_GRAY8)
+      .value("GRAY16", mediapipe::ImageFormat::FORMAT_GRAY16)
+      .value("SRGB48", mediapipe::ImageFormat::FORMAT_SRGB48)
+      .value("SRGBA64", mediapipe::ImageFormat::FORMAT_SRGBA64)
+      .value("VEC32F1", mediapipe::ImageFormat::FORMAT_VEC32F1)
+      .value("VEC32F2", mediapipe::ImageFormat::FORMAT_VEC32F2)
       .export_values();
 
   // ImageFrame
@@ -115,9 +115,9 @@ void ImageFrameSubmodule(pybind11::module* module) {
       .def(
           py::init([](mediapipe::ImageFormat::Format format,
                       const py::array_t<uint8_t, py::array::c_style>& data) {
-            if (format != mediapipe::ImageFormat::GRAY8 &&
-                format != mediapipe::ImageFormat::SRGB &&
-                format != mediapipe::ImageFormat::SRGBA) {
+            if (format != mediapipe::ImageFormat::FORMAT_GRAY8 &&
+                format != mediapipe::ImageFormat::FORMAT_SRGB &&
+                format != mediapipe::ImageFormat::FORMAT_SRGBA) {
               throw RaisePyError(PyExc_RuntimeError,
                                  "uint8 image data should be one of the GRAY8, "
                                  "SRGB, and SRGBA MediaPipe image formats.");
@@ -129,9 +129,9 @@ void ImageFrameSubmodule(pybind11::module* module) {
       .def(
           py::init([](mediapipe::ImageFormat::Format format,
                       const py::array_t<uint16_t, py::array::c_style>& data) {
-            if (format != mediapipe::ImageFormat::GRAY16 &&
-                format != mediapipe::ImageFormat::SRGB48 &&
-                format != mediapipe::ImageFormat::SRGBA64) {
+            if (format != mediapipe::ImageFormat::FORMAT_GRAY16 &&
+                format != mediapipe::ImageFormat::FORMAT_SRGB48 &&
+                format != mediapipe::ImageFormat::FORMAT_SRGBA64) {
               throw RaisePyError(
                   PyExc_RuntimeError,
                   "uint16 image data should be one of the GRAY16, "
@@ -144,8 +144,8 @@ void ImageFrameSubmodule(pybind11::module* module) {
       .def(
           py::init([](mediapipe::ImageFormat::Format format,
                       const py::array_t<float, py::array::c_style>& data) {
-            if (format != mediapipe::ImageFormat::VEC32F1 &&
-                format != mediapipe::ImageFormat::VEC32F2) {
+            if (format != mediapipe::ImageFormat::FORMAT_VEC32F1 &&
+                format != mediapipe::ImageFormat::FORMAT_VEC32F2) {
               throw RaisePyError(
                   PyExc_RuntimeError,
                   "float image data should be either VEC32F1 or VEC32F2 "

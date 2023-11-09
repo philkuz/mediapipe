@@ -45,8 +45,8 @@ std::unique_ptr<mediapipe::ImageFrame> GetInputFrame(int width, int height,
                                                      int channel) {
   const int total_size = width * height * channel;
 
-  auto image_format = channel == 4 ? mediapipe::ImageFormat::SRGBA
-                                   : mediapipe::ImageFormat::SRGB;
+  auto image_format = channel == 4 ? mediapipe::ImageFormat::FORMAT_SRGBA
+                                   : mediapipe::ImageFormat::FORMAT_SRGB;
 
   auto input_frame = std::make_unique<mediapipe::ImageFrame>(
       image_format, width, height, /*alignment_boundary =*/1);

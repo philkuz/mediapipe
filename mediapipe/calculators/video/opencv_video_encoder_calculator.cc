@@ -150,7 +150,7 @@ absl::Status OpenCvVideoEncoderCalculator::Process(CalculatorContext* cc) {
       cc->Inputs().Tag(kVideoTag).Value().Get<ImageFrame>();
   ImageFormat::Format format = image_frame.Format();
   cv::Mat frame;
-  if (format == ImageFormat::GRAY8) {
+  if (format == ImageFormat::FORMAT_GRAY8) {
     frame = formats::MatView(&image_frame);
     if (frame.empty()) {
       return mediapipe::InvalidArgumentErrorBuilder(MEDIAPIPE_LOC)
@@ -166,9 +166,9 @@ absl::Status OpenCvVideoEncoderCalculator::Process(CalculatorContext* cc) {
              << cc->Inputs().Tag(kVideoTag).Value().Timestamp()
              << " in OpenCvVideoEncoderCalculator::Process()";
     }
-    if (format == ImageFormat::SRGB) {
+    if (format == ImageFormat::FORMAT_SRGB) {
       cv::cvtColor(tmp_frame, frame, cv::COLOR_RGB2BGR);
-    } else if (format == ImageFormat::SRGBA) {
+    } else if (format == ImageFormat::FORMAT_SRGBA) {
       cv::cvtColor(tmp_frame, frame, cv::COLOR_RGBA2BGR);
     } else {
       return mediapipe::InvalidArgumentErrorBuilder(MEDIAPIPE_LOC)

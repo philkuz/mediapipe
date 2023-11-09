@@ -234,7 +234,7 @@ TEST_F(TensorConverterCalculatorTest, CustomDivAndSub) {
   // Run the graph.
   MP_ASSERT_OK(graph.Initialize(graph_config));
   MP_ASSERT_OK(graph.StartRun({}));
-  auto input_image = std::make_unique<ImageFrame>(ImageFormat::GRAY8, 1, 1);
+  auto input_image = std::make_unique<ImageFrame>(ImageFormat::FORMAT_GRAY8, 1, 1);
   cv::Mat mat = mediapipe::formats::MatView(input_image.get());
   mat.at<uint8_t>(0, 0) = 200;
   MP_ASSERT_OK(graph.AddPacketToInputStream(
@@ -288,7 +288,7 @@ TEST_F(TensorConverterCalculatorTest, SetOutputRange) {
     // Run the graph.
     MP_ASSERT_OK(graph.Initialize(graph_config));
     MP_ASSERT_OK(graph.StartRun({}));
-    auto input_image = std::make_unique<ImageFrame>(ImageFormat::GRAY8, 1, 1);
+    auto input_image = std::make_unique<ImageFrame>(ImageFormat::FORMAT_GRAY8, 1, 1);
     cv::Mat mat = mediapipe::formats::MatView(input_image.get());
     mat.at<uint8_t>(0, 0) = 200;
     MP_ASSERT_OK(graph.AddPacketToInputStream(
@@ -344,7 +344,7 @@ TEST_F(TensorConverterCalculatorTest, FlipVertically) {
   // Run the graph.
   MP_ASSERT_OK(graph.Initialize(graph_config));
   MP_ASSERT_OK(graph.StartRun({}));
-  auto input_image = std::make_unique<ImageFrame>(ImageFormat::GRAY8, 1, 2);
+  auto input_image = std::make_unique<ImageFrame>(ImageFormat::FORMAT_GRAY8, 1, 2);
   cv::Mat mat = mediapipe::formats::MatView(input_image.get());
   constexpr uint8_t kY0Value = 100;
   constexpr uint8_t kY1Value = 200;
@@ -400,7 +400,7 @@ TEST_F(TensorConverterCalculatorTest,
   // Run the graph.
   MP_ASSERT_OK(graph.Initialize(graph_config));
   MP_ASSERT_OK(graph.StartRun({}));
-  auto input_image = std::make_unique<ImageFrame>(ImageFormat::GRAY8, 1, 1);
+  auto input_image = std::make_unique<ImageFrame>(ImageFormat::FORMAT_GRAY8, 1, 1);
   MP_ASSERT_OK(graph.AddPacketToInputStream(
       "input_image", Adopt(input_image.release()).At(Timestamp(0))));
 
@@ -439,7 +439,7 @@ TEST_F(TensorConverterCalculatorTest, GpuOriginIsIgnoredWithCpuImage) {
   // Run the graph.
   MP_ASSERT_OK(graph.Initialize(graph_config));
   MP_ASSERT_OK(graph.StartRun({}));
-  auto input_image = std::make_unique<ImageFrame>(ImageFormat::GRAY8, 1, 2);
+  auto input_image = std::make_unique<ImageFrame>(ImageFormat::FORMAT_GRAY8, 1, 2);
   cv::Mat mat = mediapipe::formats::MatView(input_image.get());
   constexpr uint8_t kY0Value = 100;
   constexpr uint8_t kY1Value = 200;

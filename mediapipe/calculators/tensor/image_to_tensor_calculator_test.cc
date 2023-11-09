@@ -200,11 +200,11 @@ void RunTestWithInputImagePacket(
 
 mediapipe::ImageFormat::Format GetImageFormat(int image_channels) {
   if (image_channels == 4) {
-    return ImageFormat::SRGBA;
+    return ImageFormat::FORMAT_SRGBA;
   } else if (image_channels == 3) {
-    return ImageFormat::SRGB;
+    return ImageFormat::FORMAT_SRGB;
   } else if (image_channels == 1) {
-    return ImageFormat::GRAY8;
+    return ImageFormat::FORMAT_GRAY8;
   }
   ABSL_CHECK(false) << "Unsupported input image channles: " << image_channels;
 }
@@ -533,7 +533,7 @@ TEST(ImageToTensorCalculatorTest, CanBeUsedWithoutGpuServiceSet) {
   MP_ASSERT_OK(graph.DisallowServiceDefaultInitialization());
   MP_ASSERT_OK(graph.StartRun({}));
   auto image_frame =
-      std::make_shared<ImageFrame>(ImageFormat::SRGBA, 128, 256, 4);
+      std::make_shared<ImageFrame>(ImageFormat::FORMAT_SRGBA, 128, 256, 4);
   Image image = Image(std::move(image_frame));
   Packet packet = MakePacket<Image>(std::move(image));
   MP_ASSERT_OK(
@@ -571,7 +571,7 @@ TEST(ImageToTensorCalculatorTest,
   Packet packet;
   context->Run([&packet]() {
     auto image_frame =
-        std::make_shared<ImageFrame>(ImageFormat::SRGBA, 128, 256, 4);
+        std::make_shared<ImageFrame>(ImageFormat::FORMAT_SRGBA, 128, 256, 4);
     Image image = Image(std::move(image_frame));
     // Ensure image is available on GPU to force ImageToTensorCalculator to
     // run on GPU.

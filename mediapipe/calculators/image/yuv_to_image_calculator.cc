@@ -71,7 +71,7 @@ class YUVToImageCalculator : public Node {
     // Build a transient ImageFrameSharedPtr with default alignment to host
     // conversion results.
     ImageFrameSharedPtr image_frame = std::make_shared<ImageFrame>(
-        ImageFormat::SRGB, yuv_image.width(), yuv_image.height());
+        ImageFormat::FORMAT_SRGB, yuv_image.width(), yuv_image.height());
     // Perform actual conversion.
     switch (format) {
       case libyuv::FOURCC_NV12:

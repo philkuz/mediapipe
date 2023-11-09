@@ -110,7 +110,7 @@ absl::Status TensorToImageFrameCalculator::Process(CalculatorContext* cc) {
   }
   int32_t height = input_tensor.dim_size(0);
   int32_t width = input_tensor.dim_size(1);
-  auto format = (depth == 3 ? ImageFormat::SRGB : ImageFormat::GRAY8);
+  auto format = (depth == 3 ? ImageFormat::FORMAT_SRGB : ImageFormat::FORMAT_GRAY8);
   const int32_t total_size = height * width * depth;
 
   if (scale_per_frame_min_max_) {

@@ -55,7 +55,7 @@ class ImageMultiPool {
 
   // Obtains a buffer. May either be reused or created anew.
   Image GetBuffer(int width, int height, bool use_gpu,
-                  ImageFormat::Format format /*= ImageFormat::SRGBA*/);
+                  ImageFormat::Format format /*= ImageFormat::FORMAT_SRGBA*/);
 
 #if !MEDIAPIPE_DISABLE_GPU
 #ifdef __APPLE__

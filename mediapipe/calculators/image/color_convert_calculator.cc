@@ -174,37 +174,37 @@ absl::Status ColorConvertCalculator::ConvertAndOutput(
 absl::Status ColorConvertCalculator::Process(CalculatorContext* cc) {
   // RGBA -> RGB
   if (cc->Inputs().HasTag(kRgbaInTag) && cc->Outputs().HasTag(kRgbOutTag)) {
-    return ConvertAndOutput(kRgbaInTag, kRgbOutTag, ImageFormat::SRGB,
+    return ConvertAndOutput(kRgbaInTag, kRgbOutTag, ImageFormat::FORMAT_SRGB,
                             cv::COLOR_RGBA2RGB, cc);
   }
   // GRAY -> RGB
   if (cc->Inputs().HasTag(kGrayInTag) && cc->Outputs().HasTag(kRgbOutTag)) {
-    return ConvertAndOutput(kGrayInTag, kRgbOutTag, ImageFormat::SRGB,
+    return ConvertAndOutput(kGrayInTag, kRgbOutTag, ImageFormat::FORMAT_SRGB,
                             cv::COLOR_GRAY2RGB, cc);
   }
   // RGB -> GRAY
   if (cc->Inputs().HasTag(kRgbInTag) && cc->Outputs().HasTag(kGrayOutTag)) {
-    return ConvertAndOutput(kRgbInTag, kGrayOutTag, ImageFormat::GRAY8,
+    return ConvertAndOutput(kRgbInTag, kGrayOutTag, ImageFormat::FORMAT_GRAY8,
                             cv::COLOR_RGB2GRAY, cc);
   }
   // RGB -> RGBA
   if (cc->Inputs().HasTag(kRgbInTag) && cc->Outputs().HasTag(kRgbaOutTag)) {
-    return ConvertAndOutput(kRgbInTag, kRgbaOutTag, ImageFormat::SRGBA,
+    return ConvertAndOutput(kRgbInTag, kRgbaOutTag, ImageFormat::FORMAT_SRGBA,
                             cv::COLOR_RGB2RGBA, cc);
   }
   // BGRA -> RGBA
   if (cc->Inputs().HasTag(kBgraInTag) && cc->Outputs().HasTag(kRgbaOutTag)) {
-    return ConvertAndOutput(kBgraInTag, kRgbaOutTag, ImageFormat::SRGBA,
+    return ConvertAndOutput(kBgraInTag, kRgbaOutTag, ImageFormat::FORMAT_SRGBA,
                             cv::COLOR_BGRA2RGBA, cc);
   }
   // RGBA -> BGRA
   if (cc->Inputs().HasTag(kRgbaInTag) && cc->Outputs().HasTag(kBgraOutTag)) {
-    return ConvertAndOutput(kRgbaInTag, kBgraOutTag, ImageFormat::SBGRA,
+    return ConvertAndOutput(kRgbaInTag, kBgraOutTag, ImageFormat::FORMAT_SBGRA,
                             cv::COLOR_RGBA2BGRA, cc);
   }
   // BGR -> RGB
   if (cc->Inputs().HasTag(kBgrInTag) && cc->Outputs().HasTag(kRgbOutTag)) {
-    return ConvertAndOutput(kBgrInTag, kRgbOutTag, ImageFormat::SRGB,
+    return ConvertAndOutput(kBgrInTag, kRgbOutTag, ImageFormat::FORMAT_SRGB,
                             cv::COLOR_BGR2RGB, cc);
   }
 

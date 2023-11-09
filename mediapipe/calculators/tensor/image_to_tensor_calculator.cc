@@ -63,8 +63,8 @@ namespace api2 {
 // normalization, according to specified inputs and options.
 //
 // Inputs:
-//   IMAGE - Image[ImageFormat::SRGB / SRGBA, GpuBufferFormat::kBGRA32] or
-//           ImageFrame [ImageFormat::SRGB/SRGBA] (for backward compatibility
+//   IMAGE - Image[ImageFormat::FORMAT_SRGB / SRGBA, GpuBufferFormat::kBGRA32] or
+//           ImageFrame [ImageFormat::FORMAT_SRGB/SRGBA] (for backward compatibility
 //           with existing graphs that use IMAGE for ImageFrame input)
 //   IMAGE_GPU - GpuBuffer [GpuBufferFormat::kBGRA32]
 //     Image to extract from.

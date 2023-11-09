@@ -35,7 +35,7 @@ TEST(OpenCvImageEncoderCalculatorTest, TestJpegWithQualities) {
                                          "image/testdata/dino.jpg")),
                input_mat, cv::COLOR_BGR2RGB);
   Packet input_packet = MakePacket<ImageFrame>(
-      ImageFormat::SRGB, input_mat.size().width, input_mat.size().height);
+      ImageFormat::FORMAT_SRGB, input_mat.size().width, input_mat.size().height);
   input_mat.copyTo(formats::MatView(&(input_packet.Get<ImageFrame>())));
 
   std::vector<int> qualities = {50, 80};

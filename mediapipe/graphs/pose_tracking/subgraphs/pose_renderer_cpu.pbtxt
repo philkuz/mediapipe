@@ -6,7 +6,7 @@ type: "PoseRendererCpu"
 input_stream: "IMAGE:input_image"
 # Pose landmarks. (NormalizedLandmarkList)
 input_stream: "LANDMARKS:pose_landmarks"
-# Segmentation mask. (ImageFrame in ImageFormat::VEC32F1)
+# Segmentation mask. (ImageFrame in ImageFormat::FORMAT_VEC32F1)
 input_stream: "SEGMENTATION_MASK:segmentation_mask"
 # Region of interest calculated based on landmarks. (NormalizedRect)
 input_stream: "ROI:roi"

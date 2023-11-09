@@ -71,7 +71,7 @@ class DepthImagePostprocessingCalculator : public api2::Node {
     cv::cvtColor(depth_mat, depth_mat, cv::COLOR_GRAY2RGB);
     // Acquires the cv::Mat data and assign to the image frame.
     ImageFrameSharedPtr depth_image_frame_ptr = std::make_shared<ImageFrame>(
-        mediapipe::ImageFormat::SRGB, depth_mat.cols, depth_mat.rows,
+        mediapipe::ImageFormat::FORMAT_SRGB, depth_mat.cols, depth_mat.rows,
         depth_mat.step, depth_mat.data,
         [depth_mat](uint8_t[]) { depth_mat.~Mat(); });
     Image depth_image(depth_image_frame_ptr);
@@ -115,7 +115,7 @@ class CannyEdgeCalculator : public api2::Node {
     cv::cvtColor(edges_mat, edges_mat, cv::COLOR_GRAY2RGB);
     // Acquires the cv::Mat data and assign to the image frame.
     ImageFrameSharedPtr edges_image_frame_ptr = std::make_shared<ImageFrame>(
-        mediapipe::ImageFormat::SRGB, edges_mat.cols, edges_mat.rows,
+        mediapipe::ImageFormat::FORMAT_SRGB, edges_mat.cols, edges_mat.rows,
         edges_mat.step, edges_mat.data,
         [edges_mat](uint8_t[]) { edges_mat.~Mat(); });
     Image edges_image(edges_image_frame_ptr);

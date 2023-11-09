@@ -72,19 +72,19 @@ absl::Status OpenCvEncodedImageToImageFrameCalculator::Process(
     // Return the loaded image as-is
     decoded_mat = cv::imdecode(contents_vector, cv::IMREAD_UNCHANGED);
   }
-  ImageFormat::Format image_format = ImageFormat::UNKNOWN;
+  ImageFormat::Format image_format = ImageFormat::FORMAT_UNKNOWN;
   cv::Mat output_mat;
   switch (decoded_mat.channels()) {
     case 1:
-      image_format = ImageFormat::GRAY8;
+      image_format = ImageFormat::FORMAT_GRAY8;
       output_mat = decoded_mat;
       break;
     case 3:
-      image_format = ImageFormat::SRGB;
+      image_format = ImageFormat::FORMAT_SRGB;
       cv::cvtColor(decoded_mat, output_mat, cv::COLOR_BGR2RGB);
       break;
     case 4:
-      image_format = ImageFormat::SRGBA;
+      image_format = ImageFormat::FORMAT_SRGBA;
       cv::cvtColor(decoded_mat, output_mat, cv::COLOR_BGR2RGBA);
       break;
     default:

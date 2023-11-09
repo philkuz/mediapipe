@@ -162,8 +162,8 @@ absl::Status CompareImageFrames(const ImageFrame& image1,
                                              ImageFormat::Format two) {
     auto both = std::minmax(one, two);
     return one == two ||
-           both == std::minmax(ImageFormat::SRGB, ImageFormat::SRGBA) ||
-           both == std::minmax(ImageFormat::SRGB48, ImageFormat::SRGBA64);
+           both == std::minmax(ImageFormat::FORMAT_SRGB, ImageFormat::FORMAT_SRGBA) ||
+           both == std::minmax(ImageFormat::FORMAT_SRGB48, ImageFormat::FORMAT_SRGBA64);
   };
 
   RET_CHECK(IsSupportedImageFormatComparison(image1.Format(), image2.Format()))
@@ -180,20 +180,20 @@ absl::Status CompareImageFrames(const ImageFrame& image1,
       << "image byte depth mismatch";
 
   switch (image1.Format()) {
-    case ImageFormat::GRAY8:
-    case ImageFormat::SRGB:
-    case ImageFormat::SRGBA:
-    case ImageFormat::LAB8:
+    case ImageFormat::FORMAT_GRAY8:
+    case ImageFormat::FORMAT_SRGB:
+    case ImageFormat::FORMAT_SRGBA:
+    case ImageFormat::FORMAT_LAB8:
       return CompareDiff<uint8_t>(image1, image2, max_color_diff,
                                   max_alpha_diff, max_avg_diff, diff_image);
-    case ImageFormat::GRAY16:
-    case ImageFormat::SRGB48:
-    case ImageFormat::SRGBA64:
+    case ImageFormat::FORMAT_GRAY16:
+    case ImageFormat::FORMAT_SRGB48:
+    case ImageFormat::FORMAT_SRGBA64:
       return CompareDiff<uint16_t>(image1, image2, max_color_diff,
                                    max_alpha_diff, max_avg_diff, diff_image);
-    case ImageFormat::VEC32F1:
-    case ImageFormat::VEC32F2:
-    case ImageFormat::VEC32F4:
+    case ImageFormat::FORMAT_VEC32F1:
+    case ImageFormat::FORMAT_VEC32F2:
+    case ImageFormat::FORMAT_VEC32F4:
       return CompareDiff<float>(image1, image2, max_color_diff, max_alpha_diff,
                                 max_avg_diff, diff_image);
     default:
@@ -218,7 +218,7 @@ absl::Status CompareAndSaveImageOutput(
   ASSIGN_OR_RETURN(auto output_img_path, SavePngTestOutput(actual, "output"));
 
   auto expected =
-      LoadTestImage(GetTestFilePath(golden_image_path), ImageFormat::UNKNOWN);
+      LoadTestImage(GetTestFilePath(golden_image_path), ImageFormat::FORMAT_UNKNOWN);
   if (!expected.ok()) {
     return expected.status();
   }
@@ -268,10 +268,10 @@ absl::StatusOr<std::unique_ptr<ImageFrame>> DecodeTestImage(
     absl::string_view encoded, ImageFormat::Format format) {
   // stbi_load determines the output pixel format based on the desired channels.
   // 0 means "use whatever's in the file".
-  int desired_channels = format == ImageFormat::UNKNOWN ? 0
-                         : format == ImageFormat::SRGBA ? 4
-                         : format == ImageFormat::SRGB  ? 3
-                         : format == ImageFormat::GRAY8 ? 1
+  int desired_channels = format == ImageFormat::FORMAT_UNKNOWN ? 0
+                         : format == ImageFormat::FORMAT_SRGBA ? 4
+                         : format == ImageFormat::FORMAT_SRGB  ? 3
+                         : format == ImageFormat::FORMAT_GRAY8 ? 1
                                                         : -1;
   RET_CHECK(desired_channels >= 0)
       << "unsupported output format requested: " << format;
@@ -285,12 +285,12 @@ absl::StatusOr<std::unique_ptr<ImageFrame>> DecodeTestImage(
   // If we didn't specify a desired format, it will be determined by what the
   // file contains.
   int output_channels = desired_channels ? desired_channels : channels_in_file;
-  if (format == ImageFormat::UNKNOWN) {
-    format = output_channels == 4   ? ImageFormat::SRGBA
-             : output_channels == 3 ? ImageFormat::SRGB
-             : output_channels == 1 ? ImageFormat::GRAY8
-                                    : ImageFormat::UNKNOWN;
-    RET_CHECK(format != ImageFormat::UNKNOWN)
+  if (format == ImageFormat::FORMAT_UNKNOWN) {
+    format = output_channels == 4   ? ImageFormat::FORMAT_SRGBA
+             : output_channels == 3 ? ImageFormat::FORMAT_SRGB
+             : output_channels == 1 ? ImageFormat::FORMAT_GRAY8
+                                    : ImageFormat::FORMAT_UNKNOWN;
+    RET_CHECK(format != ImageFormat::FORMAT_UNKNOWN)
         << "unsupported number of channels: " << output_channels;
   }
 
@@ -316,8 +316,8 @@ std::unique_ptr<ImageFrame> LoadTestPng(absl::string_view path,
 absl::StatusOr<std::string> SavePngTestOutput(
     const mediapipe::ImageFrame& image, absl::string_view prefix) {
   absl::flat_hash_set<ImageFormat::Format> supported_formats = {
-      ImageFormat::GRAY8, ImageFormat::SRGB, ImageFormat::SRGBA,
-      ImageFormat::LAB8, ImageFormat::SBGRA};
+      ImageFormat::FORMAT_GRAY8, ImageFormat::FORMAT_SRGB, ImageFormat::FORMAT_SRGBA,
+      ImageFormat::FORMAT_LAB8, ImageFormat::FORMAT_SBGRA};
   if (!supported_formats.contains(image.Format())) {
     return absl::CancelledError(
         absl::StrFormat("Format %d can not be saved to PNG.", image.Format()));

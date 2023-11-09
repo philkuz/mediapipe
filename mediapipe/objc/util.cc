@@ -331,7 +331,7 @@ absl::StatusOr<CFHolder<CVPixelBufferRef>> CreateCVPixelBufferForImageFrame(
   OSType pixel_format = 0;
   CVReturn status;
   switch (image_format) {
-    case mediapipe::ImageFormat::SRGBA: {
+    case mediapipe::ImageFormat::FORMAT_SRGBA: {
       pixel_format = kCVPixelFormatType_32BGRA;
       // Swap R and B channels.
       vImage_Buffer v_image = vImageForImageFrame(frame);
@@ -355,19 +355,19 @@ absl::StatusOr<CFHolder<CVPixelBufferRef>> CreateCVPixelBufferForImageFrame(
           << "vImagePermuteChannels failed: " << vError;
     } break;
 
-    case mediapipe::ImageFormat::GRAY8:
+    case mediapipe::ImageFormat::FORMAT_GRAY8:
       pixel_format = kCVPixelFormatType_OneComponent8;
       break;
 
-    case mediapipe::ImageFormat::VEC32F1:
+    case mediapipe::ImageFormat::FORMAT_VEC32F1:
       pixel_format = kCVPixelFormatType_OneComponent32Float;
       break;
 
-    case mediapipe::ImageFormat::VEC32F2:
+    case mediapipe::ImageFormat::FORMAT_VEC32F2:
       pixel_format = kCVPixelFormatType_TwoComponent32Float;
       break;
 
-    case mediapipe::ImageFormat::VEC32F4:
+    case mediapipe::ImageFormat::FORMAT_VEC32F4:
       pixel_format = kCVPixelFormatType_128RGBAFloat;
       break;
 
@@ -420,7 +420,7 @@ absl::StatusOr<CFHolder<CVPixelBufferRef>> CreateCVPixelBufferCopyingImageFrame(
   // TODO: unify some code with CreateCVPixelBufferForImageFramePacket?
   mediapipe::ImageFormat::Format image_format = image_frame.Format();
   switch (image_format) {
-    case mediapipe::ImageFormat::SRGBA:
+    case mediapipe::ImageFormat::FORMAT_SRGBA:
       pixel_format = kCVPixelFormatType_32BGRA;
       copy_fun = [](const vImage_Buffer& src,
                     vImage_Buffer& dst) -> absl::Status {
@@ -434,19 +434,19 @@ absl::StatusOr<CFHolder<CVPixelBufferRef>> CreateCVPixelBufferCopyingImageFrame(
       };
       break;
 
-    case mediapipe::ImageFormat::GRAY8:
+    case mediapipe::ImageFormat::FORMAT_GRAY8:
       pixel_format = kCVPixelFormatType_OneComponent8;
       break;
 
-    case mediapipe::ImageFormat::VEC32F1:
+    case mediapipe::ImageFormat::FORMAT_VEC32F1:
       pixel_format = kCVPixelFormatType_OneComponent32Float;
       break;
 
-    case mediapipe::ImageFormat::VEC32F2:
+    case mediapipe::ImageFormat::FORMAT_VEC32F2:
       pixel_format = kCVPixelFormatType_TwoComponent32Float;
       break;
 
-    case mediapipe::ImageFormat::VEC32F4:
+    case mediapipe::ImageFormat::FORMAT_VEC32F4:
       pixel_format = kCVPixelFormatType_128RGBAFloat;
       break;
 
@@ -585,10 +585,10 @@ std::unique_ptr<mediapipe::ImageFrame> CreateImageFrameForCVPixelBuffer(
   CVPixelBufferRetain(image_buffer);
 
   OSType pixel_format = CVPixelBufferGetPixelFormatType(image_buffer);
-  mediapipe::ImageFormat::Format image_format = mediapipe::ImageFormat::UNKNOWN;
+  mediapipe::ImageFormat::Format image_format = mediapipe::ImageFormat::FORMAT_UNKNOWN;
   switch (pixel_format) {
     case kCVPixelFormatType_32BGRA: {
-      image_format = mediapipe::ImageFormat::SRGBA;
+      image_format = mediapipe::ImageFormat::FORMAT_SRGBA;
       if (!bgr_as_rgb) {
         // Swap R and B channels.
         vImage_Buffer v_image = vImageForCVPixelBuffer(image_buffer);
@@ -609,15 +609,15 @@ std::unique_ptr<mediapipe::ImageFrame> CreateImageFrameForCVPixelBuffer(
     } break;
 
     case kCVPixelFormatType_32RGBA:
-      image_format = mediapipe::ImageFormat::SRGBA;
+      image_format = mediapipe::ImageFormat::FORMAT_SRGBA;
       break;
 
     case kCVPixelFormatType_24RGB:
-      image_format = mediapipe::ImageFormat::SRGB;
+      image_format = mediapipe::ImageFormat::FORMAT_SRGB;
       break;
 
     case kCVPixelFormatType_OneComponent8:
-      image_format = mediapipe::ImageFormat::GRAY8;
+      image_format = mediapipe::ImageFormat::FORMAT_GRAY8;
       break;
 
     default: {

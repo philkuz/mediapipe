@@ -115,7 +115,7 @@ absl::Status RunMPPGraph() {
 
     // Wrap Mat into an ImageFrame.
     auto input_frame = absl::make_unique<mediapipe::ImageFrame>(
-        mediapipe::ImageFormat::SRGBA, camera_frame.cols, camera_frame.rows,
+        mediapipe::ImageFormat::FORMAT_SRGBA, camera_frame.cols, camera_frame.rows,
         mediapipe::ImageFrame::kGlDefaultAlignmentBoundary);
     cv::Mat input_frame_mat = mediapipe::formats::MatView(input_frame.get());
     camera_frame.copyTo(input_frame_mat);

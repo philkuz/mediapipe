@@ -100,7 +100,7 @@ Image GetSRGBImage(const std::string& image_path) {
   cv::Mat image_mat = cv::imread(image_path);
   cv::cvtColor(image_mat, image_mat, cv::COLOR_BGR2RGB);
   mediapipe::ImageFrame image_frame(
-      mediapipe::ImageFormat::SRGB, image_mat.cols, image_mat.rows,
+      mediapipe::ImageFormat::FORMAT_SRGB, image_mat.cols, image_mat.rows,
       image_mat.step, image_mat.data, [image_mat](uint8_t[]) {});
   Image image(std::make_shared<mediapipe::ImageFrame>(std::move(image_frame)));
   return image;
@@ -114,7 +114,7 @@ Image GetSRGBAImage(const std::string& image_path) {
   channels[3].setTo(0);
   cv::merge(channels.data(), 4, image_mat);
   mediapipe::ImageFrame image_frame(
-      mediapipe::ImageFormat::SRGBA, image_mat.cols, image_mat.rows,
+      mediapipe::ImageFormat::FORMAT_SRGBA, image_mat.cols, image_mat.rows,
       image_mat.step, image_mat.data, [image_mat](uint8_t[]) {});
   Image image(std::make_shared<mediapipe::ImageFrame>(std::move(image_frame)));
   return image;

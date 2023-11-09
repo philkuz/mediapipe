@@ -77,7 +77,7 @@ TEST(BorderDetectionCalculatorTest, NoBorderTest) {
       ParseTextProtoOrDie<CalculatorGraphConfig::Node>(kConfig));
 
   auto input_frame = ::absl::make_unique<ImageFrame>(
-      ImageFormat::SRGB, kTestFrameWidth, kTestFrameHeight);
+      ImageFormat::FORMAT_SRGB, kTestFrameWidth, kTestFrameHeight);
   cv::Mat input_mat = mediapipe::formats::MatView(input_frame.get());
   input_mat.setTo(cv::Scalar(0, 0, 0));
   runner->MutableInputs()->Tag(kVideoTag).packets.push_back(
@@ -108,7 +108,7 @@ TEST(BorderDetectionCalculatorTest, TopBorderTest) {
   const int kTopBorderHeight = 50;
 
   auto input_frame = ::absl::make_unique<ImageFrame>(
-      ImageFormat::SRGB, kTestFrameWidth, kTestFrameHeight);
+      ImageFormat::FORMAT_SRGB, kTestFrameWidth, kTestFrameHeight);
   cv::Mat input_mat = mediapipe::formats::MatView(input_frame.get());
   input_mat.setTo(cv::Scalar(0, 0, 0));
   cv::Mat sub_image =
@@ -148,7 +148,7 @@ TEST(BorderDetectionCalculatorTest, TopBorderPadTest) {
   const int kTopBorderHeight = 50;
 
   auto input_frame = ::absl::make_unique<ImageFrame>(
-      ImageFormat::SRGB, kTestFrameWidth, kTestFrameHeight);
+      ImageFormat::FORMAT_SRGB, kTestFrameWidth, kTestFrameHeight);
   cv::Mat input_mat = mediapipe::formats::MatView(input_frame.get());
   input_mat.setTo(cv::Scalar(0, 0, 0));
   cv::Mat sub_image =
@@ -189,7 +189,7 @@ TEST(BorderDetectionCalculatorTest, BottomBorderTest) {
   const int kBottomBorderHeight = 50;
 
   auto input_frame = ::absl::make_unique<ImageFrame>(
-      ImageFormat::SRGB, kTestFrameWidth, kTestFrameHeight);
+      ImageFormat::FORMAT_SRGB, kTestFrameWidth, kTestFrameHeight);
   cv::Mat input_mat = mediapipe::formats::MatView(input_frame.get());
   input_mat.setTo(cv::Scalar(0, 0, 0));
   cv::Mat bottom_image =
@@ -227,7 +227,7 @@ TEST(BorderDetectionCalculatorTest, TopBottomBorderTest) {
   const int kTopBorderHeight = 25;
 
   auto input_frame = ::absl::make_unique<ImageFrame>(
-      ImageFormat::SRGB, kTestFrameWidth, kTestFrameHeight);
+      ImageFormat::FORMAT_SRGB, kTestFrameWidth, kTestFrameHeight);
   cv::Mat input_mat = mediapipe::formats::MatView(input_frame.get());
   input_mat.setTo(cv::Scalar(0, 0, 0));
   cv::Mat top_image =
@@ -280,7 +280,7 @@ TEST(BorderDetectionCalculatorTest, TopBottomBorderTestAspect2) {
   const int kTopBorderHeight = 25;
 
   auto input_frame = ::absl::make_unique<ImageFrame>(
-      ImageFormat::SRGB, kTestFrameWidthTall, kTestFrameHeightTall);
+      ImageFormat::FORMAT_SRGB, kTestFrameWidthTall, kTestFrameHeightTall);
   cv::Mat input_mat = mediapipe::formats::MatView(input_frame.get());
   input_mat.setTo(cv::Scalar(0, 0, 0));
   cv::Mat top_image =
@@ -335,7 +335,7 @@ TEST(BorderDetectionCalculatorTest, DominantColor) {
   auto runner = ::absl::make_unique<CalculatorRunner>(node);
 
   auto input_frame = ::absl::make_unique<ImageFrame>(
-      ImageFormat::SRGB, kTestFrameWidth, kTestFrameHeight);
+      ImageFormat::FORMAT_SRGB, kTestFrameWidth, kTestFrameHeight);
   cv::Mat input_mat = mediapipe::formats::MatView(input_frame.get());
   input_mat.setTo(cv::Scalar(0, 0, 0));
 
@@ -376,7 +376,7 @@ void BM_Large(benchmark::State& state) {
     const int kTopBorderHeight = 50;
 
     auto input_frame = ::absl::make_unique<ImageFrame>(
-        ImageFormat::SRGB, kTestFrameLargeWidth, kTestFrameLargeHeight);
+        ImageFormat::FORMAT_SRGB, kTestFrameLargeWidth, kTestFrameLargeHeight);
     cv::Mat input_mat = mediapipe::formats::MatView(input_frame.get());
     input_mat.setTo(cv::Scalar(0, 0, 0));
     cv::Mat sub_image =

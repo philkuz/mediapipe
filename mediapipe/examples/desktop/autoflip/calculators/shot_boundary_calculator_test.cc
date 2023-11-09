@@ -62,7 +62,7 @@ void AddFrames(const int number_of_frames,
 
   for (int i = 0; i < number_of_frames; i++) {
     auto input_frame = ::absl::make_unique<ImageFrame>(
-        ImageFormat::SRGB, kTestFrameWidth, kTestFrameHeight);
+        ImageFormat::FORMAT_SRGB, kTestFrameWidth, kTestFrameHeight);
     cv::Mat input_mat = mediapipe::formats::MatView(input_frame.get());
     input_mat.setTo(cv::Scalar(0, 0, 0));
     cv::Mat sub_image =

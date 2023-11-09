@@ -162,7 +162,7 @@ JNIEXPORT jlong JNICALL PACKET_CREATOR_METHOD(nativeCreateRgbImage)(
   int width_step = ((width * 3 - 1) | (kAlignment - 1)) + 1;
   auto image_frame_or =
       CreateImageFrameFromByteBuffer(env, byte_buffer, width, height,
-                                     width_step, mediapipe::ImageFormat::SRGB);
+                                     width_step, mediapipe::ImageFormat::FORMAT_SRGB);
   if (ThrowIfError(env, image_frame_or.status())) return 0L;
 
   mediapipe::Packet packet = mediapipe::Adopt(image_frame_or->release());
@@ -186,7 +186,7 @@ absl::StatusOr<std::unique_ptr<mediapipe::ImageFrame>> CreateRgbImageFromRgba(
       << " but is: " << buffer_size;
 
   auto image_frame = absl::make_unique<mediapipe::ImageFrame>(
-      mediapipe::ImageFormat::SRGB, width, height,
+      mediapipe::ImageFormat::FORMAT_SRGB, width, height,
       mediapipe::ImageFrame::kGlDefaultAlignmentBoundary);
   mediapipe::android::RgbaToRgb(rgba_data, width * 4, width, height,
                                 image_frame->MutablePixelData(),
@@ -208,7 +208,7 @@ JNIEXPORT jlong JNICALL PACKET_CREATOR_METHOD(nativeCreateGrayscaleImage)(
     JNIEnv* env, jobject thiz, jlong context, jobject byte_buffer, jint width,
     jint height) {
   auto image_frame_or = CreateImageFrameFromByteBuffer(
-      env, byte_buffer, width, height, width, mediapipe::ImageFormat::GRAY8);
+      env, byte_buffer, width, height, width, mediapipe::ImageFormat::FORMAT_GRAY8);
   if (ThrowIfError(env, image_frame_or.status())) return 0L;
 
   mediapipe::Packet packet = mediapipe::Adopt(image_frame_or->release());
@@ -220,7 +220,7 @@ JNIEXPORT jlong JNICALL PACKET_CREATOR_METHOD(nativeCreateFloatImageFrame)(
     jint height) {
   auto image_frame_or =
       CreateImageFrameFromByteBuffer(env, byte_buffer, width, height, width * 4,
-                                     mediapipe::ImageFormat::VEC32F1);
+                                     mediapipe::ImageFormat::FORMAT_VEC32F1);
   if (ThrowIfError(env, image_frame_or.status())) return 0L;
   mediapipe::Packet packet = mediapipe::Adopt(image_frame_or->release());
   return CreatePacketWithContext(context, packet);
@@ -231,7 +231,7 @@ JNIEXPORT jlong JNICALL PACKET_CREATOR_METHOD(nativeCreateRgbaImageFrame)(
     jint height) {
   auto image_frame_or =
       CreateImageFrameFromByteBuffer(env, byte_buffer, width, height, width * 4,
-                                     mediapipe::ImageFormat::SRGBA);
+                                     mediapipe::ImageFormat::FORMAT_SRGBA);
   if (ThrowIfError(env, image_frame_or.status())) return 0L;
   mediapipe::Packet packet = mediapipe::Adopt(image_frame_or->release());
   return CreatePacketWithContext(context, packet);
@@ -334,7 +334,7 @@ JNIEXPORT jlong JNICALL PACKET_CREATOR_METHOD(nativeCreateString)(
 JNIEXPORT jlong JNICALL PACKET_CREATOR_METHOD(nativeCreateVideoHeader)(
     JNIEnv* env, jobject thiz, jlong context, jint width, jint height) {
   mediapipe::VideoHeader header;
-  header.format = mediapipe::ImageFormat::SRGB;
+  header.format = mediapipe::ImageFormat::FORMAT_SRGB;
   header.width = width;
   header.height = height;
   return CreatePacketScalar<mediapipe::VideoHeader>(context, header);
@@ -378,13 +378,13 @@ JNIEXPORT jlong JNICALL PACKET_CREATOR_METHOD(nativeCreateCpuImage)(
   mediapipe::ImageFormat::Format format;
   switch (num_channels) {
     case 4:
-      format = mediapipe::ImageFormat::SRGBA;
+      format = mediapipe::ImageFormat::FORMAT_SRGBA;
       break;
     case 3:
-      format = mediapipe::ImageFormat::SRGB;
+      format = mediapipe::ImageFormat::FORMAT_SRGB;
       break;
     case 1:
-      format = mediapipe::ImageFormat::GRAY8;
+      format = mediapipe::ImageFormat::FORMAT_GRAY8;
       break;
     default:
       ThrowIfError(env, absl::InvalidArgumentError(absl::StrCat(

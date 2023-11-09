@@ -268,7 +268,7 @@ void TrackingGraphTest::CreateInputFramesFromOriginalImage(
                  crop_height);
     cv::Mat cropped_img = cv::Mat(original_image_, roi);
     auto cropped_image_frame = absl::make_unique<ImageFrame>(
-        ImageFormat::SRGB, crop_width, crop_height, cropped_img.step[0],
+        ImageFormat::FORMAT_SRGB, crop_width, crop_height, cropped_img.step[0],
         cropped_img.data, ImageFrame::PixelDataDeleter::kNone);
     Timestamp curr_timestamp = Timestamp(i * kFrameIntervalUs);
     Packet image_packet =

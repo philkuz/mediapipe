@@ -42,17 +42,17 @@ absl::StatusOr<Image> DecodeImageFromFile(const std::string& path) {
   switch (channels) {
     case 1:
       image_frame =
-          std::make_shared<ImageFrame>(ImageFormat::GRAY8, width, height, width,
+          std::make_shared<ImageFrame>(ImageFormat::FORMAT_GRAY8, width, height, width,
                                        image_data, stbi_image_free);
       break;
     case 3:
       image_frame =
-          std::make_shared<ImageFrame>(ImageFormat::SRGB, width, height,
+          std::make_shared<ImageFrame>(ImageFormat::FORMAT_SRGB, width, height,
                                        3 * width, image_data, stbi_image_free);
       break;
     case 4:
       image_frame =
-          std::make_shared<ImageFrame>(ImageFormat::SRGBA, width, height,
+          std::make_shared<ImageFrame>(ImageFormat::FORMAT_SRGBA, width, height,
                                        4 * width, image_data, stbi_image_free);
       break;
     default:

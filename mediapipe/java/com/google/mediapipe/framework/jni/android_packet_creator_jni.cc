@@ -54,7 +54,7 @@ std::unique_ptr<mediapipe::ImageFrame> CreateImageFrameFromBitmap(
     return nullptr;
   }
 
-  if (format == mediapipe::ImageFormat::SRGBA) {
+  if (format == mediapipe::ImageFormat::FORMAT_SRGBA) {
     const int64_t buffer_size = stride * height;
     if (buffer_size != image_frame->PixelDataSize()) {
       ABSL_LOG(ERROR) << "Bitmap stride: " << stride
@@ -65,7 +65,7 @@ std::unique_ptr<mediapipe::ImageFrame> CreateImageFrameFromBitmap(
     }
     std::memcpy(image_frame->MutablePixelData(), pixel_addr,
                 image_frame->PixelDataSize());
-  } else if (format == mediapipe::ImageFormat::SRGB) {
+  } else if (format == mediapipe::ImageFormat::FORMAT_SRGB) {
     if (stride != width * 4) {
       ABSL_LOG(ERROR) << "Bitmap stride: " << stride
                       << "is not equal to 4 times bitmap width: " << width;
@@ -105,7 +105,7 @@ JNIEXPORT jlong JNICALL ANDROID_PACKET_CREATOR_METHOD(
 
   auto image_frame =
       CreateImageFrameFromBitmap(env, bitmap, info.width, info.height,
-                                 info.stride, mediapipe::ImageFormat::SRGB);
+                                 info.stride, mediapipe::ImageFormat::FORMAT_SRGB);
   if (nullptr == image_frame) return 0L;
 
   mediapipe::Packet packet = mediapipe::Adopt(image_frame.release());
@@ -125,7 +125,7 @@ JNIEXPORT jlong JNICALL ANDROID_PACKET_CREATOR_METHOD(
 
   auto image_frame =
       CreateImageFrameFromBitmap(env, bitmap, info.width, info.height,
-                                 info.stride, mediapipe::ImageFormat::SRGBA);
+                                 info.stride, mediapipe::ImageFormat::FORMAT_SRGBA);
   if (nullptr == image_frame) return 0L;
 
   mediapipe::Packet packet = mediapipe::Adopt(image_frame.release());
@@ -144,7 +144,7 @@ JNIEXPORT jlong JNICALL ANDROID_PACKET_CREATOR_METHOD(nativeCreateRgbaImage)(
 
   auto image_frame =
       CreateImageFrameFromBitmap(env, bitmap, info.width, info.height,
-                                 info.stride, mediapipe::ImageFormat::SRGBA);
+                                 info.stride, mediapipe::ImageFormat::FORMAT_SRGBA);
   if (nullptr == image_frame) return 0L;
 
   mediapipe::Packet packet =

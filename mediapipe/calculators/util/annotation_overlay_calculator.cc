@@ -500,16 +500,16 @@ absl::Status AnnotationOverlayCalculator::CreateRenderTargetCpu(
 
     int target_mat_type;
     switch (input_frame.Format()) {
-      case ImageFormat::SRGBA:
-        *target_format = ImageFormat::SRGBA;
+      case ImageFormat::FORMAT_SRGBA:
+        *target_format = ImageFormat::FORMAT_SRGBA;
         target_mat_type = CV_8UC4;
         break;
-      case ImageFormat::SRGB:
-        *target_format = ImageFormat::SRGB;
+      case ImageFormat::FORMAT_SRGB:
+        *target_format = ImageFormat::FORMAT_SRGB;
         target_mat_type = CV_8UC3;
         break;
-      case ImageFormat::GRAY8:
-        *target_format = ImageFormat::SRGB;
+      case ImageFormat::FORMAT_GRAY8:
+        *target_format = ImageFormat::FORMAT_SRGB;
         target_mat_type = CV_8UC3;
         break;
       default:
@@ -521,7 +521,7 @@ absl::Status AnnotationOverlayCalculator::CreateRenderTargetCpu(
         input_frame.Height(), input_frame.Width(), target_mat_type);
 
     auto input_mat = formats::MatView(&input_frame);
-    if (input_frame.Format() == ImageFormat::GRAY8) {
+    if (input_frame.Format() == ImageFormat::FORMAT_GRAY8) {
       cv::Mat rgb_mat;
       cv::cvtColor(input_mat, rgb_mat, cv::COLOR_GRAY2RGB);
       rgb_mat.copyTo(*image_mat);
@@ -533,7 +533,7 @@ absl::Status AnnotationOverlayCalculator::CreateRenderTargetCpu(
         options_.canvas_height_px(), options_.canvas_width_px(), CV_8UC3,
         cv::Scalar(options_.canvas_color().r(), options_.canvas_color().g(),
                    options_.canvas_color().b()));
-    *target_format = ImageFormat::SRGB;
+    *target_format = ImageFormat::FORMAT_SRGB;
   }
 
   return absl::OkStatus();
@@ -548,16 +548,16 @@ absl::Status AnnotationOverlayCalculator::CreateRenderTargetCpuImage(
 
     int target_mat_type;
     switch (input_frame.image_format()) {
-      case ImageFormat::SRGBA:
-        *target_format = ImageFormat::SRGBA;
+      case ImageFormat::FORMAT_SRGBA:
+        *target_format = ImageFormat::FORMAT_SRGBA;
         target_mat_type = CV_8UC4;
         break;
-      case ImageFormat::SRGB:
-        *target_format = ImageFormat::SRGB;
+      case ImageFormat::FORMAT_SRGB:
+        *target_format = ImageFormat::FORMAT_SRGB;
         target_mat_type = CV_8UC3;
         break;
-      case ImageFormat::GRAY8:
-        *target_format = ImageFormat::SRGB;
+      case ImageFormat::FORMAT_GRAY8:
+        *target_format = ImageFormat::FORMAT_SRGB;
         target_mat_type = CV_8UC3;
         break;
       default:
@@ -569,7 +569,7 @@ absl::Status AnnotationOverlayCalculator::CreateRenderTargetCpuImage(
         input_frame.height(), input_frame.width(), target_mat_type);
 
     auto input_mat = formats::MatView(&input_frame);
-    if (input_frame.image_format() == ImageFormat::GRAY8) {
+    if (input_frame.image_format() == ImageFormat::FORMAT_GRAY8) {
       cv::Mat rgb_mat;
       cv::cvtColor(*input_mat, rgb_mat, cv::COLOR_GRAY2RGB);
       rgb_mat.copyTo(*image_mat);
@@ -581,7 +581,7 @@ absl::Status AnnotationOverlayCalculator::CreateRenderTargetCpuImage(
         options_.canvas_height_px(), options_.canvas_width_px(), CV_8UC3,
         cv::Scalar(options_.canvas_color().r(), options_.canvas_color().g(),
                    options_.canvas_color().b()));
-    *target_format = ImageFormat::SRGB;
+    *target_format = ImageFormat::FORMAT_SRGB;
   }
 
   return absl::OkStatus();
@@ -595,8 +595,8 @@ absl::Status AnnotationOverlayCalculator::CreateRenderTargetGpu(
     const auto& input_frame = cc->Inputs().Tag(Tag).Get<Type>();
     const mediapipe::ImageFormat::Format format =
         mediapipe::ImageFormatForGpuBufferFormat(input_frame.format());
-    if (format != mediapipe::ImageFormat::SRGBA &&
-        format != mediapipe::ImageFormat::SRGB)
+    if (format != mediapipe::ImageFormat::FORMAT_SRGBA &&
+        format != mediapipe::ImageFormat::FORMAT_SRGB)
       RET_CHECK_FAIL() << "Unsupported GPU input format: " << format;
     image_mat =
         absl::make_unique<cv::Mat>(height_canvas_, width_canvas_, CV_8UC3);

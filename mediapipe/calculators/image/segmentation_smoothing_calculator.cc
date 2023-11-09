@@ -52,7 +52,7 @@ enum { ATTRIB_VERTEX, ATTRIB_TEXTURE_POSITION, NUM_ATTRIBUTES };
 //
 // Inputs:
 //   MASK - Image containing the new/current mask.
-//          [ImageFormat::VEC32F1, or
+//          [ImageFormat::FORMAT_VEC32F1, or
 //           GpuBufferFormat::kBGRA32/kRGB24/kGrayHalf16/kGrayFloat32]
 //   MASK_PREVIOUS - Image containing previous mask.
 //                   [Same format as MASK_CURRENT]

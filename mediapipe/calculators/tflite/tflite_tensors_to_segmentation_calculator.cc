@@ -360,7 +360,7 @@ absl::Status TfLiteTensorsToSegmentationCalculator::ProcessCpu(
 
   // Send out image as CPU packet.
   std::unique_ptr<ImageFrame> output_mask = absl::make_unique<ImageFrame>(
-      ImageFormat::SRGBA, output_width, output_height);
+      ImageFormat::FORMAT_SRGBA, output_width, output_height);
   cv::Mat output_mat = formats::MatView(output_mask.get());
   large_mask_mat.copyTo(output_mat);
   cc->Outputs().Tag(kMaskTag).Add(output_mask.release(), cc->InputTimestamp());

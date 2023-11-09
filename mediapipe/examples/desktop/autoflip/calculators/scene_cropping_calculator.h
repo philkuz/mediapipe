@@ -200,7 +200,7 @@ class SceneCroppingCalculator : public CalculatorBase {
   // Input video frame size and format.
   int frame_width_ = -1;
   int frame_height_ = -1;
-  ImageFormat::Format frame_format_ = ImageFormat::UNKNOWN;
+  ImageFormat::Format frame_format_ = ImageFormat::FORMAT_UNKNOWN;
 
   // Key frame size (frame size for detections and border detections).
   int key_frame_width_ = -1;

@@ -92,7 +92,7 @@ output_stream: "RIGHT_HAND_LANDMARKS:right_hand_landmarks"
 # 468 face landmarks. (NormalizedLandmarkList)
 output_stream: "FACE_LANDMARKS:face_landmarks"
 
-# Segmentation mask. (ImageFrame in ImageFormat::VEC32F1)
+# Segmentation mask. (ImageFrame in ImageFormat::FORMAT_VEC32F1)
 output_stream: "SEGMENTATION_MASK:segmentation_mask"
 
 # Debug outputs

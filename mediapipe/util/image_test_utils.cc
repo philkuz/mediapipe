@@ -40,11 +40,11 @@ cv::Mat GetGray(const std::string& path) {
 
 mediapipe::ImageFormat::Format GetImageFormat(int image_channels) {
   if (image_channels == 4) {
-    return ImageFormat::SRGBA;
+    return ImageFormat::FORMAT_SRGBA;
   } else if (image_channels == 3) {
-    return ImageFormat::SRGB;
+    return ImageFormat::FORMAT_SRGB;
   } else if (image_channels == 1) {
-    return ImageFormat::GRAY8;
+    return ImageFormat::FORMAT_GRAY8;
   }
   ABSL_LOG(FATAL) << "Unsupported input image channles: " << image_channels;
 }

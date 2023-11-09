@@ -23,49 +23,49 @@ namespace {
 int GetMatType(const mediapipe::ImageFormat::Format format) {
   int type = 0;
   switch (format) {
-    case mediapipe::ImageFormat::UNKNOWN:
+    case mediapipe::ImageFormat::FORMAT_UNKNOWN:
       // Invalid; Default to uchar.
       type = CV_8U;
       break;
-    case mediapipe::ImageFormat::SRGB:
+    case mediapipe::ImageFormat::FORMAT_SRGB:
       type = CV_8U;
       break;
-    case mediapipe::ImageFormat::SRGBA:
+    case mediapipe::ImageFormat::FORMAT_SRGBA:
       type = CV_8U;
       break;
-    case mediapipe::ImageFormat::GRAY8:
+    case mediapipe::ImageFormat::FORMAT_GRAY8:
       type = CV_8U;
       break;
-    case mediapipe::ImageFormat::GRAY16:
+    case mediapipe::ImageFormat::FORMAT_GRAY16:
       type = CV_16U;
       break;
-    case mediapipe::ImageFormat::YCBCR420P:
+    case mediapipe::ImageFormat::FORMAT_YCBCR420P:
       // Invalid; Default to uchar.
       type = CV_8U;
       break;
-    case mediapipe::ImageFormat::YCBCR420P10:
+    case mediapipe::ImageFormat::FORMAT_YCBCR420P10:
       // Invalid; Default to uint16.
       type = CV_16U;
       break;
-    case mediapipe::ImageFormat::SRGB48:
+    case mediapipe::ImageFormat::FORMAT_SRGB48:
       type = CV_16U;
       break;
-    case mediapipe::ImageFormat::SRGBA64:
+    case mediapipe::ImageFormat::FORMAT_SRGBA64:
       type = CV_16U;
       break;
-    case mediapipe::ImageFormat::VEC32F1:
+    case mediapipe::ImageFormat::FORMAT_VEC32F1:
       type = CV_32F;
       break;
-    case mediapipe::ImageFormat::VEC32F2:
+    case mediapipe::ImageFormat::FORMAT_VEC32F2:
       type = CV_32FC2;
       break;
-    case mediapipe::ImageFormat::VEC32F4:
+    case mediapipe::ImageFormat::FORMAT_VEC32F4:
       type = CV_32FC4;
       break;
-    case mediapipe::ImageFormat::LAB8:
+    case mediapipe::ImageFormat::FORMAT_LAB8:
       type = CV_8U;
       break;
-    case mediapipe::ImageFormat::SBGRA:
+    case mediapipe::ImageFormat::FORMAT_SBGRA:
       type = CV_8U;
       break;
     default:

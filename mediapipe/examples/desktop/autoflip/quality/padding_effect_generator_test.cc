@@ -63,15 +63,15 @@ void TestWithAspectRatio(const double aspect_ratio,
   cv::Mat decoded_mat =
       cv::imdecode(contents_vector, -1 /* return the loaded image as-is */);
 
-  ImageFormat::Format image_format = ImageFormat::UNKNOWN;
+  ImageFormat::Format image_format = ImageFormat::FORMAT_UNKNOWN;
   cv::Mat output_mat;
   switch (decoded_mat.channels()) {
     case 1:
-      image_format = ImageFormat::GRAY8;
+      image_format = ImageFormat::FORMAT_GRAY8;
       output_mat = decoded_mat;
       break;
     case 3:
-      image_format = ImageFormat::SRGB;
+      image_format = ImageFormat::FORMAT_SRGB;
       cv::cvtColor(decoded_mat, output_mat, cv::COLOR_BGR2RGB);
       break;
     case 4:
@@ -190,7 +190,7 @@ TEST(PaddingEffectGeneratorTest, ScaleToMultipleOfTwo) {
   double target_aspect_ratio = 0.5;
   int expect_width = 14;
   int expect_height = input_height;
-  ImageFrame test_frame(/*format=*/ImageFormat::SRGB, input_width,
+  ImageFrame test_frame(/*format=*/ImageFormat::FORMAT_SRGB, input_width,
                         input_height);
   cv::Mat mat = formats::MatView(&test_frame);
   mat = cv::Scalar(0, 0, 0);

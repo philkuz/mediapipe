@@ -95,7 +95,7 @@ absl::Status FlowToImageCalculator::Process(CalculatorContext* cc) {
   // Convert it to a ImageFrame in SRGB space, the 3rd channel is not used (0).
   const cv::Mat_<cv::Point2f>& flow = input.flow_data();
   std::unique_ptr<ImageFrame> output(
-      new ImageFrame(ImageFormat::SRGB, input.width(), input.height()));
+      new ImageFrame(ImageFormat::FORMAT_SRGB, input.width(), input.height()));
   cv::Mat image = ::mediapipe::formats::MatView(output.get());
 
   for (int j = 0; j != input.height(); ++j) {

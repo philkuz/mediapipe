@@ -216,16 +216,16 @@ class EffectRendererCalculator : public CalculatorBase {
         << "Texture must have `char` as the underlying type and "
            "must have either 3 or 4 channels!";
 
-    ImageFormat::Format image_format = ImageFormat::UNKNOWN;
+    ImageFormat::Format image_format = ImageFormat::FORMAT_UNKNOWN;
     cv::Mat output_mat;
     switch (decoded_mat.channels()) {
       case 3:
-        image_format = ImageFormat::SRGB;
+        image_format = ImageFormat::FORMAT_SRGB;
         cv::cvtColor(decoded_mat, output_mat, cv::COLOR_BGR2RGB);
         break;
 
       case 4:
-        image_format = ImageFormat::SRGBA;
+        image_format = ImageFormat::FORMAT_SRGBA;
         cv::cvtColor(decoded_mat, output_mat, cv::COLOR_BGRA2RGBA);
         break;
 

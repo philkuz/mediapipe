@@ -29,11 +29,11 @@ namespace {
 FrameBuffer::Format FrameBufferFormatForImageFrameFormat(
     ImageFormat::Format format) {
   switch (format) {
-    case ImageFormat::SRGB:
+    case ImageFormat::FORMAT_SRGB:
       return FrameBuffer::Format::kRGB;
-    case ImageFormat::SRGBA:
+    case ImageFormat::FORMAT_SRGBA:
       return FrameBuffer::Format::kRGBA;
-    case ImageFormat::GRAY8:
+    case ImageFormat::FORMAT_GRAY8:
       return FrameBuffer::Format::kGRAY;
     default:
       return FrameBuffer::Format::kUNKNOWN;

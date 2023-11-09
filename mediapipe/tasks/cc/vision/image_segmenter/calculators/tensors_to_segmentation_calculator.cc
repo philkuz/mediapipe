@@ -122,7 +122,7 @@ Image ProcessForCategoryMaskCpu(const Shape& input_shape,
 
   // Category mask Image.
   ImageFrameSharedPtr image_frame_ptr = std::make_shared<ImageFrame>(
-      ImageFormat::GRAY8, output_shape.width, output_shape.height, 1);
+      ImageFormat::FORMAT_GRAY8, output_shape.width, output_shape.height, 1);
   Image category_mask(image_frame_ptr);
 
   // Fill in the maximum category in the category mask image.
@@ -209,7 +209,7 @@ std::vector<Image> ProcessForConfidenceMaskCpu(const Shape& input_shape,
   confidence_mask_mats.reserve(input_shape.channels);
   for (int i = 0; i < input_shape.channels; ++i) {
     confidence_masks.push_back(Image(std::make_shared<ImageFrame>(
-        ImageFormat::VEC32F1, input_shape.width, input_shape.height, 1)));
+        ImageFormat::FORMAT_VEC32F1, input_shape.width, input_shape.height, 1)));
     confidence_mask_mats.push_back(mediapipe::formats::MatView(
         confidence_masks.back().GetImageFrameSharedPtr().get()));
   }
@@ -238,7 +238,7 @@ std::vector<Image> ProcessForConfidenceMaskCpu(const Shape& input_shape,
     // Pre-allocates ImageFrame memory to avoid copying from cv::Mat
     // afterward.
     ImageFrameSharedPtr image_frame_ptr = std::make_shared<ImageFrame>(
-        ImageFormat::VEC32F1, output_shape.width, output_shape.height, 1);
+        ImageFormat::FORMAT_VEC32F1, output_shape.width, output_shape.height, 1);
     cv::Mat resized_mask_mat_view =
         mediapipe::formats::MatView(image_frame_ptr.get());
     cv::resize(confidence_mask_mats[i], resized_mask_mat_view,

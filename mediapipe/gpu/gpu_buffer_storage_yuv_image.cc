@@ -132,14 +132,14 @@ std::shared_ptr<FrameBuffer> YuvImageToFrameBuffer(
   return std::make_shared<FrameBuffer>(planes, dimension, format);
 }
 
-// Converts a YUVImage into an ImageFrame with ImageFormat::SRGB format.
+// Converts a YUVImage into an ImageFrame with ImageFormat::FORMAT_SRGB format.
 // Note that this requires YUV -> RGB conversion.
 std::shared_ptr<ImageFrame> YuvImageToImageFrame(
     std::shared_ptr<YUVImage> yuv_image) {
   auto yuv_buffer = YuvImageToFrameBuffer(yuv_image);
   // Allocate the RGB ImageFrame to return.
   auto image_frame = std::make_shared<ImageFrame>(
-      ImageFormat::SRGB, yuv_buffer->dimension().width,
+      ImageFormat::FORMAT_SRGB, yuv_buffer->dimension().width,
       yuv_buffer->dimension().height);
   // Wrap it into a FrameBuffer
   std::vector<FrameBuffer::Plane> planes{

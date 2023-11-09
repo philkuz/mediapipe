@@ -158,7 +158,7 @@ class PoseLandmarkerGraphTest
 // Convert pixels from float range [0,1] to uint8 range [0,255].
 ImageFrame CreateUint8ImageFrame(const Image& image) {
   auto* image_frame_ptr = image.GetImageFrameSharedPtr().get();
-  ImageFrame output_image_frame(ImageFormat::GRAY8, image_frame_ptr->Width(),
+  ImageFrame output_image_frame(ImageFormat::FORMAT_GRAY8, image_frame_ptr->Width(),
                                 image_frame_ptr->Height(), 1);
   float* pixelData =
       reinterpret_cast<float*>(image_frame_ptr->MutablePixelData());
@@ -204,7 +204,7 @@ TEST_P(PoseLandmarkerGraphTest, Succeeds) {
 
   auto expected_image_frame = LoadTestPng(
       JoinPath("./", kTestDataDirectory, "pose_segmentation_mask_golden.png"),
-      ImageFormat::GRAY8);
+      ImageFormat::FORMAT_GRAY8);
 
   ASSERT_EQ(segmentation_mask_image_frame.Width(),
             expected_image_frame->Width());

@@ -50,7 +50,7 @@ TEST(FlatColorImageCalculatorTest, SpecifyColorThroughOptions) {
     }
   )pb");
 
-  auto image_frame = std::make_shared<ImageFrame>(ImageFormat::SRGB,
+  auto image_frame = std::make_shared<ImageFrame>(ImageFormat::FORMAT_SRGB,
                                                   kImageWidth, kImageHeight);
 
   for (int ts = 0; ts < 3; ++ts) {
@@ -169,7 +169,7 @@ TEST(FlatColorImageCalculatorTest, FailureMissingColor) {
     output_stream: "IMAGE:out_image"
   )pb");
 
-  auto image_frame = std::make_shared<ImageFrame>(ImageFormat::SRGB,
+  auto image_frame = std::make_shared<ImageFrame>(ImageFormat::FORMAT_SRGB,
                                                   kImageWidth, kImageHeight);
 
   for (int ts = 0; ts < 3; ++ts) {
@@ -194,7 +194,7 @@ TEST(FlatColorImageCalculatorTest, FailureDuplicateDimension) {
     }
   )pb");
 
-  auto image_frame = std::make_shared<ImageFrame>(ImageFormat::SRGB,
+  auto image_frame = std::make_shared<ImageFrame>(ImageFormat::FORMAT_SRGB,
                                                   kImageWidth, kImageHeight);
 
   for (int ts = 0; ts < 3; ++ts) {
@@ -274,7 +274,7 @@ TEST(FlatColorImageCalculatorTest, FailureSettingInputImageOnOutputSidePacket) {
     }
   )pb");
 
-  auto image_frame = std::make_shared<ImageFrame>(ImageFormat::SRGB,
+  auto image_frame = std::make_shared<ImageFrame>(ImageFormat::FORMAT_SRGB,
                                                   kImageWidth, kImageHeight);
 
   for (int ts = 0; ts < 3; ++ts) {

@@ -24,7 +24,7 @@ namespace mediapipe {
 // This defines the format of a video stream header.
 struct VideoHeader {
   // Video frame format.
-  ImageFormat::Format format = ImageFormat::UNKNOWN;
+  ImageFormat::Format format = ImageFormat::FORMAT_UNKNOWN;
 
   // Dimensions of the video in pixels.
   int width = 0;

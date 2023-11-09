@@ -135,10 +135,10 @@ void RunTest(bool use_gpu, float mix_ratio, cv::Mat& test_result) {
   cv::blur(mask_mat, prev_mat, cv::Size(3, 3));
 
   Packet curr_packet = MakePacket<Image>(std::make_unique<ImageFrame>(
-      ImageFormat::VEC32F1, curr_mat.size().width, curr_mat.size().height));
+      ImageFormat::FORMAT_VEC32F1, curr_mat.size().width, curr_mat.size().height));
   curr_mat.copyTo(*formats::MatView(&(curr_packet.Get<Image>())));
   Packet prev_packet = MakePacket<Image>(std::make_unique<ImageFrame>(
-      ImageFormat::VEC32F1, prev_mat.size().width, prev_mat.size().height));
+      ImageFormat::FORMAT_VEC32F1, prev_mat.size().width, prev_mat.size().height));
   prev_mat.copyTo(*formats::MatView(&(prev_packet.Get<Image>())));
 
   cv::Mat result;

@@ -318,7 +318,7 @@ TEST(ContentZoomingCalculatorTest, ZoomTest) {
   location->set_y(.5);
 
   auto input_frame =
-      ::absl::make_unique<ImageFrame>(ImageFormat::SRGB, 1000, 1000);
+      ::absl::make_unique<ImageFrame>(ImageFormat::FORMAT_SRGB, 1000, 1000);
   runner->MutableInputs()->Tag(kVideoTag).packets.push_back(
       Adopt(input_frame.release()).At(Timestamp(0)));
 
@@ -492,7 +492,7 @@ TEST(ContentZoomingCalculatorTest, MinAspectBorderValues) {
   location->set_y(0);
 
   auto input_frame =
-      ::absl::make_unique<ImageFrame>(ImageFormat::SRGB, 1000, 1000);
+      ::absl::make_unique<ImageFrame>(ImageFormat::FORMAT_SRGB, 1000, 1000);
   runner->MutableInputs()->Tag(kVideoTag).packets.push_back(
       Adopt(input_frame.release()).At(Timestamp(0)));
 
@@ -529,7 +529,7 @@ TEST(ContentZoomingCalculatorTest, TwoFacesWide) {
   location->set_y(.4);
 
   auto input_frame =
-      ::absl::make_unique<ImageFrame>(ImageFormat::SRGB, 1000, 1000);
+      ::absl::make_unique<ImageFrame>(ImageFormat::FORMAT_SRGB, 1000, 1000);
   runner->MutableInputs()->Tag(kVideoTag).packets.push_back(
       Adopt(input_frame.release()).At(Timestamp(0)));
 
@@ -554,7 +554,7 @@ TEST(ContentZoomingCalculatorTest, NoDetectionOnInit) {
   auto detection_set = std::make_unique<DetectionSet>();
 
   auto input_frame =
-      ::absl::make_unique<ImageFrame>(ImageFormat::SRGB, 1000, 1000);
+      ::absl::make_unique<ImageFrame>(ImageFormat::FORMAT_SRGB, 1000, 1000);
   runner->MutableInputs()->Tag(kVideoTag).packets.push_back(
       Adopt(input_frame.release()).At(Timestamp(0)));
 

@@ -115,8 +115,8 @@ void CallFrameDelegate(void* wrapperVoid, const std::string& streamName,
       const auto& frame = packet.Get<mediapipe::ImageFrame>();
       mediapipe::ImageFormat::Format format = frame.Format();
 
-      if (format == mediapipe::ImageFormat::SRGBA ||
-          format == mediapipe::ImageFormat::GRAY8) {
+      if (format == mediapipe::ImageFormat::FORMAT_SRGBA ||
+          format == mediapipe::ImageFormat::FORMAT_GRAY8) {
         CVPixelBufferRef pixelBuffer;
         // If kCVPixelFormatType_32RGBA does not work, it returns kCVReturnInvalidPixelFormat.
         CVReturn error = CVPixelBufferCreate(
@@ -130,7 +130,7 @@ void CallFrameDelegate(void* wrapperVoid, const std::string& streamName,
         // Note: we have to throw away const here, but we should not overwrite
         // the packet data.
         vImage_Buffer vSource = vImageForImageFrame(frame);
-        if (format == mediapipe::ImageFormat::SRGBA) {
+        if (format == mediapipe::ImageFormat::FORMAT_SRGBA) {
           // Swap R and B channels.
           const uint8_t permuteMap[4] = {2, 1, 0, 3};
           vImage_Error __unused vError =

@@ -79,7 +79,7 @@ TYPED_TEST(TensorToImageFrameCalculatorTest, Converts3DTensorToImageFrame) {
   EXPECT_EQ(1, output_packets.size());
   EXPECT_EQ(time, output_packets[0].Timestamp().Value());
   const ImageFrame& output_image = output_packets[0].Get<ImageFrame>();
-  EXPECT_EQ(ImageFormat::SRGB, output_image.Format());
+  EXPECT_EQ(ImageFormat::FORMAT_SRGB, output_image.Format());
   EXPECT_EQ(kWidth, output_image.Width());
   EXPECT_EQ(kHeight, output_image.Height());
 
@@ -115,7 +115,7 @@ TYPED_TEST(TensorToImageFrameCalculatorTest, Converts3DTensorToImageFrameGray) {
   EXPECT_EQ(1, output_packets.size());
   EXPECT_EQ(time, output_packets[0].Timestamp().Value());
   const ImageFrame& output_image = output_packets[0].Get<ImageFrame>();
-  EXPECT_EQ(ImageFormat::GRAY8, output_image.Format());
+  EXPECT_EQ(ImageFormat::FORMAT_GRAY8, output_image.Format());
   EXPECT_EQ(kWidth, output_image.Width());
   EXPECT_EQ(kHeight, output_image.Height());
 
@@ -152,7 +152,7 @@ TYPED_TEST(TensorToImageFrameCalculatorTest,
   EXPECT_EQ(1, output_packets.size());
   EXPECT_EQ(time, output_packets[0].Timestamp().Value());
   const ImageFrame& output_image = output_packets[0].Get<ImageFrame>();
-  EXPECT_EQ(ImageFormat::GRAY8, output_image.Format());
+  EXPECT_EQ(ImageFormat::FORMAT_GRAY8, output_image.Format());
   EXPECT_EQ(kWidth, output_image.Width());
   EXPECT_EQ(kHeight, output_image.Height());
 
@@ -193,7 +193,7 @@ TYPED_TEST(TensorToImageFrameCalculatorTest,
     EXPECT_EQ(1, output_packets.size());
     EXPECT_EQ(time, output_packets[0].Timestamp().Value());
     const ImageFrame& output_image = output_packets[0].Get<ImageFrame>();
-    EXPECT_EQ(ImageFormat::GRAY8, output_image.Format());
+    EXPECT_EQ(ImageFormat::FORMAT_GRAY8, output_image.Format());
     EXPECT_EQ(kWidth, output_image.Width());
     EXPECT_EQ(kHeight, output_image.Height());
 

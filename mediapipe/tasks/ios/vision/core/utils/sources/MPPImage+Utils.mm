@@ -150,7 +150,7 @@ using ::mediapipe::ImageFrame;
   }
 
   std::unique_ptr<ImageFrame> imageFrame =
-      absl::make_unique<ImageFrame>(::mediapipe::ImageFormat::SRGB, width, height,
+      absl::make_unique<ImageFrame>(::mediapipe::ImageFormat::FORMAT_SRGB, width, height,
                                     destinationStride, static_cast<uint8 *>(rgbPixelData),
                                     /*deleter=*/free);
 
@@ -232,7 +232,7 @@ using ::mediapipe::ImageFrame;
   }
 
   std::unique_ptr<ImageFrame> imageFrame = absl::make_unique<ImageFrame>(
-      mediapipe::ImageFormat::SRGB, (int)width, (int)height, (int)destinationBytesPerRow,
+      mediapipe::ImageFormat::FORMAT_SRGB, (int)width, (int)height, (int)destinationBytesPerRow,
       static_cast<uint8 *>(pixelDataToReturn),
       /*deleter=*/free);
 

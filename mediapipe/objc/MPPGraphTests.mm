@@ -41,7 +41,7 @@ class GrayscaleCalculator : public Calculator {
     int w = input.Width();
     int h = input.Height();
 
-    auto output = absl::make_unique<mediapipe::ImageFrame>(ImageFormat::GRAY8, w, h);
+    auto output = absl::make_unique<mediapipe::ImageFrame>(ImageFormat::FORMAT_GRAY8, w, h);
 
     vImage_Buffer src = vImageForImageFrame(input);
     vImage_Buffer dst = vImageForImageFrame(*output);

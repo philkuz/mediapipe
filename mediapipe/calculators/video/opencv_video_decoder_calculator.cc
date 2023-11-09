@@ -40,16 +40,16 @@ ImageFormat::Format GetImageFormat(int num_channels) {
   ImageFormat::Format format;
   switch (num_channels) {
     case 1:
-      format = ImageFormat::GRAY8;
+      format = ImageFormat::FORMAT_GRAY8;
       break;
     case 3:
-      format = ImageFormat::SRGB;
+      format = ImageFormat::FORMAT_SRGB;
       break;
     case 4:
-      format = ImageFormat::SRGBA;
+      format = ImageFormat::FORMAT_SRGBA;
       break;
     default:
-      format = ImageFormat::UNKNOWN;
+      format = ImageFormat::FORMAT_UNKNOWN;
       break;
   }
   return format;
@@ -128,7 +128,7 @@ class OpenCvVideoDecoderCalculator : public CalculatorBase {
              << input_file_path;
     }
     format_ = GetImageFormat(frame.channels());
-    if (format_ == ImageFormat::UNKNOWN) {
+    if (format_ == ImageFormat::FORMAT_UNKNOWN) {
       return mediapipe::InvalidArgumentErrorBuilder(MEDIAPIPE_LOC)
              << "Unsupported video format of the video file at "
              << input_file_path;
@@ -193,7 +193,7 @@ class OpenCvVideoDecoderCalculator : public CalculatorBase {
                                                      /*alignment_boundary=*/1);
     // Use microsecond as the unit of time.
     Timestamp timestamp(cap_->get(cv::CAP_PROP_POS_MSEC) * 1000);
-    if (format_ == ImageFormat::GRAY8) {
+    if (format_ == ImageFormat::FORMAT_GRAY8) {
       cv::Mat frame = formats::MatView(image_frame.get());
       ReadFrame(frame);
       if (frame.empty()) {
@@ -205,10 +205,10 @@ class OpenCvVideoDecoderCalculator : public CalculatorBase {
       if (tmp_frame.empty()) {
         return tool::StatusStop();
       }
-      if (format_ == ImageFormat::SRGB) {
+      if (format_ == ImageFormat::FORMAT_SRGB) {
         cv::cvtColor(tmp_frame, formats::MatView(image_frame.get()),
                      cv::COLOR_BGR2RGB);
-      } else if (format_ == ImageFormat::SRGBA) {
+      } else if (format_ == ImageFormat::FORMAT_SRGBA) {
         cv::cvtColor(tmp_frame, formats::MatView(image_frame.get()),
                      cv::COLOR_BGRA2RGBA);
       }

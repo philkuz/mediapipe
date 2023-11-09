@@ -26,7 +26,7 @@ using Pair = std::pair<int, int>;
 
 constexpr int kWidth = 300;
 constexpr int kHeight = 200;
-constexpr ImageFormat::Format kFormat = ImageFormat::SRGBA;
+constexpr ImageFormat::Format kFormat = ImageFormat::FORMAT_SRGBA;
 constexpr int kKeepCount = 2;
 
 class ImageFramePoolTest : public ::testing::Test {

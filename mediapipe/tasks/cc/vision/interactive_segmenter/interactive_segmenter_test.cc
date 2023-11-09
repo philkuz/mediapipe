@@ -253,7 +253,7 @@ TEST_P(SucceedSegmentationWithRoi, SucceedsWithCategoryMask) {
 
   cv::Mat visualized_mask;
   actual_mask.convertTo(visualized_mask, CV_8UC1, /*alpha=*/255);
-  ImageFrame visualized_image(mediapipe::ImageFormat::GRAY8,
+  ImageFrame visualized_image(mediapipe::ImageFormat::FORMAT_GRAY8,
                               visualized_mask.cols, visualized_mask.rows,
                               visualized_mask.step, visualized_mask.data,
                               [visualized_mask](uint8_t[]) {});
@@ -292,7 +292,7 @@ TEST_P(SucceedSegmentationWithRoi, SucceedsWithConfidenceMask) {
                                               params.similarity_threshold));
   cv::Mat visualized_mask;
   actual_mask.convertTo(visualized_mask, CV_8UC1, /*alpha=*/255);
-  ImageFrame visualized_image(mediapipe::ImageFormat::GRAY8,
+  ImageFrame visualized_image(mediapipe::ImageFormat::FORMAT_GRAY8,
                               visualized_mask.cols, visualized_mask.rows,
                               visualized_mask.step, visualized_mask.data,
                               [visualized_mask](uint8_t[]) {});

@@ -59,7 +59,7 @@ const uint32_t ImageFrame::kDefaultAlignmentBoundary;
 const uint32_t ImageFrame::kGlDefaultAlignmentBoundary;
 
 ImageFrame::ImageFrame()
-    : format_(ImageFormat::UNKNOWN), width_(0), height_(0), width_step_(0) {}
+    : format_(ImageFormat::FORMAT_UNKNOWN), width_(0), height_(0), width_step_(0) {}
 
 ImageFrame::ImageFrame(ImageFormat::Format format, int width, int height,
                        uint32_t alignment_boundary)
@@ -87,7 +87,7 @@ ImageFrame& ImageFrame::operator=(ImageFrame&& move_from) {
   height_ = move_from.height_;
   width_step_ = move_from.width_step_;
 
-  move_from.format_ = ImageFormat::UNKNOWN;
+  move_from.format_ = ImageFormat::FORMAT_UNKNOWN;
   move_from.width_ = 0;
   move_from.height_ = 0;
   move_from.width_step_ = 0;
@@ -99,7 +99,7 @@ void ImageFrame::Reset(ImageFormat::Format format, int width, int height,
   format_ = format;
   width_ = width;
   height_ = height;
-  ABSL_CHECK_NE(ImageFormat::UNKNOWN, format_);
+  ABSL_CHECK_NE(ImageFormat::FORMAT_UNKNOWN, format_);
   ABSL_CHECK(IsValidAlignmentNumber(alignment_boundary));
   width_step_ = width * NumberOfChannels() * ByteDepth();
   if (alignment_boundary == 1) {
@@ -125,7 +125,7 @@ void ImageFrame::AdoptPixelData(ImageFormat::Format format, int width,
   height_ = height;
   width_step_ = width_step;
 
-  ABSL_CHECK_NE(ImageFormat::UNKNOWN, format_);
+  ABSL_CHECK_NE(ImageFormat::FORMAT_UNKNOWN, format_);
   ABSL_CHECK_GE(width_step_, width * NumberOfChannels() * ByteDepth());
 
   pixel_data_ = {pixel_data, deleter};
@@ -265,27 +265,27 @@ int ImageFrame::NumberOfChannels() const {
 
 int ImageFrame::NumberOfChannelsForFormat(ImageFormat::Format format) {
   switch (format) {
-    case ImageFormat::GRAY8:
+    case ImageFormat::FORMAT_GRAY8:
       return 1;
-    case ImageFormat::GRAY16:
+    case ImageFormat::FORMAT_GRAY16:
       return 1;
-    case ImageFormat::SRGB:
+    case ImageFormat::FORMAT_SRGB:
       return 3;
-    case ImageFormat::SRGB48:
+    case ImageFormat::FORMAT_SRGB48:
       return 3;
-    case ImageFormat::SRGBA:
+    case ImageFormat::FORMAT_SRGBA:
       return 4;
-    case ImageFormat::SRGBA64:
+    case ImageFormat::FORMAT_SRGBA64:
       return 4;
-    case ImageFormat::VEC32F1:
+    case ImageFormat::FORMAT_VEC32F1:
       return 1;
-    case ImageFormat::VEC32F2:
+    case ImageFormat::FORMAT_VEC32F2:
       return 2;
-    case ImageFormat::VEC32F4:
+    case ImageFormat::FORMAT_VEC32F4:
       return 4;
-    case ImageFormat::LAB8:
+    case ImageFormat::FORMAT_LAB8:
       return 3;
-    case ImageFormat::SBGRA:
+    case ImageFormat::FORMAT_SBGRA:
       return 4;
     default:
       ABSL_LOG(FATAL) << InvalidFormatString(format);
@@ -296,27 +296,27 @@ int ImageFrame::ChannelSize() const { return ChannelSizeForFormat(format_); }
 
 int ImageFrame::ChannelSizeForFormat(ImageFormat::Format format) {
   switch (format) {
-    case ImageFormat::GRAY8:
+    case ImageFormat::FORMAT_GRAY8:
       return sizeof(uint8_t);
-    case ImageFormat::SRGB:
+    case ImageFormat::FORMAT_SRGB:
       return sizeof(uint8_t);
-    case ImageFormat::SRGBA:
+    case ImageFormat::FORMAT_SRGBA:
       return sizeof(uint8_t);
-    case ImageFormat::GRAY16:
+    case ImageFormat::FORMAT_GRAY16:
       return sizeof(uint16_t);
-    case ImageFormat::SRGB48:
+    case ImageFormat::FORMAT_SRGB48:
       return sizeof(uint16_t);
-    case ImageFormat::SRGBA64:
+    case ImageFormat::FORMAT_SRGBA64:
       return sizeof(uint16_t);
-    case ImageFormat::VEC32F1:
+    case ImageFormat::FORMAT_VEC32F1:
       return sizeof(float);
-    case ImageFormat::VEC32F2:
+    case ImageFormat::FORMAT_VEC32F2:
       return sizeof(float);
-    case ImageFormat::VEC32F4:
+    case ImageFormat::FORMAT_VEC32F4:
       return sizeof(float);
-    case ImageFormat::LAB8:
+    case ImageFormat::FORMAT_LAB8:
       return sizeof(uint8_t);
-    case ImageFormat::SBGRA:
+    case ImageFormat::FORMAT_SBGRA:
       return sizeof(uint8_t);
     default:
       ABSL_LOG(FATAL) << InvalidFormatString(format);
@@ -327,27 +327,27 @@ int ImageFrame::ByteDepth() const { return ByteDepthForFormat(format_); }
 
 int ImageFrame::ByteDepthForFormat(ImageFormat::Format format) {
   switch (format) {
-    case ImageFormat::GRAY8:
+    case ImageFormat::FORMAT_GRAY8:
       return 1;
-    case ImageFormat::GRAY16:
+    case ImageFormat::FORMAT_GRAY16:
       return 2;
-    case ImageFormat::SRGB:
+    case ImageFormat::FORMAT_SRGB:
       return 1;
-    case ImageFormat::SRGBA:
+    case ImageFormat::FORMAT_SRGBA:
       return 1;
-    case ImageFormat::SRGB48:
+    case ImageFormat::FORMAT_SRGB48:
       return 2;
-    case ImageFormat::SRGBA64:
+    case ImageFormat::FORMAT_SRGBA64:
       return 2;
-    case ImageFormat::VEC32F1:
+    case ImageFormat::FORMAT_VEC32F1:
       return 4;
-    case ImageFormat::VEC32F2:
+    case ImageFormat::FORMAT_VEC32F2:
       return 4;
-    case ImageFormat::VEC32F4:
+    case ImageFormat::FORMAT_VEC32F4:
       return 4;
-    case ImageFormat::LAB8:
+    case ImageFormat::FORMAT_LAB8:
       return 1;
-    case ImageFormat::SBGRA:
+    case ImageFormat::FORMAT_SBGRA:
       return 1;
     default:
       ABSL_LOG(FATAL) << InvalidFormatString(format);

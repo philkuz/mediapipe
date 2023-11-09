@@ -27,7 +27,7 @@ input_stream: "IMAGE:image"
 # optimized for landscape images. If unspecified, functions as set to 0. (int)
 input_side_packet: "MODEL_SELECTION:model_selection"
 
-# Segmentation mask. (ImageFrame in ImageFormat::VEC32F1)
+# Segmentation mask. (ImageFrame in ImageFormat::FORMAT_VEC32F1)
 output_stream: "SEGMENTATION_MASK:segmentation_mask"
 
 # Resizes the input image into a tensor with a dimension desired by the model.

@@ -45,8 +45,8 @@ void SetToColor(const T* pix_value, ImageFrame* image_frame) {
 
 TEST(ImageFrameOpencvTest, ConvertToMat) {
   const int i_width = 123, i_height = 45;
-  ImageFrame frame1(ImageFormat::GRAY8, i_width, i_height);
-  ImageFrame frame2(ImageFormat::GRAY8, i_width, i_height);
+  ImageFrame frame1(ImageFormat::FORMAT_GRAY8, i_width, i_height);
+  ImageFrame frame2(ImageFormat::FORMAT_GRAY8, i_width, i_height);
 
   // Check adding constant images.
   const uint8_t frame1_val = 12;
@@ -78,8 +78,8 @@ TEST(ImageFrameOpencvTest, ConvertToMat) {
 
 TEST(ImageFrameOpencvTest, ConvertToIpl) {
   const int i_width = 123, i_height = 45;
-  ImageFrame frame1(ImageFormat::GRAY8, i_width, i_height);
-  ImageFrame frame2(ImageFormat::GRAY8, i_width, i_height);
+  ImageFrame frame1(ImageFormat::FORMAT_GRAY8, i_width, i_height);
+  ImageFrame frame2(ImageFormat::FORMAT_GRAY8, i_width, i_height);
 
   // Check adding constant images.
   const uint8_t frame1_val = 12;
@@ -109,13 +109,13 @@ TEST(ImageFrameOpencvTest, ConvertToIpl) {
 
 TEST(ImageFrameOpencvTest, ImageFormats) {
   const int i_width = 123, i_height = 45;
-  ImageFrame frame_g8(ImageFormat::GRAY8, i_width, i_height);
-  ImageFrame frame_g16(ImageFormat::GRAY16, i_width, i_height);
-  ImageFrame frame_v32f1(ImageFormat::VEC32F1, i_width, i_height);
-  ImageFrame frame_v32f2(ImageFormat::VEC32F2, i_width, i_height);
-  ImageFrame frame_v32f4(ImageFormat::VEC32F4, i_width, i_height);
-  ImageFrame frame_c3(ImageFormat::SRGB, i_width, i_height);
-  ImageFrame frame_c4(ImageFormat::SRGBA, i_width, i_height);
+  ImageFrame frame_g8(ImageFormat::FORMAT_GRAY8, i_width, i_height);
+  ImageFrame frame_g16(ImageFormat::FORMAT_GRAY16, i_width, i_height);
+  ImageFrame frame_v32f1(ImageFormat::FORMAT_VEC32F1, i_width, i_height);
+  ImageFrame frame_v32f2(ImageFormat::FORMAT_VEC32F2, i_width, i_height);
+  ImageFrame frame_v32f4(ImageFormat::FORMAT_VEC32F4, i_width, i_height);
+  ImageFrame frame_c3(ImageFormat::FORMAT_SRGB, i_width, i_height);
+  ImageFrame frame_c4(ImageFormat::FORMAT_SRGBA, i_width, i_height);
 
   cv::Mat mat_g8 = formats::MatView(&frame_g8);
   cv::Mat mat_g16 = formats::MatView(&frame_g16);

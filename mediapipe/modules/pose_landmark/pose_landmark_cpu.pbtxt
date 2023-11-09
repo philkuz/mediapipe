@@ -104,7 +104,7 @@ output_stream: "LANDMARKS:pose_landmarks"
 # coordinates (in meters) of the 3D object itself.
 output_stream: "WORLD_LANDMARKS:pose_world_landmarks"
 
-# Segmentation mask. (ImageFrame in ImageFormat::VEC32F1)
+# Segmentation mask. (ImageFrame in ImageFormat::FORMAT_VEC32F1)
 output_stream: "SEGMENTATION_MASK:segmentation_mask"
 
 # Extra outputs (for debugging, for instance).

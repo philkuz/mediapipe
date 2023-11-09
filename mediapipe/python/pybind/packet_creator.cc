@@ -33,17 +33,17 @@ namespace {
 
 Packet CreateImageFramePacket(mediapipe::ImageFormat::Format format,
                               const py::array& data, bool copy) {
-  if (format == mediapipe::ImageFormat::SRGB ||
-      format == mediapipe::ImageFormat::SRGBA ||
-      format == mediapipe::ImageFormat::GRAY8) {
+  if (format == mediapipe::ImageFormat::FORMAT_SRGB ||
+      format == mediapipe::ImageFormat::FORMAT_SRGBA ||
+      format == mediapipe::ImageFormat::FORMAT_GRAY8) {
     return Adopt(CreateImageFrame<uint8_t>(format, data, copy).release());
-  } else if (format == mediapipe::ImageFormat::GRAY16 ||
-             format == mediapipe::ImageFormat::SRGB48 ||
-             format == mediapipe::ImageFormat::SRGBA64) {
+  } else if (format == mediapipe::ImageFormat::FORMAT_GRAY16 ||
+             format == mediapipe::ImageFormat::FORMAT_SRGB48 ||
+             format == mediapipe::ImageFormat::FORMAT_SRGBA64) {
     return Adopt(CreateImageFrame<uint16_t>(format, data, copy).release());
-  } else if (format == mediapipe::ImageFormat::VEC32F1 ||
-             format == mediapipe::ImageFormat::VEC32F2 ||
-             format == mediapipe::ImageFormat::VEC32F4) {
+  } else if (format == mediapipe::ImageFormat::FORMAT_VEC32F1 ||
+             format == mediapipe::ImageFormat::FORMAT_VEC32F2 ||
+             format == mediapipe::ImageFormat::FORMAT_VEC32F4) {
     return Adopt(CreateImageFrame<float>(format, data, copy).release());
   }
   throw RaisePyError(PyExc_RuntimeError,
@@ -53,19 +53,19 @@ Packet CreateImageFramePacket(mediapipe::ImageFormat::Format format,
 
 Packet CreateImagePacket(mediapipe::ImageFormat::Format format,
                          const py::array& data, bool copy) {
-  if (format == mediapipe::ImageFormat::SRGB ||
-      format == mediapipe::ImageFormat::SRGBA ||
-      format == mediapipe::ImageFormat::GRAY8) {
+  if (format == mediapipe::ImageFormat::FORMAT_SRGB ||
+      format == mediapipe::ImageFormat::FORMAT_SRGBA ||
+      format == mediapipe::ImageFormat::FORMAT_GRAY8) {
     return MakePacket<Image>(std::shared_ptr<ImageFrame>(
         CreateImageFrame<uint8_t>(format, data, copy)));
-  } else if (format == mediapipe::ImageFormat::GRAY16 ||
-             format == mediapipe::ImageFormat::SRGB48 ||
-             format == mediapipe::ImageFormat::SRGBA64) {
+  } else if (format == mediapipe::ImageFormat::FORMAT_GRAY16 ||
+             format == mediapipe::ImageFormat::FORMAT_SRGB48 ||
+             format == mediapipe::ImageFormat::FORMAT_SRGBA64) {
     return MakePacket<Image>(std::shared_ptr<ImageFrame>(
         CreateImageFrame<uint16_t>(format, data, copy)));
-  } else if (format == mediapipe::ImageFormat::VEC32F1 ||
-             format == mediapipe::ImageFormat::VEC32F2 ||
-             format == mediapipe::ImageFormat::VEC32F4) {
+  } else if (format == mediapipe::ImageFormat::FORMAT_VEC32F1 ||
+             format == mediapipe::ImageFormat::FORMAT_VEC32F2 ||
+             format == mediapipe::ImageFormat::FORMAT_VEC32F4) {
     return MakePacket<Image>(std::shared_ptr<ImageFrame>(
         CreateImageFrame<float>(format, data, copy)));
   }

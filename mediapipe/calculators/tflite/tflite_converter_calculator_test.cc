@@ -226,7 +226,7 @@ TEST_F(TfLiteConverterCalculatorTest, CustomDivAndSub) {
   // Run the graph.
   MP_ASSERT_OK(graph.Initialize(graph_config));
   MP_ASSERT_OK(graph.StartRun({}));
-  auto input_image = absl::make_unique<ImageFrame>(ImageFormat::GRAY8, 1, 1);
+  auto input_image = absl::make_unique<ImageFrame>(ImageFormat::FORMAT_GRAY8, 1, 1);
   cv::Mat mat = mediapipe::formats::MatView(input_image.get());
   mat.at<uint8_t>(0, 0) = 200;
   MP_ASSERT_OK(graph.AddPacketToInputStream(
@@ -282,7 +282,7 @@ TEST_F(TfLiteConverterCalculatorTest, SetOutputRange) {
     // Run the graph.
     MP_ASSERT_OK(graph.Initialize(graph_config));
     MP_ASSERT_OK(graph.StartRun({}));
-    auto input_image = absl::make_unique<ImageFrame>(ImageFormat::GRAY8, 1, 1);
+    auto input_image = absl::make_unique<ImageFrame>(ImageFormat::FORMAT_GRAY8, 1, 1);
     cv::Mat mat = mediapipe::formats::MatView(input_image.get());
     mat.at<uint8_t>(0, 0) = 200;
     MP_ASSERT_OK(graph.AddPacketToInputStream(

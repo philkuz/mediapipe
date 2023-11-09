@@ -478,7 +478,7 @@ TEST(PacketResamplerCalculatorTest, SetVideoHeader) {
   video_header_in.height = 100;
   video_header_in.frame_rate = 1.0;
   video_header_in.duration = 1.0;
-  video_header_in.format = ImageFormat::SRGB;
+  video_header_in.format = ImageFormat::FORMAT_SRGB;
   runner.MutableInputs()
       ->Tag(kVideoHeaderTag)
       .packets.push_back(

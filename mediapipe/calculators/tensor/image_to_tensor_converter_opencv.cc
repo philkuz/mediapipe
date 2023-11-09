@@ -69,9 +69,9 @@ class OpenCvProcessor : public ImageToTensorConverter {
                        int tensor_buffer_offset,
                        Tensor& output_tensor) override {
     const bool is_supported_format =
-        input.image_format() == mediapipe::ImageFormat::SRGB ||
-        input.image_format() == mediapipe::ImageFormat::SRGBA ||
-        input.image_format() == mediapipe::ImageFormat::GRAY8;
+        input.image_format() == mediapipe::ImageFormat::FORMAT_SRGB ||
+        input.image_format() == mediapipe::ImageFormat::FORMAT_SRGBA ||
+        input.image_format() == mediapipe::ImageFormat::FORMAT_GRAY8;
     if (!is_supported_format) {
       return InvalidArgumentError(absl::StrCat(
           "Unsupported format: ", static_cast<uint32_t>(input.image_format())));

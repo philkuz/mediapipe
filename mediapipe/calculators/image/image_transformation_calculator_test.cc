@@ -43,7 +43,7 @@ TEST(ImageTransformationCalculatorTest, NearestNeighborResizing) {
                                          "image/testdata/binary_mask.png")),
                input_mat, cv::COLOR_BGR2GRAY);
   Packet input_image_packet = MakePacket<ImageFrame>(
-      ImageFormat::GRAY8, input_mat.size().width, input_mat.size().height);
+      ImageFormat::FORMAT_GRAY8, input_mat.size().width, input_mat.size().height);
   input_mat.copyTo(formats::MatView(&(input_image_packet.Get<ImageFrame>())));
 
   std::vector<std::pair<int, int>> output_dims{
@@ -102,7 +102,7 @@ TEST(ImageTransformationCalculatorTest,
                                          "image/testdata/binary_mask.png")),
                input_mat, cv::COLOR_BGR2GRAY);
   Packet input_image_packet = MakePacket<ImageFrame>(
-      ImageFormat::VEC32F1, input_mat.size().width, input_mat.size().height);
+      ImageFormat::FORMAT_VEC32F1, input_mat.size().width, input_mat.size().height);
   cv::Mat packet_mat_view =
       formats::MatView(&(input_image_packet.Get<ImageFrame>()));
   input_mat.convertTo(packet_mat_view, CV_32FC1, 1 / 255.f);
@@ -199,7 +199,7 @@ TEST(ImageTransformationCalculatorTest, NearestNeighborResizingGpu) {
             output_stream: "output_image"
           })",
                                scale_mode));
-      ImageFrame input_image(ImageFormat::SRGBA, input_mat.size().width,
+      ImageFrame input_image(ImageFormat::FORMAT_SRGBA, input_mat.size().width,
                              input_mat.size().height);
       input_mat.copyTo(formats::MatView(&input_image));
 
@@ -240,7 +240,7 @@ TEST(ImageTransformationCalculatorTest,
                                          "image/testdata/binary_mask.png")),
                input_mat, cv::COLOR_BGR2GRAY);
   Packet input_image_packet = MakePacket<ImageFrame>(
-      ImageFormat::VEC32F1, input_mat.size().width, input_mat.size().height);
+      ImageFormat::FORMAT_VEC32F1, input_mat.size().width, input_mat.size().height);
   cv::Mat packet_mat_view =
       formats::MatView(&(input_image_packet.Get<ImageFrame>()));
   input_mat.convertTo(packet_mat_view, CV_32FC1, 1 / 255.f);

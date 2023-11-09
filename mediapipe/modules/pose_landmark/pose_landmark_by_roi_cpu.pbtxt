@@ -91,7 +91,7 @@ output_stream: "AUXILIARY_LANDMARKS:auxiliary_landmarks"
 # coordinates (in meters) of the 3D object itself.
 output_stream: "WORLD_LANDMARKS:world_landmarks"
 
-# Segmentation mask on CPU in ImageFormat::VEC32F1. (Image)
+# Segmentation mask on CPU in ImageFormat::FORMAT_VEC32F1. (Image)
 output_stream: "SEGMENTATION_MASK:segmentation_mask"
 
 # Retrieves the image size.

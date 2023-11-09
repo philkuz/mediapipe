@@ -215,9 +215,9 @@ absl::Status TensorsToImageCalculator::CpuProcess(CalculatorContext* cc) {
   const int tensor_in_channels = input_tensor.shape().dims[3];
   RET_CHECK(tensor_in_channels == 3 || tensor_in_channels == 1);
 
-  auto format = mediapipe::ImageFormat::SRGB;
+  auto format = mediapipe::ImageFormat::FORMAT_SRGB;
   if (tensor_in_channels == 1) {
-    format = mediapipe::ImageFormat::GRAY8;
+    format = mediapipe::ImageFormat::FORMAT_GRAY8;
   }
 
   auto output_frame =

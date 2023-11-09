@@ -112,7 +112,7 @@ using ::tflite::gpu::gl::GlShader;
 // mask are both on CPU.
 //
 // On GPU, the mask is an RGBA image, in both the R & A channels, scaled 0-1.
-// On CPU, the mask is a ImageFormat::VEC32F1 image, with values scaled 0-1.
+// On CPU, the mask is a ImageFormat::FORMAT_VEC32F1 image, with values scaled 0-1.
 //
 //
 // Inputs:
@@ -365,7 +365,7 @@ absl::Status TensorsToSegmentationCalculator::ProcessCpu(
 
   // Send out image as CPU packet.
   std::shared_ptr<ImageFrame> mask_frame = std::make_shared<ImageFrame>(
-      ImageFormat::VEC32F1, output_width, output_height);
+      ImageFormat::FORMAT_VEC32F1, output_width, output_height);
   std::unique_ptr<Image> output_mask = absl::make_unique<Image>(mask_frame);
   auto output_mat = formats::MatView(output_mask.get());
   // Upsample small mask into output.

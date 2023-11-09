@@ -83,16 +83,16 @@ bool LoadTestGraph(CalculatorGraphConfig* proto, const std::string& path);
 
 // Loads an image from memory.
 absl::StatusOr<std::unique_ptr<ImageFrame>> DecodeTestImage(
-    absl::string_view encoded, ImageFormat::Format format = ImageFormat::SRGBA);
+    absl::string_view encoded, ImageFormat::Format format = ImageFormat::FORMAT_SRGBA);
 
 // Loads an image from path.
 absl::StatusOr<std::unique_ptr<ImageFrame>> LoadTestImage(
-    absl::string_view path, ImageFormat::Format format = ImageFormat::SRGBA);
+    absl::string_view path, ImageFormat::Format format = ImageFormat::FORMAT_SRGBA);
 
 // Loads a PNG image from path using the given ImageFormat. Returns nullptr in
 // case of failure.
 std::unique_ptr<ImageFrame> LoadTestPng(
-    absl::string_view path, ImageFormat::Format format = ImageFormat::SRGBA);
+    absl::string_view path, ImageFormat::Format format = ImageFormat::FORMAT_SRGBA);
 
 // Write an ImageFrame as PNG to the test undeclared outputs directory.
 // The image's name will contain the given prefix and a timestamp.

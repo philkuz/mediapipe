@@ -31,8 +31,8 @@ namespace {
 void AddInputPackets(int num_packets, CalculatorGraph* graph) {
   int width = 127;
   int height = 227;
-  Packet packet1 = MakePacket<ImageFrame>(ImageFormat::SRGB, width, height);
-  Packet packet2 = MakePacket<ImageFrame>(ImageFormat::SRGB, width, height);
+  Packet packet1 = MakePacket<ImageFrame>(ImageFormat::FORMAT_SRGB, width, height);
+  Packet packet2 = MakePacket<ImageFrame>(ImageFormat::FORMAT_SRGB, width, height);
   cv::Mat mat1 = formats::MatView(&(packet1.Get<ImageFrame>()));
   cv::Mat mat2 = formats::MatView(&(packet2.Get<ImageFrame>()));
   for (int r = 0; r < mat1.rows; ++r) {

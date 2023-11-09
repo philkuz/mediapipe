@@ -88,7 +88,7 @@ TEST_F(GpuBufferTest, GlTextureView) {
   EXPECT_EQ(view->Width(), 300);
   EXPECT_EQ(view->Height(), 200);
 
-  ImageFrame red(ImageFormat::SRGBA, 300, 200);
+  ImageFrame red(ImageFormat::FORMAT_SRGBA, 300, 200);
   FillImageFrameRGBA(red, 255, 0, 0, 255);
 
   EXPECT_TRUE(CompareImageFrames(*view, red, 0.0, 0.0));
@@ -123,7 +123,7 @@ TEST_F(GpuBufferTest, ImageFrame) {
     EXPECT_EQ(view->Width(), 300);
     EXPECT_EQ(view->Height(), 200);
 
-    ImageFrame red(ImageFormat::SRGBA, 300, 200);
+    ImageFrame red(ImageFormat::FORMAT_SRGBA, 300, 200);
     FillImageFrameRGBA(red, 255, 0, 0, 255);
 
     EXPECT_TRUE(CompareImageFrames(*view, red, 0.0, 0.0));
@@ -157,7 +157,7 @@ TEST_F(GpuBufferTest, Overwrite) {
 
   {
     std::shared_ptr<const ImageFrame> view = red_copy.GetReadView<ImageFrame>();
-    ImageFrame red(ImageFormat::SRGBA, 300, 200);
+    ImageFrame red(ImageFormat::FORMAT_SRGBA, 300, 200);
     FillImageFrameRGBA(red, 255, 0, 0, 255);
 
     EXPECT_TRUE(CompareImageFrames(*view, red, 0.0, 0.0));
@@ -191,7 +191,7 @@ TEST_F(GpuBufferTest, Overwrite) {
   {
     std::shared_ptr<const ImageFrame> view =
         green_copy.GetReadView<ImageFrame>();
-    ImageFrame green(ImageFormat::SRGBA, 300, 200);
+    ImageFrame green(ImageFormat::FORMAT_SRGBA, 300, 200);
     FillImageFrameRGBA(green, 0, 255, 0, 255);
 
     EXPECT_TRUE(CompareImageFrames(*view, green, 0.0, 0.0));
@@ -201,7 +201,7 @@ TEST_F(GpuBufferTest, Overwrite) {
 
   {
     std::shared_ptr<const ImageFrame> view = buffer.GetReadView<ImageFrame>();
-    ImageFrame blue(ImageFormat::SRGBA, 300, 200);
+    ImageFrame blue(ImageFormat::FORMAT_SRGBA, 300, 200);
     FillImageFrameRGBA(blue, 0, 0, 255, 255);
 
     EXPECT_TRUE(CompareImageFrames(*view, blue, 0.0, 0.0));

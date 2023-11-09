@@ -63,10 +63,10 @@ namespace mediapipe {
 //
 // Inputs:
 //   One of the following IMAGE tags:
-//   IMAGE: An ImageFrame input image in ImageFormat::SRGB.
+//   IMAGE: An ImageFrame input image in ImageFormat::FORMAT_SRGB.
 //   IMAGE_GPU: A GpuBuffer input image, RGBA.
 //   One of the following MASK tags:
-//   MASK: An ImageFrame input mask in ImageFormat::GRAY8, SRGB, SRGBA, or
+//   MASK: An ImageFrame input mask in ImageFormat::FORMAT_GRAY8, SRGB, SRGBA, or
 //         VEC32F1
 //   MASK_GPU: A GpuBuffer input mask, RGBA.
 // Output:
@@ -270,7 +270,7 @@ absl::Status RecolorCalculator::RenderCpu(CalculatorContext* cc) {
 
       fragColor = mix(color1, color2, mix_value);
   */
-  if (mask_img.Format() == ImageFormat::VEC32F1) {
+  if (mask_img.Format() == ImageFormat::FORMAT_VEC32F1) {
     for (int i = 0; i < output_mat.rows; ++i) {
       for (int j = 0; j < output_mat.cols; ++j) {
         const float weight = mask_full.at<float>(i, j);

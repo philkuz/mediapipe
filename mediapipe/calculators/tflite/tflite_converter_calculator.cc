@@ -298,14 +298,14 @@ absl::Status TfLiteConverterCalculator::ProcessCPU(CalculatorContext* cc) {
     const mediapipe::ImageFormat::Format format = image_frame.Format();
 
     if (!initialized_) {
-      if (!(format == mediapipe::ImageFormat::SRGBA ||
-            format == mediapipe::ImageFormat::SRGB ||
-            format == mediapipe::ImageFormat::GRAY8 ||
-            format == mediapipe::ImageFormat::VEC32F1))
+      if (!(format == mediapipe::ImageFormat::FORMAT_SRGBA ||
+            format == mediapipe::ImageFormat::FORMAT_SRGB ||
+            format == mediapipe::ImageFormat::FORMAT_GRAY8 ||
+            format == mediapipe::ImageFormat::FORMAT_VEC32F1))
         RET_CHECK_FAIL() << "Unsupported CPU input format.";
       TfLiteQuantization quant;
       if (use_quantized_tensors_) {
-        RET_CHECK(format != mediapipe::ImageFormat::VEC32F1)
+        RET_CHECK(format != mediapipe::ImageFormat::FORMAT_VEC32F1)
             << "Only 8-bit input images are supported for quantization.";
         quant.type = kTfLiteAffineQuantization;
         auto quant_params = static_cast<TfLiteAffineQuantization*>(
@@ -500,11 +500,11 @@ absl::Status TfLiteConverterCalculator::InitGpu(CalculatorContext* cc) {
   gpu_data_out_ = absl::make_unique<GPUData>();
   gpu_data_out_->elements = input.height() * input.width() * max_num_channels_;
   const bool include_alpha = (max_num_channels_ == 4);
-  if (!(format == mediapipe::ImageFormat::GRAY8 ||
-        format == mediapipe::ImageFormat::SRGB ||
-        format == mediapipe::ImageFormat::SRGBA))
+  if (!(format == mediapipe::ImageFormat::FORMAT_GRAY8 ||
+        format == mediapipe::ImageFormat::FORMAT_SRGB ||
+        format == mediapipe::ImageFormat::FORMAT_SRGBA))
     RET_CHECK_FAIL() << "Unsupported GPU input format.";
-  if (include_alpha && (format != mediapipe::ImageFormat::SRGBA))
+  if (include_alpha && (format != mediapipe::ImageFormat::FORMAT_SRGBA))
     RET_CHECK_FAIL() << "Num input channels is less than desired output.";
 #endif  // MEDIAPIPE_TFLITE_GPU_SUPPORTED
 

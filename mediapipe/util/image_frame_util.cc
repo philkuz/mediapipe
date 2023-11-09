@@ -48,7 +48,7 @@ void RescaleImageFrame(const ImageFrame& source_frame, const int width,
                        const int open_cv_interpolation_algorithm,
                        ImageFrame* destination_frame) {
   ABSL_CHECK(destination_frame);
-  ABSL_CHECK_EQ(ImageFormat::SRGB, source_frame.Format());
+  ABSL_CHECK_EQ(ImageFormat::FORMAT_SRGB, source_frame.Format());
 
   cv::Mat source_mat = ::mediapipe::formats::MatView(&source_frame);
   destination_frame->Reset(source_frame.Format(), width, height,
@@ -145,7 +145,7 @@ void YUVImageToImageFrame(const YUVImage& yuv_image, ImageFrame* image_frame,
   ABSL_CHECK(image_frame);
   int width = yuv_image.width();
   int height = yuv_image.height();
-  image_frame->Reset(ImageFormat::SRGB, width, height, 16);
+  image_frame->Reset(ImageFormat::FORMAT_SRGB, width, height, 16);
   int rv;
 
   if (use_bt709) {
@@ -170,7 +170,7 @@ void YUVImageToImageFrameFromFormat(const YUVImage& yuv_image,
   ABSL_CHECK(image_frame);
   int width = yuv_image.width();
   int height = yuv_image.height();
-  image_frame->Reset(ImageFormat::SRGB, width, height, 16);
+  image_frame->Reset(ImageFormat::FORMAT_SRGB, width, height, 16);
 
   const auto& format = yuv_image.fourcc();
   switch (format) {

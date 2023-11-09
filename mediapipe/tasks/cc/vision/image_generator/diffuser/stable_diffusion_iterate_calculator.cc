@@ -257,7 +257,7 @@ absl::Status StableDiffusionIterateCalculator::Process(CalculatorContext* cc) {
     RET_CHECK(DiffuserReset(prompt.c_str(), steps, rand_seed, plugins_strength,
                             &plugin_tensors));
     for (int i = 0; i < steps; i++) RET_CHECK(DiffuserIterate(steps, i));
-    ImageFrame image_out(ImageFormat::SRGB, options.output_image_width(),
+    ImageFrame image_out(ImageFormat::FORMAT_SRGB, options.output_image_width(),
                          options.output_image_height());
     RET_CHECK(DiffuserDecode(image_out.MutablePixelData()));
     kImageOut(cc).Send(std::move(image_out));
@@ -282,7 +282,7 @@ absl::Status StableDiffusionIterateCalculator::Process(CalculatorContext* cc) {
                        iteration == steps - 1;
     // Decode the output and send out the image for visualization.
     if (show_result) {
-      ImageFrame image_out(ImageFormat::SRGB, options.output_image_width(),
+      ImageFrame image_out(ImageFormat::FORMAT_SRGB, options.output_image_width(),
                            options.output_image_height());
       RET_CHECK(DiffuserDecode(image_out.MutablePixelData()));
       kImageOut(cc).Send(std::move(image_out));

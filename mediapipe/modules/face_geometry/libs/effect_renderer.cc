@@ -121,8 +121,8 @@ class Texture {
     RET_CHECK(image_frame.Width() > 0 && image_frame.Height() > 0)
         << "Image frame must have positive dimensions!";
 
-    RET_CHECK(image_frame.Format() == ImageFormat::SRGB ||
-              image_frame.Format() == ImageFormat::SRGBA)
+    RET_CHECK(image_frame.Format() == ImageFormat::FORMAT_SRGB ||
+              image_frame.Format() == ImageFormat::FORMAT_SRGBA)
         << "Image frame format must be either SRGB or SRGBA!";
 
     GLint image_format;
@@ -674,7 +674,7 @@ Mesh3d CreateQuadMesh3d() {
 
 ImageFrame CreateEmptyColorTexture() {
   static constexpr ImageFormat::Format kEmptyColorTextureFormat =
-      ImageFormat::SRGBA;
+      ImageFormat::FORMAT_SRGBA;
   static constexpr int kEmptyColorTextureWidth = 1;
   static constexpr int kEmptyColorTextureHeight = 1;
 

@@ -24,11 +24,11 @@ std::unique_ptr<ImageFrame> GetInputFrame(int width, int height, int channel) {
 
   ImageFormat::Format image_format;
   if (channel == 4) {
-    image_format = ImageFormat::SRGBA;
+    image_format = ImageFormat::FORMAT_SRGBA;
   } else if (channel == 3) {
-    image_format = ImageFormat::SRGB;
+    image_format = ImageFormat::FORMAT_SRGB;
   } else {
-    image_format = ImageFormat::GRAY8;
+    image_format = ImageFormat::FORMAT_GRAY8;
   }
 
   auto input_frame = std::make_unique<ImageFrame>(image_format, width, height,

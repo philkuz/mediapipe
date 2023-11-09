@@ -20,14 +20,14 @@
 //                       ImageFrame::kDefaultAlignmentBoundary);
 //
 // Convert an RGB ImageFrame (rgb_frame) to Grayscale:
-//   ImageFrame gray_frame(ImageFormat::GRAY8, rgb_frame.Width(),
+//   ImageFrame gray_frame(ImageFormat::FORMAT_GRAY8, rgb_frame.Width(),
 //                         rgb_frame.Height());
 //   cv::Mat rgb_frame_mat = ::mediapipe::formats::MatView(&rgb_frame);
 //   cv::Mat gray_frame_mat = ::mediapipe::formats::MatView(&gray_frame);
 //   cv::cvtColor(rgb_frame_mat, gray_frame_mat, CV_RGB2GRAY);
 //
 // Resize an ImageFrame:
-//   ImageFrame small_image(ImageFormat::GRAY8, 10, 10);
+//   ImageFrame small_image(ImageFormat::FORMAT_GRAY8, 10, 10);
 //   cv::Mat destination = ::mediapipe::formats::MatView(&small_image);
 //   cv::resize(::mediapipe::formats::MatView(&large_image), destination,
 //              destination.size(), 0, 0, cv::INTER_LINEAR);

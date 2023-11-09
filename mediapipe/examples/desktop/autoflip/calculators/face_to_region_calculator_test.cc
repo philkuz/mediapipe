@@ -103,7 +103,7 @@ void SetInputs(const std::vector<std::string>& faces, const bool include_video,
   // Setup an input video frame.
   if (include_video) {
     auto input_frame =
-        ::absl::make_unique<ImageFrame>(ImageFormat::SRGB, 800, 600);
+        ::absl::make_unique<ImageFrame>(ImageFormat::FORMAT_SRGB, 800, 600);
     runner->MutableInputs()->Tag(kVideoTag).packets.push_back(
         Adopt(input_frame.release()).At(Timestamp::PostStream()));
   }

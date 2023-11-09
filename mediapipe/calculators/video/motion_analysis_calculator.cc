@@ -398,7 +398,7 @@ absl::Status MotionAnalysisCalculator::Open(CalculatorContext* cc) {
   if (cc->Outputs().HasTag(kDenseFgTag)) {
     std::unique_ptr<VideoHeader> foreground_header(
         new VideoHeader(*video_header));
-    foreground_header->format = ImageFormat::GRAY8;
+    foreground_header->format = ImageFormat::FORMAT_GRAY8;
     cc->Outputs()
         .Tag(kDenseFgTag)
         .SetHeader(Adopt(foreground_header.release()));
@@ -582,7 +582,7 @@ absl::Status MotionAnalysisCalculator::Process(CalculatorContext* cc) {
     if (grayscale_output_) {
       cv::Mat grayscale_mat = motion_analysis_->GetGrayscaleFrameFromResults();
       std::unique_ptr<ImageFrame> grayscale_image(new ImageFrame(
-          ImageFormat::GRAY8, grayscale_mat.cols, grayscale_mat.rows));
+          ImageFormat::FORMAT_GRAY8, grayscale_mat.cols, grayscale_mat.rows));
       cv::Mat image_frame_mat = formats::MatView(grayscale_image.get());
       grayscale_mat.copyTo(image_frame_mat);
 
@@ -668,7 +668,7 @@ void MotionAnalysisCalculator::OutputMotionAnalyzedFrames(
     // Output dense foreground mask.
     if (dense_foreground_output_) {
       std::unique_ptr<ImageFrame> foreground_frame(
-          new ImageFrame(ImageFormat::GRAY8, frame_width_, frame_height_));
+          new ImageFrame(ImageFormat::FORMAT_GRAY8, frame_width_, frame_height_));
       cv::Mat foreground = formats::MatView(foreground_frame.get());
       motion_analysis_->ComputeDenseForeground(*feature_list, *camera_motion,
                                                &foreground);
@@ -723,17 +723,17 @@ absl::Status MotionAnalysisCalculator::InitOnProcess(
     RegionFlowComputationOptions::ImageFormat image_format;
     RegionFlowComputationOptions::ImageFormat image_format2;
     switch (video_stream->Get<ImageFrame>().Format()) {
-      case ImageFormat::GRAY8:
+      case ImageFormat::FORMAT_GRAY8:
         image_format = image_format2 =
             RegionFlowComputationOptions::FORMAT_GRAYSCALE;
         break;
 
-      case ImageFormat::SRGB:
+      case ImageFormat::FORMAT_SRGB:
         image_format = RegionFlowComputationOptions::FORMAT_RGB;
         image_format2 = RegionFlowComputationOptions::FORMAT_BGR;
         break;
 
-      case ImageFormat::SRGBA:
+      case ImageFormat::FORMAT_SRGBA:
         image_format = RegionFlowComputationOptions::FORMAT_RGBA;
         image_format2 = RegionFlowComputationOptions::FORMAT_BGRA;
         break;

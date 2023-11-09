@@ -157,7 +157,7 @@ FlatColorImageCalculator::CreateOutputFrame(CalculatorContext* cc) {
     return std::nullopt;
   }
 
-  auto output_frame = std::make_shared<ImageFrame>(ImageFormat::SRGB,
+  auto output_frame = std::make_shared<ImageFrame>(ImageFormat::FORMAT_SRGB,
                                                    output_width, output_height);
   cv::Mat output_mat = mediapipe::formats::MatView(output_frame.get());
 

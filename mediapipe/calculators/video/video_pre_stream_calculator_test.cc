@@ -43,20 +43,20 @@ TEST(VideoPreStreamCalculatorTest, ProcessesWithFrameRateInOptions) {
   MP_ASSERT_OK(graph.StartRun({}));
   MP_ASSERT_OK(graph.AddPacketToInputStream(
       "input",
-      Adopt(new ImageFrame(ImageFormat::SRGB, 1, 2)).At(Timestamp(0))));
+      Adopt(new ImageFrame(ImageFormat::FORMAT_SRGB, 1, 2)).At(Timestamp(0))));
 
   // It is *not* VideoPreStreamCalculator's job to detect errors in an
   // ImageFrame stream.  It just waits for the 1st ImageFrame, extracts info for
   // VideoHeader, and emits it.  Thus, the following is fine.
   MP_ASSERT_OK(graph.AddPacketToInputStream(
       "input",
-      Adopt(new ImageFrame(ImageFormat::SRGBA, 3, 4)).At(Timestamp(1))));
+      Adopt(new ImageFrame(ImageFormat::FORMAT_SRGBA, 3, 4)).At(Timestamp(1))));
 
   MP_ASSERT_OK(graph.CloseInputStream("input"));
   Packet packet;
   ASSERT_TRUE(poller.Next(&packet));
   const auto& video_header = packet.Get<VideoHeader>();
-  EXPECT_EQ(video_header.format, ImageFormat::SRGB);
+  EXPECT_EQ(video_header.format, ImageFormat::FORMAT_SRGB);
   EXPECT_EQ(video_header.width, 1);
   EXPECT_EQ(video_header.height, 2);
   EXPECT_EQ(video_header.frame_rate, 3);
@@ -89,12 +89,12 @@ TEST(VideoPreStreamCalculatorTest, ProcessesWithFrameRateInPreStream) {
   MP_ASSERT_OK(graph.CloseInputStream("input_header"));
   MP_ASSERT_OK(graph.AddPacketToInputStream(
       "frame",
-      Adopt(new ImageFrame(ImageFormat::SRGB, 1, 2)).At(Timestamp(0))));
+      Adopt(new ImageFrame(ImageFormat::FORMAT_SRGB, 1, 2)).At(Timestamp(0))));
   MP_ASSERT_OK(graph.CloseInputStream("frame"));
   Packet packet;
   ASSERT_TRUE(poller.Next(&packet));
   const auto& output_header = packet.Get<VideoHeader>();
-  EXPECT_EQ(output_header.format, ImageFormat::SRGB);
+  EXPECT_EQ(output_header.format, ImageFormat::FORMAT_SRGB);
   EXPECT_EQ(output_header.width, 1);
   EXPECT_EQ(output_header.height, 2);
   EXPECT_EQ(output_header.frame_rate, 3.0);
@@ -116,7 +116,7 @@ TEST(VideoPreStreamCalculatorTest, FailsWithoutFrameRateInOptions) {
   MP_ASSERT_OK(graph.StartRun({}));
   MP_ASSERT_OK(graph.AddPacketToInputStream(
       "frame",
-      Adopt(new ImageFrame(ImageFormat::SRGB, 1, 2)).At(Timestamp(0))));
+      Adopt(new ImageFrame(ImageFormat::FORMAT_SRGB, 1, 2)).At(Timestamp(0))));
   MP_ASSERT_OK(graph.CloseInputStream("frame"));
   absl::Status status = graph.WaitUntilDone();
   EXPECT_FALSE(status.ok());
@@ -141,7 +141,7 @@ TEST(VideoPreStreamCalculatorTest, FailsWithoutFrameRateInPreStream1) {
   MP_ASSERT_OK(graph.StartRun({}));
   MP_ASSERT_OK(graph.AddPacketToInputStream(
       "frame",
-      Adopt(new ImageFrame(ImageFormat::SRGB, 1, 2)).At(Timestamp(0))));
+      Adopt(new ImageFrame(ImageFormat::FORMAT_SRGB, 1, 2)).At(Timestamp(0))));
   MP_ASSERT_OK(graph.CloseInputStream("frame"));
   MP_ASSERT_OK(graph.CloseInputStream("input_header"));
   absl::Status status = graph.WaitUntilDone();
@@ -175,7 +175,7 @@ TEST(VideoPreStreamCalculatorTest, FailsWithoutFrameRateInPreStream2) {
     MP_ASSERT_OK(graph.CloseInputStream("input_header"));
     MP_ASSERT_OK(graph.AddPacketToInputStream(
         "frame",
-        Adopt(new ImageFrame(ImageFormat::SRGB, 1, 2)).At(Timestamp(0))));
+        Adopt(new ImageFrame(ImageFormat::FORMAT_SRGB, 1, 2)).At(Timestamp(0))));
     MP_ASSERT_OK(graph.CloseInputStream("frame"));
     absl::Status status = graph.WaitUntilDone();
     EXPECT_FALSE(status.ok());

@@ -65,7 +65,7 @@ TEST(VideoFilterCalculatorTest, UpperBoundNoPass) {
   const int kFixedWidth = 1000;
   const double kAspectRatio = 5.0 / 1.0;
   auto input_frame = ::absl::make_unique<ImageFrame>(
-      ImageFormat::SRGB, kFixedWidth,
+      ImageFormat::FORMAT_SRGB, kFixedWidth,
       static_cast<int>(kFixedWidth / kAspectRatio), 16);
   runner->MutableInputs()
       ->Tag(kInputFramesTag)
@@ -89,7 +89,7 @@ TEST(VerticalFrameRemovalCalculatorTest, UpperBoundPass) {
   const double kAspectRatio = 1.0 / 5.0;
   const double kHeight = static_cast<int>(kWidth / kAspectRatio);
   auto input_frame =
-      ::absl::make_unique<ImageFrame>(ImageFormat::SRGB, kWidth, kHeight, 16);
+      ::absl::make_unique<ImageFrame>(ImageFormat::FORMAT_SRGB, kWidth, kHeight, 16);
   runner->MutableInputs()
       ->Tag(kInputFramesTag)
       .packets.push_back(Adopt(input_frame.release()).At(Timestamp(1000)));
@@ -114,7 +114,7 @@ TEST(VideoFilterCalculatorTest, LowerBoundNoPass) {
   const int kFixedWidth = 1000;
   const double kAspectRatio = 1.0 / 1.0;
   auto input_frame = ::absl::make_unique<ImageFrame>(
-      ImageFormat::SRGB, kFixedWidth,
+      ImageFormat::FORMAT_SRGB, kFixedWidth,
       static_cast<int>(kFixedWidth / kAspectRatio), 16);
   runner->MutableInputs()
       ->Tag(kInputFramesTag)
@@ -138,7 +138,7 @@ TEST(VerticalFrameRemovalCalculatorTest, LowerBoundPass) {
   const double kAspectRatio = 5.0 / 1.0;
   const double kHeight = static_cast<int>(kWidth / kAspectRatio);
   auto input_frame =
-      ::absl::make_unique<ImageFrame>(ImageFormat::SRGB, kWidth, kHeight, 16);
+      ::absl::make_unique<ImageFrame>(ImageFormat::FORMAT_SRGB, kWidth, kHeight, 16);
   runner->MutableInputs()
       ->Tag(kInputFramesTag)
       .packets.push_back(Adopt(input_frame.release()).At(Timestamp(1000)));
@@ -164,7 +164,7 @@ TEST(VerticalFrameRemovalCalculatorTest, OutputError) {
   const int kFixedWidth = 1000;
   const double kAspectRatio = 1.0 / 1.0;
   auto input_frame = ::absl::make_unique<ImageFrame>(
-      ImageFormat::SRGB, kFixedWidth,
+      ImageFormat::FORMAT_SRGB, kFixedWidth,
       static_cast<int>(kFixedWidth / kAspectRatio), 16);
   runner->MutableInputs()
       ->Tag(kInputFramesTag)

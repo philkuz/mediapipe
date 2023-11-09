@@ -244,7 +244,7 @@ std::unique_ptr<ImageFrame> MakeImageFrameFromColor(const cv::Scalar& color,
                                                     const int width,
                                                     const int height) {
   auto image_frame =
-      absl::make_unique<ImageFrame>(ImageFormat::SRGB, width, height);
+      absl::make_unique<ImageFrame>(ImageFormat::FORMAT_SRGB, width, height);
   auto mat = formats::MatView(image_frame.get());
   mat = color;
   return image_frame;

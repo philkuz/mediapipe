@@ -166,7 +166,7 @@ class ScaleImageCalculator : public CalculatorBase {
       cc->Inputs().Tag("VIDEO_HEADER").Set<VideoHeader>();
     }
     if (options.has_input_format() &&
-        options.input_format() == ImageFormat::YCBCR420P) {
+        options.input_format() == ImageFormat::FORMAT_YCBCR420P) {
       cc->Inputs().Get(input_data_id).Set<YUVImage>();
     } else {
       cc->Inputs().Get(input_data_id).Set<ImageFrame>();
@@ -176,8 +176,8 @@ class ScaleImageCalculator : public CalculatorBase {
       cc->Outputs().Tag("VIDEO_HEADER").Set<VideoHeader>();
     }
     if (options.has_output_format() &&
-        options.output_format() == ImageFormat::YCBCR420P) {
-      RET_CHECK_EQ(ImageFormat::YCBCR420P, options.input_format());
+        options.output_format() == ImageFormat::FORMAT_YCBCR420P) {
+      RET_CHECK_EQ(ImageFormat::FORMAT_YCBCR420P, options.input_format());
       cc->Outputs().Get(output_data_id).Set<YUVImage>();
     } else {
       cc->Outputs().Get(output_data_id).Set<ImageFrame>();
@@ -367,7 +367,7 @@ absl::Status ScaleImageCalculator::Open(CalculatorContext* cc) {
         (options_.scale_to_multiple_of() >= 1) &&
         (options_.scale_to_multiple_of() % 2 == 0);
 
-    if (output_format_ == ImageFormat::YCBCR420P) {
+    if (output_format_ == ImageFormat::FORMAT_YCBCR420P) {
       RET_CHECK(is_positive_and_even)
           << "ScaleImageCalculator always outputs width and height that are "
              "divisible by 2 when output format is YCbCr420P. To scale to "
@@ -381,8 +381,8 @@ absl::Status ScaleImageCalculator::Open(CalculatorContext* cc) {
     }
 
     if (input_width_ > 0 && input_height_ > 0 &&
-        input_format_ != ImageFormat::UNKNOWN &&
-        output_format_ != ImageFormat::UNKNOWN) {
+        input_format_ != ImageFormat::FORMAT_UNKNOWN &&
+        output_format_ != ImageFormat::FORMAT_UNKNOWN) {
       MP_RETURN_IF_ERROR(ValidateImageFormats());
       MP_RETURN_IF_ERROR(InitializeFrameInfo(cc));
       std::unique_ptr<VideoHeader> output_header(new VideoHeader());
@@ -403,9 +403,9 @@ absl::Status ScaleImageCalculator::Open(CalculatorContext* cc) {
       input_width_ = 0;
       input_height_ = 0;
       if (!options_.has_input_format()) {
-        input_format_ = ImageFormat::UNKNOWN;
+        input_format_ = ImageFormat::FORMAT_UNKNOWN;
       }
-      output_format_ = ImageFormat::UNKNOWN;
+      output_format_ = ImageFormat::FORMAT_UNKNOWN;
     }
   }
 
@@ -416,7 +416,7 @@ absl::Status ScaleImageCalculator::InitializeFromOptions() {
   if (options_.has_input_format()) {
     input_format_ = options_.input_format();
   } else {
-    input_format_ = ImageFormat::UNKNOWN;
+    input_format_ = ImageFormat::FORMAT_UNKNOWN;
   }
 
   alignment_boundary_ = 16;
@@ -434,21 +434,21 @@ absl::Status ScaleImageCalculator::InitializeFromOptions() {
 }
 
 absl::Status ScaleImageCalculator::ValidateImageFormats() const {
-  RET_CHECK_NE(input_format_, ImageFormat::UNKNOWN)
+  RET_CHECK_NE(input_format_, ImageFormat::FORMAT_UNKNOWN)
       << "The input image format was UNKNOWN.";
-  RET_CHECK_NE(output_format_, ImageFormat::UNKNOWN)
+  RET_CHECK_NE(output_format_, ImageFormat::FORMAT_UNKNOWN)
       << "The output image format was set to UNKNOWN.";
   // TODO Remove these conditions.
-  RET_CHECK(output_format_ == ImageFormat::SRGB ||
-            output_format_ == ImageFormat::SRGBA ||
+  RET_CHECK(output_format_ == ImageFormat::FORMAT_SRGB ||
+            output_format_ == ImageFormat::FORMAT_SRGBA ||
             (input_format_ == output_format_ &&
-             output_format_ == ImageFormat::YCBCR420P))
+             output_format_ == ImageFormat::FORMAT_YCBCR420P))
       << "Outputting YCbCr420P images from SRGB input is not yet supported";
   RET_CHECK(input_format_ == output_format_ ||
-            (input_format_ == ImageFormat::YCBCR420P &&
-             output_format_ == ImageFormat::SRGB) ||
-            (input_format_ == ImageFormat::SRGB &&
-             output_format_ == ImageFormat::SRGBA))
+            (input_format_ == ImageFormat::FORMAT_YCBCR420P &&
+             output_format_ == ImageFormat::FORMAT_SRGB) ||
+            (input_format_ == ImageFormat::FORMAT_SRGB &&
+             output_format_ == ImageFormat::FORMAT_SRGBA))
       << "Conversion of the color space (except from "
          "YCbCr420P to SRGB or SRGB to SRBGA) is not yet supported.";
   return absl::OkStatus();
@@ -510,7 +510,7 @@ absl::Status ScaleImageCalculator::ValidateImageFrame(
 
 absl::Status ScaleImageCalculator::ValidateYUVImage(CalculatorContext* cc,
                                                     const YUVImage& yuv_image) {
-  ABSL_CHECK_EQ(input_format_, ImageFormat::YCBCR420P);
+  ABSL_CHECK_EQ(input_format_, ImageFormat::FORMAT_YCBCR420P);
   if (!has_header_) {
     if (input_width_ != yuv_image.width() ||
         input_height_ != yuv_image.height()) {
@@ -566,12 +566,12 @@ absl::Status ScaleImageCalculator::Process(CalculatorContext* cc) {
 
   const ImageFrame* image_frame;
   ImageFrame converted_image_frame;
-  if (input_format_ == ImageFormat::YCBCR420P) {
+  if (input_format_ == ImageFormat::FORMAT_YCBCR420P) {
     const YUVImage* yuv_image =
         &cc->Inputs().Get(input_data_id_).Get<YUVImage>();
     MP_RETURN_IF_ERROR(ValidateYUVImage(cc, *yuv_image));
 
-    if (output_format_ == ImageFormat::SRGB) {
+    if (output_format_ == ImageFormat::FORMAT_SRGB) {
       // TODO: For ease of implementation, YUVImage is converted to
       // ImageFrame immediately, before cropping and scaling. Investigate how to
       // make color space conversion more efficient when cropping or scaling is
@@ -584,7 +584,7 @@ absl::Status ScaleImageCalculator::Process(CalculatorContext* cc) {
             *yuv_image, &converted_image_frame);
       }
       image_frame = &converted_image_frame;
-    } else if (output_format_ == ImageFormat::YCBCR420P) {
+    } else if (output_format_ == ImageFormat::FORMAT_YCBCR420P) {
       RET_CHECK(row_start_ == 0 && col_start_ == 0 &&
                 crop_width_ == input_width_ && crop_height_ == input_height_)
           << "ScaleImageCalculator only supports scaling on YUVImages. To crop "
@@ -620,11 +620,11 @@ absl::Status ScaleImageCalculator::Process(CalculatorContext* cc) {
           .Add(output_image.release(), cc->InputTimestamp());
       return absl::OkStatus();
     }
-  } else if (input_format_ == ImageFormat::SRGB &&
-             output_format_ == ImageFormat::SRGBA) {
+  } else if (input_format_ == ImageFormat::FORMAT_SRGB &&
+             output_format_ == ImageFormat::FORMAT_SRGBA) {
     image_frame = &cc->Inputs().Get(input_data_id_).Get<ImageFrame>();
     cv::Mat input_mat = ::mediapipe::formats::MatView(image_frame);
-    converted_image_frame.Reset(ImageFormat::SRGBA, image_frame->Width(),
+    converted_image_frame.Reset(ImageFormat::FORMAT_SRGBA, image_frame->Width(),
                                 image_frame->Height(), alignment_boundary_);
     cv::Mat output_mat = ::mediapipe::formats::MatView(&converted_image_frame);
     cv::cvtColor(input_mat, output_mat, cv::COLOR_RGB2RGBA, 4);
