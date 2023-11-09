@@ -6,6 +6,7 @@ load("//mediapipe/framework/tool:mediapipe_proto_allowlist.bzl", "rewrite_target
 load("@com_google_protobuf//:protobuf.bzl", "cc_proto_library", "py_proto_library")
 load("@rules_proto//proto:defs.bzl", "proto_library")
 load("@rules_proto_grpc//js:defs.bzl", "js_proto_library")
+load("@bazel_skylib//lib:paths.bzl", "paths")
 
 def provided_args(**kwargs):
     """Returns the keyword arguments omitting None arguments."""
@@ -244,6 +245,24 @@ def mediapipe_proto_paths(paths):
         return paths
     return [mediapipe_proto_path(path) for path in paths]
 
+_GML_VENDORED_PREFIXES = [
+    "mediapipe/framework",
+    "mediapipe/gpu",
+    "mediapipe/calculators/audio",
+    "mediapipe/calculators/core",
+    "mediapipe/calculators/image",
+    "mediapipe/calculators/internal",
+    "mediapipe/calculators/tensor",
+    "mediapipe/calculators/video",
+    "mediapipe/calculators/util",
+    "mediapipe/util",
+]
+def _gml_vendored(name, pkg):
+    for prefix in _GML_VENDORED_PREFIXES:
+        if pkg.startswith(prefix):
+            return True
+    return False
+
 def mediapipe_proto_library(
         name,
         srcs,
@@ -294,6 +313,32 @@ def mediapipe_proto_library(
       def_options_lib: define the mediapipe_options_library target
       def_rewrite: define a sibling mediapipe_proto_library with package "mediapipe"
     """
+
+    if _gml_vendored(name, native.package_name()):
+        native.alias(
+            name = name,
+            actual = "@gml//third_party/github.com/google/mediapipe/{pkg}:{target}".format(
+                pkg=native.package_name(),
+                target=paths.basename(native.package_name()) + "_proto",
+            ),
+            visibility = ["//visibility:public"],
+        )
+        native.alias(
+            name = replace_suffix(name, "_proto", "_cc_proto"),
+            actual = "@gml//third_party/github.com/google/mediapipe/{pkg}:{target}".format(
+                pkg=native.package_name(),
+                target=paths.basename(native.package_name()) + "_cc_library",
+            ),
+            visibility = ["//visibility:public"],
+        )
+        return
+    else:
+        native.cc_library(
+            name = replace_suffix(name, "_proto", "_cc_proto"),
+            visibility = ["//visibility:public"],
+        )
+        return
+
 
     mediapipe_proto_library_impl(
         name = name,
