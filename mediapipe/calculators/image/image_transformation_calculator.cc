@@ -44,7 +44,7 @@ typedef int DimensionsPacketType[];
 typedef int DimensionsPacketType[2];
 #endif  // __ANDROID__
 
-#define DEFAULT_SCALE_MODE mediapipe::ScaleMode_Mode_STRETCH
+#define DEFAULT_SCALE_MODE mediapipe::ScaleMode_Mode_SCALE_MODE_STRETCH
 
 namespace mediapipe {
 
@@ -91,13 +91,13 @@ mediapipe::ScaleMode_Mode ParseScaleMode(
     mediapipe::ScaleMode_Mode scale_mode,
     mediapipe::ScaleMode_Mode default_mode) {
   switch (scale_mode) {
-    case mediapipe::ScaleMode::DEFAULT:
+    case mediapipe::ScaleMode::SCALE_MODE_DEFAULT:
       return default_mode;
-    case mediapipe::ScaleMode::STRETCH:
+    case mediapipe::ScaleMode::SCALE_MODE_STRETCH:
       return scale_mode;
-    case mediapipe::ScaleMode::FIT:
+    case mediapipe::ScaleMode::SCALE_MODE_FIT:
       return scale_mode;
-    case mediapipe::ScaleMode::FILL_AND_CROP:
+    case mediapipe::ScaleMode::SCALE_MODE_FILL_AND_CROP:
       return scale_mode;
     default:
       return default_mode;
@@ -469,7 +469,7 @@ absl::Status ImageTransformationCalculator::RenderCpu(CalculatorContext* cc) {
   int opencv_interpolation_mode = cv::INTER_LINEAR;
   if (output_width_ > 0 && output_height_ > 0) {
     cv::Mat scaled_mat;
-    if (scale_mode_ == mediapipe::ScaleMode::STRETCH) {
+    if (scale_mode_ == mediapipe::ScaleMode::SCALE_MODE_STRETCH) {
       if (interpolation_mode_ == ImageTransformationCalculatorOptions::LINEAR) {
         // Use INTER_AREA for downscaling if interpolation mode is set to
         // LINEAR.
@@ -503,7 +503,7 @@ absl::Status ImageTransformationCalculator::RenderCpu(CalculatorContext* cc) {
         opencv_interpolation_mode = cv::INTER_NEAREST;
       }
 
-      if (scale_mode_ == mediapipe::ScaleMode::FIT) {
+      if (scale_mode_ == mediapipe::ScaleMode::SCALE_MODE_FIT) {
         cv::Mat intermediate_mat;
         cv::resize(input_mat, intermediate_mat,
                    cv::Size(target_width, target_height), 0, 0,
@@ -592,7 +592,7 @@ absl::Status ImageTransformationCalculator::RenderGpu(CalculatorContext* cc) {
   ComputeOutputDimensions(input_width, input_height, &output_width,
                           &output_height);
 
-  if (scale_mode_ == mediapipe::ScaleMode::FILL_AND_CROP) {
+  if (scale_mode_ == mediapipe::ScaleMode::SCALE_MODE_FILL_AND_CROP) {
     const float scale =
         std::min(static_cast<float>(output_width_) / input_width,
                  static_cast<float>(output_height_) / input_height);
@@ -703,7 +703,7 @@ void ImageTransformationCalculator::ComputeOutputLetterboxPadding(
     int input_width, int input_height, int output_width, int output_height,
     std::array<float, 4>* padding) {
   padding->fill(0.f);
-  if (scale_mode_ == mediapipe::ScaleMode::FIT) {
+  if (scale_mode_ == mediapipe::ScaleMode::SCALE_MODE_FIT) {
     if (rotation_ == mediapipe::RotationMode::ROTATION_90 ||
         rotation_ == mediapipe::RotationMode::ROTATION_270) {
       std::swap(input_width, input_height);

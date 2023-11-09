@@ -26,13 +26,13 @@ enum { ATTRIB_VERTEX, ATTRIB_TEXTURE_POSITION, NUM_ATTRIBUTES };
 FrameScaleMode FrameScaleModeFromProto(ScaleMode_Mode proto_scale_mode,
                                        FrameScaleMode default_mode) {
   switch (proto_scale_mode) {
-    case ScaleMode_Mode_DEFAULT:
+    case ScaleMode_Mode_SCALE_MODE_DEFAULT:
       return default_mode;
-    case ScaleMode_Mode_STRETCH:
+    case ScaleMode_Mode_SCALE_MODE_STRETCH:
       return FrameScaleMode::kStretch;
-    case ScaleMode_Mode_FIT:
+    case ScaleMode_Mode_SCALE_MODE_FIT:
       return FrameScaleMode::kFit;
-    case ScaleMode_Mode_FILL_AND_CROP:
+    case ScaleMode_Mode_SCALE_MODE_FILL_AND_CROP:
       return FrameScaleMode::kFillAndCrop;
     default:
       return default_mode;
