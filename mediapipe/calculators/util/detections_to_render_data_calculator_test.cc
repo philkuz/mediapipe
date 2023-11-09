@@ -46,7 +46,7 @@ void VerifyRenderAnnotationColorThickness(
 LocationData CreateLocationData(int32_t xmin, int32_t ymin, int32_t width,
                                 int32_t height) {
   LocationData location_data;
-  location_data.set_format(LocationData::BOUNDING_BOX);
+  location_data.set_format(LocationData::LOCATION_FORMAT_BOUNDING_BOX);
   location_data.mutable_bounding_box()->set_xmin(xmin);
   location_data.mutable_bounding_box()->set_ymin(ymin);
   location_data.mutable_bounding_box()->set_width(width);
@@ -57,7 +57,7 @@ LocationData CreateLocationData(int32_t xmin, int32_t ymin, int32_t width,
 LocationData CreateRelativeLocationData(double xmin, double ymin, double width,
                                         double height) {
   LocationData location_data;
-  location_data.set_format(LocationData::RELATIVE_BOUNDING_BOX);
+  location_data.set_format(LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX);
   location_data.mutable_relative_bounding_box()->set_xmin(xmin);
   location_data.mutable_relative_bounding_box()->set_ymin(ymin);
   location_data.mutable_relative_bounding_box()->set_width(width);

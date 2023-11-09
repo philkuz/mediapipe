@@ -100,7 +100,7 @@ absl::StatusOr<Detection> RunProjectionCalculator(
 TEST(DetectionProjectionCalculatorTest, ProjectionFullRoiNoOp) {
   Detection detection;
   auto* location_data = detection.mutable_location_data();
-  location_data->set_format(LocationData::RELATIVE_BOUNDING_BOX);
+  location_data->set_format(LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX);
   location_data->mutable_relative_bounding_box()->set_xmin(0.0f);
   location_data->mutable_relative_bounding_box()->set_ymin(0.0f);
   location_data->mutable_relative_bounding_box()->set_width(0.5f);
@@ -137,7 +137,7 @@ TEST(DetectionProjectionCalculatorTest, ProjectionFullRoiNoOp) {
   MP_ASSERT_OK(status_or_result);
   const auto& result = status_or_result.value();
   ASSERT_EQ(result.location_data().format(),
-            LocationData::RELATIVE_BOUNDING_BOX);
+            LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX);
   EXPECT_THAT(result.location_data().relative_bounding_box(),
               BoundingBoxEq(0.0f, 0.0f, 0.5f, 0.5f));
   EXPECT_THAT(GetPoints(result), testing::ElementsAre(PointEq(0.25f, 0.25f)));
@@ -146,7 +146,7 @@ TEST(DetectionProjectionCalculatorTest, ProjectionFullRoiNoOp) {
 TEST(DetectionProjectionCalculatorTest, ProjectionFullRoi90Rotation) {
   Detection detection;
   auto* location_data = detection.mutable_location_data();
-  location_data->set_format(LocationData::RELATIVE_BOUNDING_BOX);
+  location_data->set_format(LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX);
   location_data->mutable_relative_bounding_box()->set_xmin(0.0f);
   location_data->mutable_relative_bounding_box()->set_ymin(0.0f);
   location_data->mutable_relative_bounding_box()->set_width(0.5f);
@@ -183,7 +183,7 @@ TEST(DetectionProjectionCalculatorTest, ProjectionFullRoi90Rotation) {
   MP_ASSERT_OK(status_or_result);
   const auto& result = status_or_result.value();
   ASSERT_EQ(result.location_data().format(),
-            LocationData::RELATIVE_BOUNDING_BOX);
+            LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX);
   EXPECT_THAT(result.location_data().relative_bounding_box(),
               BoundingBoxEq(0.5f, 0.0f, 0.5f, 0.5f));
   EXPECT_THAT(GetPoints(result), ElementsAre(PointEq(0.75f, 0.25f)));
@@ -192,7 +192,7 @@ TEST(DetectionProjectionCalculatorTest, ProjectionFullRoi90Rotation) {
 TEST(DetectionProjectionCalculatorTest, ProjectionSmallerRoi) {
   Detection detection;
   auto* location_data = detection.mutable_location_data();
-  location_data->set_format(LocationData::RELATIVE_BOUNDING_BOX);
+  location_data->set_format(LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX);
   location_data->mutable_relative_bounding_box()->set_xmin(0.5f);
   location_data->mutable_relative_bounding_box()->set_ymin(0.0f);
   location_data->mutable_relative_bounding_box()->set_width(0.5f);
@@ -229,7 +229,7 @@ TEST(DetectionProjectionCalculatorTest, ProjectionSmallerRoi) {
   MP_ASSERT_OK(status_or_result);
   const auto& result = status_or_result.value();
   ASSERT_EQ(result.location_data().format(),
-            LocationData::RELATIVE_BOUNDING_BOX);
+            LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX);
   EXPECT_THAT(result.location_data().relative_bounding_box(),
               BoundingBoxEq(0.75f, 0.5f, 0.25f, 0.25f));
   EXPECT_THAT(GetPoints(result), ElementsAre(PointEq(0.75f, 0.75f)));
@@ -246,7 +246,7 @@ TEST(DetectionProjectionCalculatorTest, ProjectionSmallerRoi30Rotation) {
 
   Detection detection;
   auto* location_data = detection.mutable_location_data();
-  location_data->set_format(LocationData::RELATIVE_BOUNDING_BOX);
+  location_data->set_format(LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX);
   location_data->mutable_relative_bounding_box()->set_xmin(0.0f);
   location_data->mutable_relative_bounding_box()->set_ymin(0.0f);
   location_data->mutable_relative_bounding_box()->set_width(1.0f);
@@ -298,7 +298,7 @@ TEST(DetectionProjectionCalculatorTest, ProjectionSmallerRoi30Rotation) {
   MP_ASSERT_OK(status_or_result);
   const auto& result = status_or_result.value();
   ASSERT_EQ(result.location_data().format(),
-            LocationData::RELATIVE_BOUNDING_BOX);
+            LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX);
   EXPECT_THAT(result.location_data().relative_bounding_box(),
               BoundingBoxEq(kExpectedBoxXMin, kExpectedBoxYMin,
                             kExpectedBoxWidth, kExpectedBoxHeight));

@@ -306,7 +306,7 @@ absl::Status UpdateRanges(const mediapipe::Detection& detection,
                           const float pad_vertical, const float pad_horizontal,
                           float* xmin, float* xmax, float* ymin, float* ymax) {
   RET_CHECK(detection.location_data().format() ==
-            mediapipe::LocationData::RELATIVE_BOUNDING_BOX)
+            mediapipe::LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX)
       << "Face detection input is lacking required relative_bounding_box()";
   const auto& location =
       ShiftDetection(detection.location_data().relative_bounding_box(),

@@ -48,7 +48,7 @@ Detection ConvertLandmarksToDetection(const NormalizedLandmarkList& landmarks) {
     keypoint->set_y(landmark.y());
   }
 
-  location_data->set_format(LocationData::RELATIVE_BOUNDING_BOX);
+  location_data->set_format(LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX);
   LocationData::RelativeBoundingBox* relative_bbox =
       location_data->mutable_relative_bounding_box();
 

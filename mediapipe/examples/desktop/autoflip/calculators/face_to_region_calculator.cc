@@ -171,7 +171,7 @@ absl::Status FaceToRegionCalculator::Process(mediapipe::CalculatorContext* cc) {
 
     for (const auto& input_face : input_faces) {
       RET_CHECK(input_face.location_data().format() ==
-                mediapipe::LocationData::RELATIVE_BOUNDING_BOX)
+                mediapipe::LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX)
           << "Face detection input is lacking required relative_bounding_box()";
       // 6 landmarks should be provided, ordered as:
       // Left eye, Right eye, Nose tip, Mouth center, Left ear tragion, Right

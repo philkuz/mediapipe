@@ -623,9 +623,9 @@ class PackMediaSequenceCalculator : public CalculatorBase {
         for (auto& detection :
              cc->Inputs().Tag(tag).Get<std::vector<Detection>>()) {
           if (detection.location_data().format() ==
-                  LocationData::BOUNDING_BOX ||
+                  LocationData::LOCATION_FORMAT_BOUNDING_BOX ||
               detection.location_data().format() ==
-                  LocationData::RELATIVE_BOUNDING_BOX) {
+                  LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX) {
             if (mpms::HasImageHeight(*sequence_) &&
                 mpms::HasImageWidth(*sequence_)) {
               image_height = mpms::GetImageHeight(*sequence_);
@@ -691,7 +691,7 @@ class PackMediaSequenceCalculator : public CalculatorBase {
       for (auto& detection : cc->Inputs()
                                  .Tag(kSegmentationMaskTag)
                                  .Get<std::vector<Detection>>()) {
-        if (detection.location_data().format() == LocationData::MASK) {
+        if (detection.location_data().format() == LocationData::LOCATION_FORMAT_MASK) {
           RET_CHECK(!already_has_mask)
               << "We currently only support adding one mask per timestamp. "
               << sequence_->DebugString();

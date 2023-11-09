@@ -43,7 +43,7 @@ Detection DetectionWithBoundingBox(int32_t xmin, int32_t ymin, int32_t width,
                                    int32_t height) {
   Detection detection;
   LocationData* location_data = detection.mutable_location_data();
-  location_data->set_format(LocationData::BOUNDING_BOX);
+  location_data->set_format(LocationData::LOCATION_FORMAT_BOUNDING_BOX);
   location_data->mutable_bounding_box()->set_xmin(xmin);
   location_data->mutable_bounding_box()->set_ymin(ymin);
   location_data->mutable_bounding_box()->set_width(width);
@@ -55,7 +55,7 @@ Detection DetectionWithRelativeBoundingBox(float xmin, float ymin, float width,
                                            float height) {
   Detection detection;
   LocationData* location_data = detection.mutable_location_data();
-  location_data->set_format(LocationData::RELATIVE_BOUNDING_BOX);
+  location_data->set_format(LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX);
   location_data->mutable_relative_bounding_box()->set_xmin(xmin);
   location_data->mutable_relative_bounding_box()->set_ymin(ymin);
   location_data->mutable_relative_bounding_box()->set_width(width);
@@ -96,13 +96,13 @@ void CheckOutputDetections(const std::vector<Detection>& expected,
   ASSERT_EQ(output.size(), expected.size());
   for (int i = 0; i < output.size(); ++i) {
     auto output_format = output[i].location_data().format();
-    ASSERT_TRUE(output_format == LocationData::RELATIVE_BOUNDING_BOX ||
-                output_format == LocationData::BOUNDING_BOX);
+    ASSERT_TRUE(output_format == LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX ||
+                output_format == LocationData::LOCATION_FORMAT_BOUNDING_BOX);
     ASSERT_EQ(output_format, expected[i].location_data().format());
-    if (output_format == LocationData::RELATIVE_BOUNDING_BOX) {
+    if (output_format == LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX) {
       CheckRelativeBoundingBox(output[i], expected[i]);
     }
-    if (output_format == LocationData::BOUNDING_BOX) {
+    if (output_format == LocationData::LOCATION_FORMAT_BOUNDING_BOX) {
       CheckBoundingBox(output[i], expected[i]);
     }
   }
@@ -144,7 +144,7 @@ TEST(DetectionsTransformationCalculatorTest, WrongLocationDataFormat) {
   )pb"));
 
   Detection detection;
-  detection.mutable_location_data()->set_format(LocationData::GLOBAL);
+  detection.mutable_location_data()->set_format(LocationData::LOCATION_FORMAT_GLOBAL);
   runner.MutableInputs()
       ->Tag(kDetectionTag)
       .packets.push_back(MakePacket<Detection>(detection).At(Timestamp(0)));

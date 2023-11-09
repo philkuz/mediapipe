@@ -234,7 +234,7 @@ void AddDetectionFrameSize(const cv::Rect_<float>& position, const int64_t time,
   if (position.width > 0 && position.height > 0) {
     mediapipe::Detection detection;
     detection.mutable_location_data()->set_format(
-        mediapipe::LocationData::RELATIVE_BOUNDING_BOX);
+        mediapipe::LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX);
     detection.mutable_location_data()
         ->mutable_relative_bounding_box()
         ->set_height(position.height);

@@ -66,7 +66,7 @@ absl::Status ProjectDetection(
     const std::function<Point2_f(const Point2_f&)>& project_fn,
     Detection* detection) {
   auto* location_data = detection->mutable_location_data();
-  RET_CHECK_EQ(location_data->format(), LocationData::RELATIVE_BOUNDING_BOX);
+  RET_CHECK_EQ(location_data->format(), LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX);
 
   // Project keypoints.
   for (int i = 0; i < location_data->relative_keypoints_size(); ++i) {

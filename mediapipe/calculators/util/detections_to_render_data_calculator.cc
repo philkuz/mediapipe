@@ -278,7 +278,7 @@ void DetectionsToRenderDataCalculator::AddLabels(
     auto* text = label_annotation->mutable_text();
     *text = options.text();
     text->set_display_text(label);
-    if (detection.location_data().format() == LocationData::BOUNDING_BOX) {
+    if (detection.location_data().format() == LocationData::LOCATION_FORMAT_BOUNDING_BOX) {
       SetTextCoordinate(false, detection.location_data().bounding_box().xmin(),
                         detection.location_data().bounding_box().ymin() +
                             (i + 1) * text_line_height,
@@ -303,7 +303,7 @@ void DetectionsToRenderDataCalculator::AddFeatureTag(
   SetRenderAnnotationColorThickness(options, feature_tag_annotation);
   auto* feature_tag_text = feature_tag_annotation->mutable_text();
   feature_tag_text->set_display_text(detection.feature_tag());
-  if (detection.location_data().format() == LocationData::BOUNDING_BOX) {
+  if (detection.location_data().format() == LocationData::LOCATION_FORMAT_BOUNDING_BOX) {
     SetTextCoordinate(false, detection.location_data().bounding_box().xmin(),
                       detection.location_data().bounding_box().ymin() +
                           detection.location_data().bounding_box().height(),
@@ -326,7 +326,7 @@ void DetectionsToRenderDataCalculator::AddLocationData(
   location_data_annotation->set_scene_tag(kSceneLocationLabel);
   SetRenderAnnotationColorThickness(options, location_data_annotation);
   auto* location_data_rect = location_data_annotation->mutable_rectangle();
-  if (detection.location_data().format() == LocationData::BOUNDING_BOX) {
+  if (detection.location_data().format() == LocationData::LOCATION_FORMAT_BOUNDING_BOX) {
     SetRectCoordinate(false, detection.location_data().bounding_box().xmin(),
                       detection.location_data().bounding_box().ymin(),
                       detection.location_data().bounding_box().width(),
@@ -362,13 +362,13 @@ void DetectionsToRenderDataCalculator::AddDetectionToRenderData(
     const Detection& detection,
     const DetectionsToRenderDataCalculatorOptions& options,
     RenderData* render_data) {
-  ABSL_CHECK(detection.location_data().format() == LocationData::BOUNDING_BOX ||
+  ABSL_CHECK(detection.location_data().format() == LocationData::LOCATION_FORMAT_BOUNDING_BOX ||
              detection.location_data().format() ==
-                 LocationData::RELATIVE_BOUNDING_BOX)
+                 LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX)
       << "Only Detection with formats of BOUNDING_BOX or RELATIVE_BOUNDING_BOX "
          "are supported.";
   double text_line_height;
-  if (detection.location_data().format() == LocationData::BOUNDING_BOX) {
+  if (detection.location_data().format() == LocationData::LOCATION_FORMAT_BOUNDING_BOX) {
     text_line_height = options.text().font_height();
   } else {
     // Determine the text line height based on the default label to bounding box

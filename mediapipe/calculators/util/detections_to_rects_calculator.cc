@@ -83,7 +83,7 @@ absl::Status DetectionsToRectsCalculator::DetectionToRect(
     case mediapipe::DetectionsToRectsCalculatorOptions_ConversionMode_DEFAULT:
     case mediapipe::
         DetectionsToRectsCalculatorOptions_ConversionMode_USE_BOUNDING_BOX: {
-      RET_CHECK(location_data.format() == LocationData::BOUNDING_BOX)
+      RET_CHECK(location_data.format() == LocationData::LOCATION_FORMAT_BOUNDING_BOX)
           << "Only Detection with formats of BOUNDING_BOX can be converted to "
              "Rect";
       RectFromBox(location_data.bounding_box(), rect);
@@ -115,7 +115,7 @@ absl::Status DetectionsToRectsCalculator::DetectionToNormalizedRect(
     case mediapipe::DetectionsToRectsCalculatorOptions_ConversionMode_DEFAULT:
     case mediapipe::
         DetectionsToRectsCalculatorOptions_ConversionMode_USE_BOUNDING_BOX: {
-      RET_CHECK(location_data.format() == LocationData::RELATIVE_BOUNDING_BOX)
+      RET_CHECK(location_data.format() == LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX)
           << "Only Detection with formats of RELATIVE_BOUNDING_BOX can be "
              "converted to NormalizedRect";
       RectFromBox(location_data.relative_bounding_box(), rect);

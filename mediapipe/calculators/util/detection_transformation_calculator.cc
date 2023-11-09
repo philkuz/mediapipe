@@ -53,7 +53,7 @@ absl::Status ConvertRelativeBoundingBoxToBoundingBox(
       BoundedValue<int>(relative_bbox.width() * image_width, image_width));
   bbox->set_height(
       BoundedValue<int>(relative_bbox.height() * image_height, image_height));
-  detection->mutable_location_data()->set_format(LocationData::BOUNDING_BOX);
+  detection->mutable_location_data()->set_format(LocationData::LOCATION_FORMAT_BOUNDING_BOX);
   detection->mutable_location_data()->clear_relative_bounding_box();
   return absl::OkStatus();
 }
@@ -75,7 +75,7 @@ absl::Status ConvertBoundingBoxToRelativeBoundingBox(
       BoundedValue<float>((float)bbox.height() / image_height, 1.0f));
   detection->mutable_location_data()->clear_bounding_box();
   detection->mutable_location_data()->set_format(
-      LocationData::RELATIVE_BOUNDING_BOX);
+      LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX);
   return absl::OkStatus();
 }
 
@@ -85,8 +85,8 @@ absl::StatusOr<LocationData::Format> GetLocationDataFormat(
     return absl::InvalidArgumentError("Detection must have location data.");
   }
   LocationData::Format format = detection.location_data().format();
-  RET_CHECK(format == LocationData::RELATIVE_BOUNDING_BOX ||
-            format == LocationData::BOUNDING_BOX)
+  RET_CHECK(format == LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX ||
+            format == LocationData::LOCATION_FORMAT_BOUNDING_BOX)
       << "Detection's location data format must be either "
          "RELATIVE_BOUNDING_BOX or BOUNDING_BOX";
   return format;
@@ -114,9 +114,9 @@ absl::Status ConvertBoundingBox(const std::pair<int, int>& image_size,
     return absl::InvalidArgumentError("Detection must have location data.");
   }
   switch (detection->location_data().format()) {
-    case LocationData::RELATIVE_BOUNDING_BOX:
+    case LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX:
       return ConvertRelativeBoundingBoxToBoundingBox(image_size, detection);
-    case LocationData::BOUNDING_BOX:
+    case LocationData::LOCATION_FORMAT_BOUNDING_BOX:
       return ConvertBoundingBoxToRelativeBoundingBox(image_size, detection);
     default:
       return absl::InvalidArgumentError(
@@ -260,7 +260,7 @@ class DetectionTransformationCalculator : public Node {
           ConvertBoundingBox(image_size, &transformed_detection));
       transformed_detections.push_back(transformed_detection);
     }
-    if (input_location_data_format == LocationData::RELATIVE_BOUNDING_BOX) {
+    if (input_location_data_format == LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX) {
       RET_CHECK(!output_relative_bounding_boxes_)
           << "Input detections are with relative bounding box(es), and the "
              "output detections must have pixel bounding box(es).";

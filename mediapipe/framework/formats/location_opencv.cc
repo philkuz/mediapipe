@@ -86,7 +86,7 @@ Location CreateBBoxLocation(const cv::Rect& rect) {
 
 std::unique_ptr<cv::Mat> GetCvMask(const Location& location) {
   const auto location_data = location.ConvertToProto();
-  ABSL_CHECK_EQ(LocationData::MASK, location_data.format());
+  ABSL_CHECK_EQ(LocationData::LOCATION_FORMAT_MASK, location_data.format());
   const auto& mask = location_data.mask();
   std::unique_ptr<cv::Mat> mat(
       new cv::Mat(mask.height(), mask.width(), CV_8UC1, cv::Scalar(0)));
@@ -102,9 +102,9 @@ std::unique_ptr<cv::Mat> ConvertToCvMask(const Location& location,
                                          int image_width, int image_height) {
   const auto location_data = location.ConvertToProto();
   switch (location_data.format()) {
-    case LocationData::GLOBAL:
-    case LocationData::BOUNDING_BOX:
-    case LocationData::RELATIVE_BOUNDING_BOX: {
+    case LocationData::LOCATION_FORMAT_GLOBAL:
+    case LocationData::LOCATION_FORMAT_BOUNDING_BOX:
+    case LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX: {
       auto status_or_mat = RectangleToMat(
           image_width, image_height,
           location.ConvertToBBox<Rectangle_i>(image_width, image_height));
@@ -114,7 +114,7 @@ std::unique_ptr<cv::Mat> ConvertToCvMask(const Location& location,
       }
       return std::move(status_or_mat).value();
     }
-    case LocationData::MASK: {
+    case LocationData::LOCATION_FORMAT_MASK: {
       return MaskToMat(location_data.mask());
     }
   }
@@ -133,11 +133,11 @@ void EnlargeLocation(Location& location, const float factor) {
   if (factor == 1.0f) return;
   auto location_data = location.ConvertToProto();
   switch (location_data.format()) {
-    case LocationData::GLOBAL: {
+    case LocationData::LOCATION_FORMAT_GLOBAL: {
       // Do nothing.
       break;
     }
-    case LocationData::BOUNDING_BOX: {
+    case LocationData::LOCATION_FORMAT_BOUNDING_BOX: {
       auto* box = location_data.mutable_bounding_box();
       const int enlarged_int_width =
           static_cast<int>(std::round(factor * box->width()));
@@ -151,7 +151,7 @@ void EnlargeLocation(Location& location, const float factor) {
       box->set_height(enlarged_int_height);
       break;
     }
-    case LocationData::RELATIVE_BOUNDING_BOX: {
+    case LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX: {
       auto* box = location_data.mutable_relative_bounding_box();
       box->set_xmin(box->xmin() - ((factor - 1.0) * box->width()) / 2.0);
       box->set_ymin(box->ymin() - ((factor - 1.0) * box->height()) / 2.0);
@@ -159,7 +159,7 @@ void EnlargeLocation(Location& location, const float factor) {
       box->set_height(factor * box->height());
       break;
     }
-    case LocationData::MASK: {
+    case LocationData::LOCATION_FORMAT_MASK: {
       auto mask_bounding_box = MaskToRectangle(location_data);
       const float scaler = std::fabs(factor - 1.0f);
       const int dilation_width =
@@ -188,7 +188,7 @@ Location CreateCvMaskLocation(const cv::Mat_<T>& mask) {
       << "The specified cv::Mat mask should be single-channel.";
 
   LocationData location_data;
-  location_data.set_format(LocationData::MASK);
+  location_data.set_format(LocationData::LOCATION_FORMAT_MASK);
   location_data.mutable_mask()->set_width(mask.cols);
   location_data.mutable_mask()->set_height(mask.rows);
   auto* rasterization = location_data.mutable_mask()->mutable_rasterization();

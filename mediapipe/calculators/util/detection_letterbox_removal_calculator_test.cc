@@ -31,7 +31,7 @@ constexpr char kDetectionsTag[] = "DETECTIONS";
 LocationData CreateRelativeLocationData(double xmin, double ymin, double width,
                                         double height) {
   LocationData location_data;
-  location_data.set_format(LocationData::RELATIVE_BOUNDING_BOX);
+  location_data.set_format(LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX);
   location_data.mutable_relative_bounding_box()->set_xmin(xmin);
   location_data.mutable_relative_bounding_box()->set_ymin(ymin);
   location_data.mutable_relative_bounding_box()->set_width(width);
@@ -105,7 +105,7 @@ TEST(DetectionLetterboxRemovalCalculatorTest, PaddingLeftRight) {
   EXPECT_EQ(output_detection.score(0), 0.3f);
 
   EXPECT_EQ(output_detection.location_data().format(),
-            LocationData::RELATIVE_BOUNDING_BOX);
+            LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX);
   EXPECT_THAT(output_detection.location_data().relative_bounding_box().xmin(),
               testing::FloatNear(0.1f, 1e-5));
   EXPECT_THAT(output_detection.location_data().relative_bounding_box().ymin(),
@@ -147,7 +147,7 @@ TEST(DetectionLetterboxRemovalCalculatorTest, PaddingTopBottom) {
   const auto& output_detection = output_detections[0];
 
   EXPECT_EQ(output_detection.location_data().format(),
-            LocationData::RELATIVE_BOUNDING_BOX);
+            LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX);
   EXPECT_THAT(output_detection.location_data().relative_bounding_box().xmin(),
               testing::FloatNear(0.25f, 1e-5));
   EXPECT_THAT(output_detection.location_data().relative_bounding_box().ymin(),

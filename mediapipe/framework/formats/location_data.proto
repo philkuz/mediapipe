@@ -33,17 +33,17 @@ message LocationData {
     // The full image. This is a handy format when one needs to refer to the
     // full image, e.g. one uses global image labels. No other fields need to
     // be populated.
-    GLOBAL = 0;
+    LOCATION_FORMAT_GLOBAL = 0;
     // A rectangle aka bounding box of an object. The field bounding_box must be
     // used to store the location data.
-    BOUNDING_BOX = 1;
+    LOCATION_FORMAT_BOUNDING_BOX = 1;
     // A rectangle aka bounding box of an object, defined in coordinates
     // normalized by the image dimensions. The field relative_bounding_box must
     // be used to store the location data.
-    RELATIVE_BOUNDING_BOX = 2;
+    LOCATION_FORMAT_RELATIVE_BOUNDING_BOX = 2;
     // A foreground mask. The field mask must be used to store the location
     // data.
-    MASK = 3;
+    LOCATION_FORMAT_MASK = 3;
   }
   optional Format format = 1;
 

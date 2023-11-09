@@ -60,7 +60,7 @@ Detection DetectionWithLocationData(int32_t xmin, int32_t ymin, int32_t width,
                                     int32_t height) {
   Detection detection;
   LocationData* location_data = detection.mutable_location_data();
-  location_data->set_format(LocationData::BOUNDING_BOX);
+  location_data->set_format(LocationData::LOCATION_FORMAT_BOUNDING_BOX);
   location_data->mutable_bounding_box()->set_xmin(xmin);
   location_data->mutable_bounding_box()->set_ymin(ymin);
   location_data->mutable_bounding_box()->set_width(width);
@@ -85,7 +85,7 @@ Detection DetectionWithRelativeLocationData(double xmin, double ymin,
                                             double width, double height) {
   Detection detection;
   LocationData* location_data = detection.mutable_location_data();
-  location_data->set_format(LocationData::RELATIVE_BOUNDING_BOX);
+  location_data->set_format(LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX);
   location_data->mutable_relative_bounding_box()->set_xmin(xmin);
   location_data->mutable_relative_bounding_box()->set_ymin(ymin);
   location_data->mutable_relative_bounding_box()->set_width(width);

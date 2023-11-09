@@ -94,7 +94,7 @@ Detection GetAxisAlignedDetectionFromTrackedDetection(
     y_min = std::min(y_min, corners[i].y());
     y_max = std::max(y_max, corners[i].y());
   }
-  location_data->set_format(LocationData::RELATIVE_BOUNDING_BOX);
+  location_data->set_format(LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX);
   LocationData::RelativeBoundingBox* relative_bbox =
       location_data->mutable_relative_bounding_box();
   relative_bbox->set_xmin(x_min);

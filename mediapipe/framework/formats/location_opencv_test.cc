@@ -36,7 +36,7 @@ static const float kEps = 0.0001f;
 
 Location TestPatternIntervalsToMaskLocation() {
   LocationData data;
-  data.set_format(LocationData::MASK);
+  data.set_format(LocationData::LOCATION_FORMAT_MASK);
   data.mutable_mask()->set_width(kWidth);
   data.mutable_mask()->set_height(kHeight);
   for (const auto& test_interval : kTestPatternIntervals) {
@@ -129,7 +129,7 @@ TEST(LocationOpenCvTest, ConvertRelativeBBoxToCvMask) {
   cv::Size expected_size(width, height);
 
   LocationData data;
-  data.set_format(LocationData::RELATIVE_BOUNDING_BOX);
+  data.set_format(LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX);
   data.mutable_relative_bounding_box()->set_xmin(rel_x_min);
   data.mutable_relative_bounding_box()->set_ymin(rel_y_min);
   data.mutable_relative_bounding_box()->set_width(rel_width);

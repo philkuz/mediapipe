@@ -69,14 +69,14 @@ Location::Location(const LocationData& location_data)
 
 Location Location::CreateGlobalLocation() {
   LocationData location_data;
-  location_data.set_format(LocationData::GLOBAL);
+  location_data.set_format(LocationData::LOCATION_FORMAT_GLOBAL);
   return Location(location_data);
 }
 
 Location Location::CreateBBoxLocation(int xmin, int ymin, int width,
                                       int height) {
   LocationData location_data;
-  location_data.set_format(LocationData::BOUNDING_BOX);
+  location_data.set_format(LocationData::LOCATION_FORMAT_BOUNDING_BOX);
   auto* bounding_box = location_data.mutable_bounding_box();
   bounding_box->set_xmin(xmin);
   bounding_box->set_ymin(ymin);
@@ -101,7 +101,7 @@ Location Location::CreateRelativeBBoxLocation(float relative_xmin,
                                               float relative_width,
                                               float relative_height) {
   LocationData location_data;
-  location_data.set_format(LocationData::RELATIVE_BOUNDING_BOX);
+  location_data.set_format(LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX);
   auto* bounding_box = location_data.mutable_relative_bounding_box();
   bounding_box->set_xmin(relative_xmin);
   bounding_box->set_ymin(relative_ymin);
@@ -122,25 +122,25 @@ LocationData::Format Location::GetFormat() const {
 // static
 bool Location::IsValidLocationData(const LocationData& location_data) {
   switch (location_data.format()) {
-    case LocationData::GLOBAL: {
+    case LocationData::LOCATION_FORMAT_GLOBAL: {
       // Nothing to check for global location data.
       return true;
     }
-    case LocationData::BOUNDING_BOX: {
+    case LocationData::LOCATION_FORMAT_BOUNDING_BOX: {
       return location_data.has_bounding_box() &&
              location_data.bounding_box().has_xmin() &&
              location_data.bounding_box().has_ymin() &&
              location_data.bounding_box().has_width() &&
              location_data.bounding_box().has_height();
     }
-    case LocationData::RELATIVE_BOUNDING_BOX: {
+    case LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX: {
       return location_data.has_relative_bounding_box() &&
              location_data.relative_bounding_box().has_xmin() &&
              location_data.relative_bounding_box().has_ymin() &&
              location_data.relative_bounding_box().has_width() &&
              location_data.relative_bounding_box().has_height();
     }
-    case LocationData::MASK: {
+    case LocationData::LOCATION_FORMAT_MASK: {
       return location_data.has_mask() && location_data.mask().has_width() &&
              location_data.mask().has_height() &&
              location_data.mask().has_rasterization();
@@ -153,7 +153,7 @@ bool Location::IsValidLocationData(const LocationData& location_data) {
 
 template <>
 Rectangle_i Location::GetBBox<Rectangle_i>() const {
-  ABSL_CHECK_EQ(LocationData::BOUNDING_BOX, location_data_.format());
+  ABSL_CHECK_EQ(LocationData::LOCATION_FORMAT_BOUNDING_BOX, location_data_.format());
   const auto& box = location_data_.bounding_box();
   return Rectangle_i(box.xmin(), box.ymin(), box.width(), box.height());
 }
@@ -163,11 +163,11 @@ Location& Location::Scale(const float scale) {
       << "Location mask scaling is not implemented.";
   ABSL_CHECK_GT(scale, 0.0f);
   switch (location_data_.format()) {
-    case LocationData::GLOBAL: {
+    case LocationData::LOCATION_FORMAT_GLOBAL: {
       // Do nothing.
       break;
     }
-    case LocationData::BOUNDING_BOX: {
+    case LocationData::LOCATION_FORMAT_BOUNDING_BOX: {
       auto* bb = location_data_.mutable_bounding_box();
       bb->set_xmin(scale * bb->xmin());
       bb->set_ymin(scale * bb->ymin());
@@ -175,7 +175,7 @@ Location& Location::Scale(const float scale) {
       bb->set_height(scale * bb->height());
       break;
     }
-    case LocationData::RELATIVE_BOUNDING_BOX: {
+    case LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX: {
       auto* bb = location_data_.mutable_relative_bounding_box();
       bb->set_xmin(scale * bb->xmin());
       bb->set_ymin(scale * bb->ymin());
@@ -187,7 +187,7 @@ Location& Location::Scale(const float scale) {
       }
       break;
     }
-    case LocationData::MASK: {
+    case LocationData::LOCATION_FORMAT_MASK: {
       ABSL_LOG(FATAL)
           << "Scaling for location data of type MASK is not supported.";
       break;
@@ -198,11 +198,11 @@ Location& Location::Scale(const float scale) {
 
 Location& Location::Square(int image_width, int image_height) {
   switch (location_data_.format()) {
-    case LocationData::GLOBAL: {
+    case LocationData::LOCATION_FORMAT_GLOBAL: {
       // Do nothing.
       break;
     }
-    case LocationData::BOUNDING_BOX: {
+    case LocationData::LOCATION_FORMAT_BOUNDING_BOX: {
       auto* box = location_data_.mutable_bounding_box();
       const int max_dimension = std::max(box->width(), box->height());
       if (max_dimension > box->width()) {
@@ -214,7 +214,7 @@ Location& Location::Square(int image_width, int image_height) {
       }
       break;
     }
-    case LocationData::RELATIVE_BOUNDING_BOX: {
+    case LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX: {
       auto* box = location_data_.mutable_relative_bounding_box();
       const float absolute_xmin = box->xmin() * image_width;
       const float absolute_ymin = box->ymin() * image_height;
@@ -233,7 +233,7 @@ Location& Location::Square(int image_width, int image_height) {
       }
       break;
     }
-    case LocationData::MASK: {
+    case LocationData::LOCATION_FORMAT_MASK: {
       ABSL_LOG(FATAL)
           << "Squaring for location data of type MASK is not supported.";
       break;
@@ -268,11 +268,11 @@ float BestShift(float min_value, float max_value, float range) {
 
 Location& Location::ShiftToFitBestIntoImage(int image_width, int image_height) {
   switch (location_data_.format()) {
-    case LocationData::GLOBAL: {
+    case LocationData::LOCATION_FORMAT_GLOBAL: {
       // Do nothing.
       break;
     }
-    case LocationData::BOUNDING_BOX: {
+    case LocationData::LOCATION_FORMAT_BOUNDING_BOX: {
       auto* box = location_data_.mutable_bounding_box();
       box->set_xmin(static_cast<int>(std::round(
           box->xmin() +
@@ -282,7 +282,7 @@ Location& Location::ShiftToFitBestIntoImage(int image_width, int image_height) {
           BestShift(box->ymin(), box->ymin() + box->height(), image_height))));
       break;
     }
-    case LocationData::RELATIVE_BOUNDING_BOX: {
+    case LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX: {
       auto* box = location_data_.mutable_relative_bounding_box();
       box->set_xmin(box->xmin() +
                     BestShift(box->xmin(), box->xmin() + box->width(), 1.0f));
@@ -290,7 +290,7 @@ Location& Location::ShiftToFitBestIntoImage(int image_width, int image_height) {
                     BestShift(box->ymin(), box->ymin() + box->height(), 1.0f));
       break;
     }
-    case LocationData::MASK: {
+    case LocationData::LOCATION_FORMAT_MASK: {
       auto mask_bounding_box = MaskToRectangle(location_data_);
       const float x_shift = BestShift(mask_bounding_box.xmin(),
                                       mask_bounding_box.xmax(), image_width);
@@ -313,11 +313,11 @@ Location& Location::ShiftToFitBestIntoImage(int image_width, int image_height) {
 
 Location& Location::Crop(const Rectangle_i& crop_box) {
   switch (location_data_.format()) {
-    case LocationData::GLOBAL: {
+    case LocationData::LOCATION_FORMAT_GLOBAL: {
       // Do nothing.
       break;
     }
-    case LocationData::BOUNDING_BOX: {
+    case LocationData::LOCATION_FORMAT_BOUNDING_BOX: {
       auto* box = location_data_.mutable_bounding_box();
       const int xmin = std::max(box->xmin(), crop_box.xmin());
       const int ymin = std::max(box->ymin(), crop_box.ymin());
@@ -329,11 +329,11 @@ Location& Location::Crop(const Rectangle_i& crop_box) {
       box->set_height(ymax - ymin);
       break;
     }
-    case LocationData::RELATIVE_BOUNDING_BOX:
+    case LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX:
       ABSL_LOG(FATAL)
           << "Can't crop a relative bounding box using absolute coordinates. "
              "Use the 'Rectangle_f version of Crop() instead";
-    case LocationData::MASK: {
+    case LocationData::LOCATION_FORMAT_MASK: {
       LocationData::BinaryMask new_mask;
       new_mask.set_width(crop_box.Width());
       new_mask.set_height(crop_box.Height());
@@ -360,14 +360,14 @@ Location& Location::Crop(const Rectangle_i& crop_box) {
 
 Location& Location::Crop(const Rectangle_f& crop_box) {
   switch (location_data_.format()) {
-    case LocationData::GLOBAL:
+    case LocationData::LOCATION_FORMAT_GLOBAL:
       // Do nothing.
       break;
-    case LocationData::BOUNDING_BOX:
+    case LocationData::LOCATION_FORMAT_BOUNDING_BOX:
       ABSL_LOG(FATAL)
           << "Can't crop an absolute bounding box using relative coordinates. "
              "Use the 'Rectangle_i version of Crop() instead";
-    case LocationData::RELATIVE_BOUNDING_BOX: {
+    case LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX: {
       auto* box = location_data_.mutable_relative_bounding_box();
       float right = box->xmin() + box->width();
       float bottom = box->ymin() + box->height();
@@ -379,7 +379,7 @@ Location& Location::Crop(const Rectangle_f& crop_box) {
       box->set_height(newBottom - box->ymin());
       break;
     }
-    case LocationData::MASK:
+    case LocationData::LOCATION_FORMAT_MASK:
       ABSL_LOG(FATAL)
           << "Can't crop a mask using relative coordinates. Use the "
              "'Rectangle_i' version of Crop() instead";
@@ -391,14 +391,14 @@ template <>
 Rectangle_i Location::ConvertToBBox<Rectangle_i>(int image_width,
                                                  int image_height) const {
   switch (location_data_.format()) {
-    case LocationData::GLOBAL: {
+    case LocationData::LOCATION_FORMAT_GLOBAL: {
       return Rectangle_i(0, 0, image_width, image_height);
     }
-    case LocationData::BOUNDING_BOX: {
+    case LocationData::LOCATION_FORMAT_BOUNDING_BOX: {
       const auto& box = location_data_.bounding_box();
       return Rectangle_i(box.xmin(), box.ymin(), box.width(), box.height());
     }
-    case LocationData::RELATIVE_BOUNDING_BOX: {
+    case LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX: {
       const auto& box = location_data_.relative_bounding_box();
       // Taking the floor rather than rounding for the width and height ensures
       // that if the original relative bounding box was within the image bounds,
@@ -410,7 +410,7 @@ Rectangle_i Location::ConvertToBBox<Rectangle_i>(int image_width,
           static_cast<int>(image_width * box.width()),
           static_cast<int>(image_height * box.height()));
     }
-    case LocationData::MASK: {
+    case LocationData::LOCATION_FORMAT_MASK: {
       return MaskToRectangle(location_data_);
     }
     default: {
@@ -422,7 +422,7 @@ Rectangle_i Location::ConvertToBBox<Rectangle_i>(int image_width,
 }
 
 Rectangle_f Location::GetRelativeBBox() const {
-  ABSL_CHECK_EQ(LocationData::RELATIVE_BOUNDING_BOX, location_data_.format());
+  ABSL_CHECK_EQ(LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX, location_data_.format());
   const auto& box = location_data_.relative_bounding_box();
   return Rectangle_f(box.xmin(), box.ymin(), box.width(), box.height());
 }
@@ -430,21 +430,21 @@ Rectangle_f Location::GetRelativeBBox() const {
 Rectangle_f Location::ConvertToRelativeBBox(int image_width,
                                             int image_height) const {
   switch (location_data_.format()) {
-    case LocationData::GLOBAL: {
+    case LocationData::LOCATION_FORMAT_GLOBAL: {
       return Rectangle_f(0.0f, 0.0f, 1.0f, 1.0f);
     }
-    case LocationData::BOUNDING_BOX: {
+    case LocationData::LOCATION_FORMAT_BOUNDING_BOX: {
       const auto& box = location_data_.bounding_box();
       return Rectangle_f(static_cast<float>(box.xmin()) / image_width,
                          static_cast<float>(box.ymin()) / image_height,
                          static_cast<float>(box.width()) / image_width,
                          static_cast<float>(box.height()) / image_height);
     }
-    case LocationData::RELATIVE_BOUNDING_BOX: {
+    case LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX: {
       const auto& box = location_data_.relative_bounding_box();
       return Rectangle_f(box.xmin(), box.ymin(), box.width(), box.height());
     }
-    case LocationData::MASK: {
+    case LocationData::LOCATION_FORMAT_MASK: {
       auto rect = MaskToRectangle(location_data_);
       return Rectangle_f(static_cast<float>(rect.xmin()) / image_width,
                          static_cast<float>(rect.ymin()) / image_height,
@@ -461,7 +461,7 @@ Rectangle_f Location::ConvertToRelativeBBox(int image_width,
 
 template <>
 ::mediapipe::BoundingBox Location::GetBBox<::mediapipe::BoundingBox>() const {
-  ABSL_CHECK_EQ(LocationData::BOUNDING_BOX, location_data_.format());
+  ABSL_CHECK_EQ(LocationData::LOCATION_FORMAT_BOUNDING_BOX, location_data_.format());
   const auto& box = location_data_.bounding_box();
   ::mediapipe::BoundingBox bounding_box;
   bounding_box.set_left_x(box.xmin());
@@ -484,7 +484,7 @@ template <>
 }
 
 std::vector<Point2_f> Location::GetRelativeKeypoints() const {
-  ABSL_CHECK_EQ(LocationData::RELATIVE_BOUNDING_BOX, location_data_.format());
+  ABSL_CHECK_EQ(LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX, location_data_.format());
   std::vector<Point2_f> keypoints;
   for (const auto& keypoint : location_data_.relative_keypoints()) {
     keypoints.emplace_back(Point2_f(keypoint.x(), keypoint.y()));

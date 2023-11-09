@@ -35,7 +35,7 @@ namespace {
                                                          double height) {
   ::mediapipe::Detection detection;
   ::mediapipe::LocationData* location_data = detection.mutable_location_data();
-  location_data->set_format(::mediapipe::LocationData::RELATIVE_BOUNDING_BOX);
+  location_data->set_format(::mediapipe::LocationData::LOCATION_FORMAT_RELATIVE_BOUNDING_BOX);
   location_data->mutable_relative_bounding_box()->set_xmin(xmin);
   location_data->mutable_relative_bounding_box()->set_ymin(ymin);
   location_data->mutable_relative_bounding_box()->set_width(width);
