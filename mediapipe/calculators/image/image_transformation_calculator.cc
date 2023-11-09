@@ -62,29 +62,29 @@ constexpr char kVideoPrestreamTag[] = "VIDEO_PRESTREAM";
 
 int RotationModeToDegrees(mediapipe::RotationMode_Mode rotation) {
   switch (rotation) {
-    case mediapipe::RotationMode::UNKNOWN:
-    case mediapipe::RotationMode::ROTATION_0:
+    case mediapipe::RotationMode::ROTATION_MODE_UNKNOWN:
+    case mediapipe::RotationMode::ROTATION_MODE_ROTATION_0:
       return 0;
-    case mediapipe::RotationMode::ROTATION_90:
+    case mediapipe::RotationMode::ROTATION_MODE_ROTATION_90:
       return 90;
-    case mediapipe::RotationMode::ROTATION_180:
+    case mediapipe::RotationMode::ROTATION_MODE_ROTATION_180:
       return 180;
-    case mediapipe::RotationMode::ROTATION_270:
+    case mediapipe::RotationMode::ROTATION_MODE_ROTATION_270:
       return 270;
   }
 }
 mediapipe::RotationMode_Mode DegreesToRotationMode(int degrees) {
   switch (degrees) {
     case 0:
-      return mediapipe::RotationMode::ROTATION_0;
+      return mediapipe::RotationMode::ROTATION_MODE_ROTATION_0;
     case 90:
-      return mediapipe::RotationMode::ROTATION_90;
+      return mediapipe::RotationMode::ROTATION_MODE_ROTATION_90;
     case 180:
-      return mediapipe::RotationMode::ROTATION_180;
+      return mediapipe::RotationMode::ROTATION_MODE_ROTATION_180;
     case 270:
-      return mediapipe::RotationMode::ROTATION_270;
+      return mediapipe::RotationMode::ROTATION_MODE_ROTATION_270;
     default:
-      return mediapipe::RotationMode::UNKNOWN;
+      return mediapipe::RotationMode::ROTATION_MODE_UNKNOWN;
   }
 }
 mediapipe::ScaleMode_Mode ParseScaleMode(
@@ -545,17 +545,17 @@ absl::Status ImageTransformationCalculator::RenderCpu(CalculatorContext* cc) {
     cv::warpAffine(input_mat, rotated_mat, rotation_mat, rotated_size);
   } else {
     switch (rotation_) {
-      case mediapipe::RotationMode::UNKNOWN:
-      case mediapipe::RotationMode::ROTATION_0:
+      case mediapipe::RotationMode::ROTATION_MODE_UNKNOWN:
+      case mediapipe::RotationMode::ROTATION_MODE_ROTATION_0:
         rotated_mat = input_mat;
         break;
-      case mediapipe::RotationMode::ROTATION_90:
+      case mediapipe::RotationMode::ROTATION_MODE_ROTATION_90:
         cv::rotate(input_mat, rotated_mat, cv::ROTATE_90_COUNTERCLOCKWISE);
         break;
-      case mediapipe::RotationMode::ROTATION_180:
+      case mediapipe::RotationMode::ROTATION_MODE_ROTATION_180:
         cv::rotate(input_mat, rotated_mat, cv::ROTATE_180);
         break;
-      case mediapipe::RotationMode::ROTATION_270:
+      case mediapipe::RotationMode::ROTATION_MODE_ROTATION_270:
         cv::rotate(input_mat, rotated_mat, cv::ROTATE_90_CLOCKWISE);
         break;
     }
@@ -689,8 +689,8 @@ void ImageTransformationCalculator::ComputeOutputDimensions(
   if (output_width_ > 0 && output_height_ > 0) {
     *output_width = output_width_;
     *output_height = output_height_;
-  } else if (rotation_ == mediapipe::RotationMode::ROTATION_90 ||
-             rotation_ == mediapipe::RotationMode::ROTATION_270) {
+  } else if (rotation_ == mediapipe::RotationMode::ROTATION_MODE_ROTATION_90 ||
+             rotation_ == mediapipe::RotationMode::ROTATION_MODE_ROTATION_270) {
     *output_width = input_height;
     *output_height = input_width;
   } else {
@@ -704,8 +704,8 @@ void ImageTransformationCalculator::ComputeOutputLetterboxPadding(
     std::array<float, 4>* padding) {
   padding->fill(0.f);
   if (scale_mode_ == mediapipe::ScaleMode::SCALE_MODE_FIT) {
-    if (rotation_ == mediapipe::RotationMode::ROTATION_90 ||
-        rotation_ == mediapipe::RotationMode::ROTATION_270) {
+    if (rotation_ == mediapipe::RotationMode::ROTATION_MODE_ROTATION_90 ||
+        rotation_ == mediapipe::RotationMode::ROTATION_MODE_ROTATION_270) {
       std::swap(input_width, input_height);
     }
     const float input_aspect_ratio =

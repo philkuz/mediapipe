@@ -22,10 +22,10 @@ option java_outer_classname = "RotationModeProto";
 // Counterclockwise rotation.
 message RotationMode {
   enum Mode {
-    UNKNOWN = 0;
-    ROTATION_0 = 1;
-    ROTATION_90 = 2;
-    ROTATION_180 = 3;
-    ROTATION_270 = 4;
+    ROTATION_MODE_UNKNOWN = 0;
+    ROTATION_MODE_ROTATION_0 = 1;
+    ROTATION_MODE_ROTATION_90 = 2;
+    ROTATION_MODE_ROTATION_180 = 3;
+    ROTATION_MODE_ROTATION_270 = 4;
   }
 }
