@@ -63,18 +63,18 @@ message ScaleImageCalculatorOptions {
   optional ImageFormat.Format output_format = 6;
 
   enum ScaleAlgorithm {
-    DEFAULT = 0;
-    LINEAR = 1;
-    CUBIC = 2;
-    AREA = 3;
-    LANCZOS = 4;
-    DEFAULT_WITHOUT_UPSCALE = 5;  // Option to disallow upscaling.
+    SCALE_ALGO_DEFAULT = 0;
+    SCALE_ALGO_LINEAR = 1;
+    SCALE_ALGO_CUBIC = 2;
+    SCALE_ALGO_AREA = 3;
+    SCALE_ALGO_LANCZOS = 4;
+    SCALE_ALGO_DEFAULT_WITHOUT_UPSCALE = 5;  // Option to disallow upscaling.
   }
 
   // The upscaling algorithm to use.  The default is to use CUBIC.  Note that
   // downscaling unconditionally uses DDA; see image_processing::
   // AffineGammaResizer for documentation.
-  optional ScaleAlgorithm algorithm = 7 [default = DEFAULT];
+  optional ScaleAlgorithm algorithm = 7 [default = SCALE_ALGO_DEFAULT];
 
   // The output image will have this alignment.  If set to zero, then
   // any alignment could be used.  If set to one, the output image will

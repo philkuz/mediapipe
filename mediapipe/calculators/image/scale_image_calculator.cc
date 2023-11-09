@@ -50,22 +50,22 @@ absl::Status FindInterpolationAlgorithm(
     ScaleImageCalculatorOptions::ScaleAlgorithm upscaling_algorithm,
     int* interpolation_algorithm) {
   switch (upscaling_algorithm) {
-    case ScaleImageCalculatorOptions::DEFAULT:
+    case ScaleImageCalculatorOptions::SCALE_ALGO_DEFAULT:
       *interpolation_algorithm = cv::INTER_CUBIC;
       break;
-    case ScaleImageCalculatorOptions::LINEAR:
+    case ScaleImageCalculatorOptions::SCALE_ALGO_LINEAR:
       *interpolation_algorithm = cv::INTER_LINEAR;
       break;
-    case ScaleImageCalculatorOptions::CUBIC:
+    case ScaleImageCalculatorOptions::SCALE_ALGO_CUBIC:
       *interpolation_algorithm = cv::INTER_CUBIC;
       break;
-    case ScaleImageCalculatorOptions::AREA:
+    case ScaleImageCalculatorOptions::SCALE_ALGO_AREA:
       *interpolation_algorithm = cv::INTER_AREA;
       break;
-    case ScaleImageCalculatorOptions::LANCZOS:
+    case ScaleImageCalculatorOptions::SCALE_ALGO_LANCZOS:
       *interpolation_algorithm = cv::INTER_LANCZOS4;
       break;
-    case ScaleImageCalculatorOptions::DEFAULT_WITHOUT_UPSCALE:
+    case ScaleImageCalculatorOptions::SCALE_ALGO_DEFAULT_WITHOUT_UPSCALE:
       *interpolation_algorithm = -1;
       break;
     default:
