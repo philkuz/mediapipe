@@ -748,7 +748,7 @@ class EstimateMotionIRLSInvoker {
       return;
     }
 
-    if (camera_motion->flags() & CameraMotion::FLAG_SINGULAR_ESTIMATION) {
+    if (camera_motion->flags() & CameraMotion::CAMERA_MOTION_TYPE_FLAG_SINGULAR_ESTIMATION) {
       // If motion became singular in earlier iteration, skip.
       return;
     }
@@ -842,13 +842,13 @@ void MotionEstimation::EstimateMotionsParallelImpl(
     // Assume motions to be VALID in case they contain features.
     // INVALID (= empty frames) wont be considered during motion estimation.
     if (feature_list.feature_size() != 0) {
-      camera_motion.set_type(CameraMotion::VALID);
+      camera_motion.set_type(CameraMotion::CAMERA_MOTION_TYPE_VALID);
     }
 
     // Flag duplicated frames.
     if (feature_list.is_duplicated()) {
       camera_motion.set_flags(camera_motion.flags() |
-                              CameraMotion::FLAG_DUPLICATED);
+                              CameraMotion::CAMERA_MOTION_TYPE_FLAG_DUPLICATED);
     }
   }
 
@@ -1033,7 +1033,7 @@ void MotionEstimation::EstimateMotionsParallelImpl(
                     MODEL_AVERAGE_MAGNITUDE,
                     1,     // Does not use irls.
                     true,  // Compute stability.
-                    CameraMotion::VALID, DefaultModelOptions(), this,
+                    CameraMotion::CAMERA_MOTION_TYPE_VALID, DefaultModelOptions(), this,
                     nullptr,  // No prior weights.
                     nullptr,  // No thread storage.
                     clip_data.feature_lists, clip_data.camera_motions));
@@ -1045,13 +1045,13 @@ void MotionEstimation::EstimateMotionsParallelImpl(
 
   // Estimate translations, regardless of stability of similarity.
   EstimateMotionModels(MODEL_TRANSLATION,
-                       CameraMotion::UNSTABLE,  // Any but invalid.
+                       CameraMotion::CAMERA_MOTION_TYPE_UNSTABLE,  // Any but invalid.
                        DefaultModelOptions(),
                        nullptr,  // No thread storage.
                        &clip_datas);
 
   // Estimate linear similarity, but only if translation was deemed stable.
-  EstimateMotionModels(MODEL_LINEAR_SIMILARITY, CameraMotion::VALID,
+  EstimateMotionModels(MODEL_LINEAR_SIMILARITY, CameraMotion::CAMERA_MOTION_TYPE_VALID,
                        DefaultModelOptions(),
                        nullptr,  // No thread storage.
                        &clip_datas);
@@ -1061,7 +1061,7 @@ void MotionEstimation::EstimateMotionsParallelImpl(
   }
 
   // Estimate affine, but only if similarity was deemed stable.
-  EstimateMotionModels(MODEL_AFFINE, CameraMotion::VALID, DefaultModelOptions(),
+  EstimateMotionModels(MODEL_AFFINE, CameraMotion::CAMERA_MOTION_TYPE_VALID, DefaultModelOptions(),
                        nullptr,  // No thread storage.
                        &clip_datas);
 
@@ -1069,7 +1069,7 @@ void MotionEstimation::EstimateMotionsParallelImpl(
   MotionEstimationThreadStorage thread_storage(options_, this, max_features);
 
   // Estimate homographies, only if similarity was deemed stable.
-  EstimateMotionModels(MODEL_HOMOGRAPHY, CameraMotion::VALID,
+  EstimateMotionModels(MODEL_HOMOGRAPHY, CameraMotion::CAMERA_MOTION_TYPE_VALID,
                        DefaultModelOptions(), &thread_storage, &clip_datas);
 
   if (options_.project_valid_motions_down()) {
@@ -1106,7 +1106,7 @@ void MotionEstimation::EstimateMotionsParallelImpl(
     // mixtures only if weakest mixture was deemed stable.
     const bool estimate_result = EstimateMotionModels(
         MODEL_MIXTURE_HOMOGRAPHY,
-        m == 0 ? CameraMotion::UNSTABLE : CameraMotion::VALID, options,
+        m == 0 ? CameraMotion::CAMERA_MOTION_TYPE_UNSTABLE : CameraMotion::CAMERA_MOTION_TYPE_VALID, options,
         &thread_storage, &clip_datas);
 
     if (m == 0) {
@@ -1120,7 +1120,7 @@ void MotionEstimation::EstimateMotionsParallelImpl(
     // computed w.r.t. it).
     if (base_mixture_estimated && m > 0) {
       for (auto& clip_data : clip_datas) {
-        clip_data.RestoreWeightsFromBackup(CameraMotion::VALID);
+        clip_data.RestoreWeightsFromBackup(CameraMotion::CAMERA_MOTION_TYPE_VALID);
       }
     }
   }
@@ -1147,7 +1147,7 @@ void MotionEstimation::EstimateMotionsParallelImpl(
     for (int f = 0; f < num_frames; ++f) {
       CameraMotion& camera_motion = (*camera_motions)[f];
       if ((*feature_lists)[f]->feature_size() == 0) {
-        camera_motion.set_type(CameraMotion::VALID);
+        camera_motion.set_type(CameraMotion::CAMERA_MOTION_TYPE_VALID);
       }
     }
   }
@@ -1198,7 +1198,7 @@ bool MotionEstimation::EstimateMotionModels(
   for (auto& clip_data : *clip_datas) {
     clip_data.SetupPriorWeights(irls_per_round);
     // Clear flag from earlier model estimation.
-    clip_data.ClearFlagFromMotion(CameraMotion::FLAG_SINGULAR_ESTIMATION);
+    clip_data.ClearFlagFromMotion(CameraMotion::CAMERA_MOTION_TYPE_FLAG_SINGULAR_ESTIMATION);
   }
 
   if (options_.estimation_policy() !=
@@ -1302,7 +1302,7 @@ bool MotionEstimation::EstimateMotionModels(
                                       &clip_data.camera_motions->at(k));
           }
 
-          if (clip_data.camera_motions->at(k).type() == CameraMotion::VALID) {
+          if (clip_data.camera_motions->at(k).type() == CameraMotion::CAMERA_MOTION_TYPE_VALID) {
             const bool remove_terminated_tracks =
                 total_rounds == 1 || (round == 0 && k == 0);
             UpdateLongFeatureBias(type, model_options, remove_terminated_tracks,
@@ -1520,7 +1520,7 @@ class IrlsInitializationInvoker {
       switch (type_) {
         case MotionEstimation::MODEL_HOMOGRAPHY:
           if (use_only_lin_sim_inliers_for_homography &&
-              camera_motion.type() <= CameraMotion::UNSTABLE_SIM) {
+              camera_motion.type() <= CameraMotion::CAMERA_MOTION_TYPE_UNSTABLE_SIM) {
             // Threshold is set w.r.t. normalized frame diameter.
             LinearSimilarityModel normalized_similarity =
                 ModelCompose3(motion_estimation_->normalization_transform_,
@@ -1536,7 +1536,7 @@ class IrlsInitializationInvoker {
 
         case MotionEstimation::MODEL_MIXTURE_HOMOGRAPHY:
           if (use_only_lin_sim_inliers_for_homography &&
-              camera_motion.type() <= CameraMotion::UNSTABLE_SIM) {
+              camera_motion.type() <= CameraMotion::CAMERA_MOTION_TYPE_UNSTABLE_SIM) {
             // Threshold is set w.r.t. normalized frame diameter.
             LinearSimilarityModel normalized_similarity =
                 ModelCompose3(motion_estimation_->normalization_transform_,
@@ -2479,7 +2479,7 @@ void MotionEstimation::CheckSingleModelStability(
                               *feature_list)) {
         // Translation can never be singular.
         ABSL_CHECK_EQ(
-            0, camera_motion->flags() & CameraMotion::FLAG_SINGULAR_ESTIMATION);
+            0, camera_motion->flags() & CameraMotion::CAMERA_MOTION_TYPE_FLAG_SINGULAR_ESTIMATION);
       } else {
         // Invalid model.
         if (reset_irls_weights) {
@@ -2493,7 +2493,7 @@ void MotionEstimation::CheckSingleModelStability(
       const int num_inliers =
           std::round(feature_list->feature_size() *
                      camera_motion->similarity_inlier_ratio());
-      if (camera_motion->flags() & CameraMotion::FLAG_SINGULAR_ESTIMATION ||
+      if (camera_motion->flags() & CameraMotion::CAMERA_MOTION_TYPE_FLAG_SINGULAR_ESTIMATION ||
           !IsStableSimilarity(camera_motion->linear_similarity(), *feature_list,
                               num_inliers)) {
         if (reset_irls_weights) {
@@ -2510,7 +2510,7 @@ void MotionEstimation::CheckSingleModelStability(
       break;
 
     case MODEL_HOMOGRAPHY:
-      if (camera_motion->flags() & CameraMotion::FLAG_SINGULAR_ESTIMATION ||
+      if (camera_motion->flags() & CameraMotion::CAMERA_MOTION_TYPE_FLAG_SINGULAR_ESTIMATION ||
           !IsStableHomography(camera_motion->homography(),
                               camera_motion->average_homography_error(),
                               camera_motion->homography_inlier_coverage())) {
@@ -2529,7 +2529,7 @@ void MotionEstimation::CheckSingleModelStability(
       const float mix_min_inlier_coverage =
           options_.stable_mixture_homography_bounds().min_inlier_coverage();
 
-      if (camera_motion->flags() & CameraMotion::FLAG_SINGULAR_ESTIMATION ||
+      if (camera_motion->flags() & CameraMotion::CAMERA_MOTION_TYPE_FLAG_SINGULAR_ESTIMATION ||
           !IsStableMixtureHomography(camera_motion->mixture_homography(),
                                      mix_min_inlier_coverage, block_coverage)) {
         // Unstable homography mixture.
@@ -2540,25 +2540,25 @@ void MotionEstimation::CheckSingleModelStability(
         // (UNSTABLE_HOMOG flag is set by this function only during
         //  ResetToHomography below).
         switch (camera_motion->type()) {
-          case CameraMotion::VALID:
+          case CameraMotion::CAMERA_MOTION_TYPE_VALID:
             // Homography deemed stable, fallback to it.
             MotionEstimation::ResetToHomography(camera_motion->homography(),
                                                 true,  // flag_as_unstable_model
                                                 camera_motion);
             break;
 
-          case CameraMotion::UNSTABLE_SIM:
+          case CameraMotion::CAMERA_MOTION_TYPE_UNSTABLE_SIM:
             MotionEstimation::ResetToSimilarity(
                 camera_motion->linear_similarity(), camera_motion);
             break;
 
-          case CameraMotion::UNSTABLE:
+          case CameraMotion::CAMERA_MOTION_TYPE_UNSTABLE:
             MotionEstimation::ResetToTranslation(camera_motion->translation(),
                                                  camera_motion);
             break;
 
-          case CameraMotion::INVALID:
-          case CameraMotion::UNSTABLE_HOMOG:
+          case CameraMotion::CAMERA_MOTION_TYPE_INVALID:
+          case CameraMotion::CAMERA_MOTION_TYPE_UNSTABLE_HOMOG:
             ABSL_LOG(FATAL)
                 << "Unexpected CameraMotion::Type: " << camera_motion->type();
             break;
@@ -2574,7 +2574,7 @@ void MotionEstimation::CheckSingleModelStability(
       } else {
         // Stable mixture homography can reset unstable type.
         camera_motion->set_overridden_type(camera_motion->type());
-        camera_motion->set_type(CameraMotion::VALID);
+        camera_motion->set_type(CameraMotion::CAMERA_MOTION_TYPE_VALID);
         // Select weakest regularized mixture.
         camera_motion->set_rolling_shutter_motion_index(0);
       }
@@ -2604,7 +2604,7 @@ void MotionEstimation::ProjectMotionsDown(
         // Only project down if model was estimated, otherwise would propagate
         // identity.
         if (camera_motion.has_homography() &&
-            camera_motion.type() <= CameraMotion::UNSTABLE_HOMOG) {
+            camera_motion.type() <= CameraMotion::CAMERA_MOTION_TYPE_UNSTABLE_HOMOG) {
           LinearSimilarityModel lin_sim =
               *camera_motion.mutable_linear_similarity() =
                   AffineAdapter::ProjectToLinearSimilarity(
@@ -2619,7 +2619,7 @@ void MotionEstimation::ProjectMotionsDown(
       case MODEL_LINEAR_SIMILARITY:
         // Only project down if model was estimated.
         if (camera_motion.has_linear_similarity() &&
-            camera_motion.type() <= CameraMotion::UNSTABLE_SIM) {
+            camera_motion.type() <= CameraMotion::CAMERA_MOTION_TYPE_UNSTABLE_SIM) {
           *camera_motion.mutable_translation() =
               LinearSimilarityAdapter::ProjectToTranslation(
                   camera_motion.linear_similarity(), frame_width_,
@@ -2712,19 +2712,19 @@ void MotionEstimation::DetermineShotBoundaries(
   const int num_motions = camera_motions->size();
   for (int k = 0; k < num_motions; ++k) {
     auto& camera_motion = (*camera_motions)[k];
-    if (camera_motion.type() == CameraMotion::INVALID ||
+    if (camera_motion.type() == CameraMotion::CAMERA_MOTION_TYPE_INVALID ||
         feature_lists[k]->feature_size() == 0) {
       // Potential shot boundary, verify.
       if (feature_lists[k]->visual_consistency() >= 0) {
         if (feature_lists[k]->visual_consistency() >=
             shot_options.motion_consistency_threshold()) {
           camera_motion.set_flags(camera_motion.flags() |
-                                  CameraMotion::FLAG_SHOT_BOUNDARY);
+                                  CameraMotion::CAMERA_MOTION_TYPE_FLAG_SHOT_BOUNDARY);
         }
       } else {
         // No consistency present, label as shot boundary.
         camera_motion.set_flags(camera_motion.flags() |
-                                CameraMotion::FLAG_SHOT_BOUNDARY);
+                                CameraMotion::CAMERA_MOTION_TYPE_FLAG_SHOT_BOUNDARY);
       }
     }
   }
@@ -2740,24 +2740,24 @@ void MotionEstimation::DetermineShotBoundaries(
         // Only add boundaries if previous or next frame are not already labeled
         // boundaries by above tests.
         if (k > 0 && ((*camera_motions)[k - 1].flags() &
-                      CameraMotion::FLAG_SHOT_BOUNDARY) != 0) {
+                      CameraMotion::CAMERA_MOTION_TYPE_FLAG_SHOT_BOUNDARY) != 0) {
           continue;
         }
         if (k + 1 < num_motions && ((*camera_motions)[k + 1].flags() &
-                                    CameraMotion::FLAG_SHOT_BOUNDARY) != 0) {
+                                    CameraMotion::CAMERA_MOTION_TYPE_FLAG_SHOT_BOUNDARY) != 0) {
           continue;
         }
 
         // Shot boundaries based on visual consistency measure.
         camera_motion.set_flags(camera_motion.flags() |
-                                CameraMotion::FLAG_SHOT_BOUNDARY);
+                                CameraMotion::CAMERA_MOTION_TYPE_FLAG_SHOT_BOUNDARY);
       }
     }
   }
 
   // LOG shot boundaries.
   for (const auto& camera_motion : *camera_motions) {
-    if (camera_motion.flags() & CameraMotion::FLAG_SHOT_BOUNDARY) {
+    if (camera_motion.flags() & CameraMotion::CAMERA_MOTION_TYPE_FLAG_SHOT_BOUNDARY) {
       VLOG(1) << "Shot boundary at : " << camera_motion.timestamp_usec() * 1e-6f
               << "s";
     }
@@ -2806,7 +2806,7 @@ void MotionEstimation::ResetMotionModels(const MotionEstimationOptions& options,
     camera_motion->set_mixture_row_sigma(options.mixture_row_sigma());
   }
 
-  camera_motion->set_type(CameraMotion::INVALID);
+  camera_motion->set_type(CameraMotion::CAMERA_MOTION_TYPE_INVALID);
 }
 
 void MotionEstimation::ResetToIdentity(CameraMotion* camera_motion,
@@ -2840,9 +2840,9 @@ void MotionEstimation::ResetToIdentity(CameraMotion* camera_motion,
   }
 
   if (consider_valid) {
-    camera_motion->set_type(CameraMotion::VALID);
+    camera_motion->set_type(CameraMotion::CAMERA_MOTION_TYPE_VALID);
   } else {
-    camera_motion->set_type(CameraMotion::INVALID);
+    camera_motion->set_type(CameraMotion::CAMERA_MOTION_TYPE_INVALID);
   }
 }
 
@@ -2885,7 +2885,7 @@ void MotionEstimation::ResetToTranslation(const TranslationModel& model,
         MixtureHomography::CONST_DOF);
   }
 
-  camera_motion->set_type(CameraMotion::UNSTABLE);
+  camera_motion->set_type(CameraMotion::CAMERA_MOTION_TYPE_UNSTABLE);
 }
 
 void MotionEstimation::ResetToSimilarity(const LinearSimilarityModel& model,
@@ -2920,7 +2920,7 @@ void MotionEstimation::ResetToSimilarity(const LinearSimilarityModel& model,
         MixtureHomography::CONST_DOF);
   }
 
-  camera_motion->set_type(CameraMotion::UNSTABLE_SIM);
+  camera_motion->set_type(CameraMotion::CAMERA_MOTION_TYPE_UNSTABLE_SIM);
 }
 
 void MotionEstimation::ResetToHomography(const Homography& model,
@@ -2942,7 +2942,7 @@ void MotionEstimation::ResetToHomography(const Homography& model,
   }
 
   if (flag_as_unstable_model) {
-    camera_motion->set_type(CameraMotion::UNSTABLE_HOMOG);
+    camera_motion->set_type(CameraMotion::CAMERA_MOTION_TYPE_UNSTABLE_HOMOG);
   }
 }
 
@@ -3584,7 +3584,7 @@ bool MotionEstimation::EstimateLinearSimilarityModelIRLS(
       VLOG(1) << "Linear similarity estimation failed.";
       *camera_motion->mutable_linear_similarity() = LinearSimilarityModel();
       camera_motion->set_flags(camera_motion->flags() |
-                               CameraMotion::FLAG_SINGULAR_ESTIMATION);
+                               CameraMotion::CAMERA_MOTION_TYPE_FLAG_SINGULAR_ESTIMATION);
       return false;
     }
 
@@ -3691,7 +3691,7 @@ bool MotionEstimation::EstimateAffineModelIRLS(
     p = matrix.colPivHouseholderQr().solve(rhs);
     if (!(matrix * p).isApprox(rhs, kPrecision)) {
       camera_motion->set_flags(camera_motion->flags() |
-                               CameraMotion::FLAG_SINGULAR_ESTIMATION);
+                               CameraMotion::CAMERA_MOTION_TYPE_FLAG_SINGULAR_ESTIMATION);
       return false;
     }
 
@@ -4895,7 +4895,7 @@ bool MotionEstimation::EstimateHomographyIRLS(
             << min_features_for_solution << " features usable for estimation.";
     *camera_motion->mutable_homography() = Homography();
     camera_motion->set_flags(camera_motion->flags() |
-                             CameraMotion::FLAG_SINGULAR_ESTIMATION);
+                             CameraMotion::CAMERA_MOTION_TYPE_FLAG_SINGULAR_ESTIMATION);
     return false;
   }
 
@@ -4964,7 +4964,7 @@ bool MotionEstimation::EstimateHomographyIRLS(
         VLOG(1) << "Could not solve for homography.";
         *camera_motion->mutable_homography() = Homography();
         camera_motion->set_flags(camera_motion->flags() |
-                                 CameraMotion::FLAG_SINGULAR_ESTIMATION);
+                                 CameraMotion::CAMERA_MOTION_TYPE_FLAG_SINGULAR_ESTIMATION);
         return false;
       }
       norm_model =
@@ -4988,7 +4988,7 @@ bool MotionEstimation::EstimateHomographyIRLS(
         VLOG(1) << "Could not solve for homography.";
         *camera_motion->mutable_homography() = Homography();
         camera_motion->set_flags(camera_motion->flags() |
-                                 CameraMotion::FLAG_SINGULAR_ESTIMATION);
+                                 CameraMotion::CAMERA_MOTION_TYPE_FLAG_SINGULAR_ESTIMATION);
         return false;
       }
     }
@@ -5312,7 +5312,7 @@ bool MotionEstimation::EstimateMixtureHomographyIRLS(
     VLOG(1) << "Mixture homography estimation not possible, less than "
             << min_features_for_solution << " features present.";
     camera_motion->set_flags(camera_motion->flags() |
-                             CameraMotion::FLAG_SINGULAR_ESTIMATION);
+                             CameraMotion::CAMERA_MOTION_TYPE_FLAG_SINGULAR_ESTIMATION);
     return false;
   }
 
@@ -5323,7 +5323,7 @@ bool MotionEstimation::EstimateMixtureHomographyIRLS(
     VLOG(1) << "Non-rigid homography estimated. "
             << "CameraMotion flagged as unstable.";
     camera_motion->set_flags(camera_motion->flags() |
-                             CameraMotion::FLAG_SINGULAR_ESTIMATION);
+                             CameraMotion::CAMERA_MOTION_TYPE_FLAG_SINGULAR_ESTIMATION);
     return false;
   }
 
@@ -5343,7 +5343,7 @@ bool MotionEstimation::EstimateMixtureHomographyIRLS(
       if (!invertible) {
         VLOG(1) << "Mixture is not invertible.";
         camera_motion->set_flags(camera_motion->flags() |
-                                 CameraMotion::FLAG_SINGULAR_ESTIMATION);
+                                 CameraMotion::CAMERA_MOTION_TYPE_FLAG_SINGULAR_ESTIMATION);
         return false;
       }
     }
@@ -5475,7 +5475,7 @@ void MotionEstimation::DetermineOverlayIndices(
 
   ParallelFor(0, num_frames, 1,
               EstimateMotionIRLSInvoker(MODEL_TRANSLATION, irls_per_round,
-                                        false, CameraMotion::VALID,
+                                        false, CameraMotion::CAMERA_MOTION_TYPE_VALID,
                                         DefaultModelOptions(), this,
                                         nullptr,  // No prior weights.
                                         nullptr,  // No thread storage here.

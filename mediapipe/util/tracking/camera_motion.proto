@@ -127,20 +127,20 @@ message CameraMotion {
   // MotionEstimationOptions), it is set to the lower dof type which was deemed
   // stable.
   enum Type {
-    VALID = 0;           // All requested motion models estimated reliably.
-    UNSTABLE_HOMOG = 1;  // Fallback to homographies, mixture unreliable.
-    UNSTABLE_SIM = 2;    // Fallback to similarity model, homography
+    CAMERA_MOTION_TYPE_VALID = 0;           // All requested motion models estimated reliably.
+    CAMERA_MOTION_TYPE_UNSTABLE_HOMOG = 1;  // Fallback to homographies, mixture unreliable.
+    CAMERA_MOTION_TYPE_UNSTABLE_SIM = 2;    // Fallback to similarity model, homography
                          // unreliable.
-    UNSTABLE = 3;        // Fallback to translation model, similarity
+    CAMERA_MOTION_TYPE_UNSTABLE = 3;        // Fallback to translation model, similarity
                          // unreliable, legacy naming.
-    INVALID = 4;         // Identity model, translation unreliable.
+    CAMERA_MOTION_TYPE_INVALID = 4;         // Identity model, translation unreliable.
   }
 
-  optional Type type = 6 [default = VALID];
+  optional Type type = 6 [default = CAMERA_MOTION_TYPE_VALID];
 
   // If set, stores original type in case it was overriden (by filtering
   // functions, etc.).
-  optional Type overridden_type = 15 [default = VALID];
+  optional Type overridden_type = 15 [default = CAMERA_MOTION_TYPE_VALID];
 
   // Set of optional *bit* flags set for various purposes.
   enum Flags {

@@ -161,7 +161,7 @@ void FlowPackager::PackFlow(const RegionFlowFeatureList& feature_list,
   int flags = 0;
 
   if (camera_motion == nullptr ||
-      camera_motion->type() > CameraMotion::UNSTABLE_SIM) {
+      camera_motion->type() > CameraMotion::CAMERA_MOTION_TYPE_UNSTABLE_SIM) {
     flags |= TrackingData::TRACKING_FLAG_BACKGROUND_UNSTABLE;
   } else {
     Homography transform;
