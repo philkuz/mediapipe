@@ -85,11 +85,11 @@ absl::Status TensorsToFloatsCalculator::Process(CalculatorContext* cc) {
       raw_floats, raw_floats + num_values);
 
   switch (options_.activation()) {
-    case TensorsToFloatsCalculatorOptions::SIGMOID:
+    case TensorsToFloatsCalculatorOptions::T2F_ACTIVATION_SIGMOID:
       std::transform(output_floats->begin(), output_floats->end(),
                      output_floats->begin(), Sigmoid);
       break;
-    case TensorsToFloatsCalculatorOptions::NONE:
+    case TensorsToFloatsCalculatorOptions::T2F_ACTIVATION_NONE:
       break;
   }
 

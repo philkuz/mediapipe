@@ -307,7 +307,7 @@ class SingleFaceLandmarksDetectorGraph : public core::ModelTaskGraph {
     auto& tensors_to_presence = graph.AddNode("TensorsToFloatsCalculator");
     tensors_to_presence
         .GetOptions<mediapipe::TensorsToFloatsCalculatorOptions>()
-        .set_activation(mediapipe::TensorsToFloatsCalculatorOptions::SIGMOID);
+        .set_activation(mediapipe::TensorsToFloatsCalculatorOptions::T2F_ACTIVATION_SIGMOID);
     presence_flag_tensors >> tensors_to_presence.In(kTensorsTag);
     auto presence_score = tensors_to_presence.Out(kFloatTag).Cast<float>();
 
