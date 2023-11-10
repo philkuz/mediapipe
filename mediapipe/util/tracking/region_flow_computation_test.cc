@@ -93,10 +93,10 @@ class RegionFlowComputationTest
 };
 
 std::vector<FlowDirectionParam> FlowDirectionCombinations() {
-  return {{TrackingOptions::FORWARD, TrackingOptions::FORWARD},
-          {TrackingOptions::FORWARD, TrackingOptions::BACKWARD},
-          {TrackingOptions::BACKWARD, TrackingOptions::FORWARD},
-          {TrackingOptions::BACKWARD, TrackingOptions::BACKWARD}};
+  return {{TrackingOptions::FLOW_DIRECTION_FORWARD, TrackingOptions::FLOW_DIRECTION_FORWARD},
+          {TrackingOptions::FLOW_DIRECTION_FORWARD, TrackingOptions::FLOW_DIRECTION_BACKWARD},
+          {TrackingOptions::FLOW_DIRECTION_BACKWARD, TrackingOptions::FLOW_DIRECTION_FORWARD},
+          {TrackingOptions::FLOW_DIRECTION_BACKWARD, TrackingOptions::FLOW_DIRECTION_BACKWARD}};
 }
 
 INSTANTIATE_TEST_SUITE_P(FlowDirection, RegionFlowComputationTest,
@@ -209,13 +209,13 @@ void RegionFlowComputationTest::RunFramePairTest(
       // based on output flow direction.
       Vector2_f flow_vector;
       switch (base_options_.tracking_options().output_flow_direction()) {
-        case TrackingOptions::BACKWARD:
+        case TrackingOptions::FLOW_DIRECTION_BACKWARD:
           flow_vector = positions[i] - positions[i - 1];
           break;
-        case TrackingOptions::FORWARD:
+        case TrackingOptions::FLOW_DIRECTION_FORWARD:
           flow_vector = positions[i - 1] - positions[i];
           break;
-        case TrackingOptions::CONSECUTIVELY:
+        case TrackingOptions::FLOW_DIRECTION_CONSECUTIVELY:
           FAIL();
           break;
       }
@@ -239,7 +239,7 @@ void RegionFlowComputationTest::RunFramePairTest(
 TEST_P(RegionFlowComputationTest, FramePairTest) {
   // The output flow direction should be either forward or backward.
   EXPECT_NE(base_options_.tracking_options().output_flow_direction(),
-            TrackingOptions::CONSECUTIVELY);
+            TrackingOptions::FLOW_DIRECTION_CONSECUTIVELY);
   // Test on grayscale input.
   RunFramePairTest(RegionFlowComputationOptions::REGION_FLOW_FORMAT_GRAYSCALE);
   // Test on RGB input.

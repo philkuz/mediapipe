@@ -27,11 +27,11 @@ message TrackingOptions {
   // Describes direction of flow during feature tracking and for the output
   // region flow.
   enum FlowDirection {
-    UNKNOWN = 0;
-    FORWARD = 1;   // Tracks are forward, from frame N-k -> frame N (k > 0).
-    BACKWARD = 2;  // Tracks are backward, from frame N -> frame N-k
+    FLOW_DIRECTION_UNKNOWN = 0;
+    FLOW_DIRECTION_FORWARD = 1;   // Tracks are forward, from frame N-k -> frame N (k > 0).
+    FLOW_DIRECTION_BACKWARD = 2;  // Tracks are backward, from frame N -> frame N-k
                    // (k > 0).
-    CONSECUTIVELY = 3;  // Try forward and backward tracking consecutively.
+    FLOW_DIRECTION_CONSECUTIVELY = 3;  // Try forward and backward tracking consecutively.
                         // Forward tracking is done first. If the flow is
                         // stable, i.e. there are sufficient tracked features,
                         // the region flow computation ends. Otherwise, backward
@@ -44,7 +44,7 @@ message TrackingOptions {
   // options below. However, if not reusing features, then it is best to match
   // the direction for both internal tracking and output flow, for peformance
   // reasons.
-  optional FlowDirection internal_tracking_direction = 19 [default = BACKWARD];
+  optional FlowDirection internal_tracking_direction = 19 [default = FLOW_DIRECTION_BACKWARD];
 
   // Direction of flow vectors that are computed and output by calls to retrieve
   // region flow, tracked features, etc. Note when this is BACKWARD, then the
@@ -52,7 +52,7 @@ message TrackingOptions {
   // previous frame N-k. When this is FORWARD, the flow for frame N contains
   // the flow from features in a previous frame N-k, tracked *to* frame N.
   // Note that the output flow direction can only be set to FORWARD or BACKWARD.
-  optional FlowDirection output_flow_direction = 20 [default = BACKWARD];
+  optional FlowDirection output_flow_direction = 20 [default = FLOW_DIRECTION_BACKWARD];
 
   // Specifies how a feature is tracked w.r.t. previous or next frames
   // (dependent on the FlowDirection options above).

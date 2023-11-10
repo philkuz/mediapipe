@@ -137,9 +137,9 @@ void MotionAnalysis::InitPolicyOptions() {
       options_.set_estimation_clip_size(64);
 
       tracking_options->set_internal_tracking_direction(
-          TrackingOptions::FORWARD);
+          TrackingOptions::FLOW_DIRECTION_FORWARD);
       tracking_options->set_tracking_policy(
-          TrackingOptions::POLICY_LONG_TRACKS);
+          TrackingOptions::FLOW_DIRECTION_POLICY_LONG_TRACKS);
 
       feature_bias_options->set_use_spatial_bias(false);
       feature_bias_options->set_seed_priors_from_bias(true);
@@ -171,9 +171,9 @@ void MotionAnalysis::InitPolicyOptions() {
       // Long track settings. Temporally consistent.
       options_.set_estimation_clip_size(32);
       tracking_options->set_internal_tracking_direction(
-          TrackingOptions::FORWARD);
+          TrackingOptions::FLOW_DIRECTION_FORWARD);
       tracking_options->set_tracking_policy(
-          TrackingOptions::POLICY_LONG_TRACKS);
+          TrackingOptions::FLOW_DIRECTION_POLICY_LONG_TRACKS);
 
       motion_options->set_estimation_policy(
           MotionEstimationOptions::TEMPORAL_LONG_FEATURE_BIAS);
@@ -221,9 +221,9 @@ void MotionAnalysis::InitPolicyOptions() {
     case MotionAnalysisOptions::ANALYSIS_POLICY_CAMERA_MOBILE:
       // Long track settings.
       tracking_options->set_internal_tracking_direction(
-          TrackingOptions::FORWARD);
+          TrackingOptions::FLOW_DIRECTION_FORWARD);
       tracking_options->set_tracking_policy(
-          TrackingOptions::POLICY_LONG_TRACKS);
+          TrackingOptions::FLOW_DIRECTION_POLICY_LONG_TRACKS);
 
       motion_options->set_estimation_policy(
           MotionEstimationOptions::TEMPORAL_IRLS_MASK);
@@ -267,9 +267,9 @@ void MotionAnalysis::InitPolicyOptions() {
       options_.set_estimation_clip_size(64);
 
       tracking_options->set_internal_tracking_direction(
-          TrackingOptions::FORWARD);
+          TrackingOptions::FLOW_DIRECTION_FORWARD);
       tracking_options->set_tracking_policy(
-          TrackingOptions::POLICY_LONG_TRACKS);
+          TrackingOptions::FLOW_DIRECTION_POLICY_LONG_TRACKS);
 
       feature_bias_options->set_use_spatial_bias(false);
       feature_bias_options->set_seed_priors_from_bias(true);
@@ -383,7 +383,7 @@ bool MotionAnalysis::AddFrameGeneric(
     // tracking has been requested.
     int max_track_index = 0;
     if (options_.flow_options().tracking_options().tracking_policy() ==
-        TrackingOptions::POLICY_MULTI_FRAME) {
+        TrackingOptions::FLOW_DIRECTION_POLICY_MULTI_FRAME) {
       max_track_index = std::min(
           options_.flow_options().tracking_options().multi_frames_to_track() -
               1,

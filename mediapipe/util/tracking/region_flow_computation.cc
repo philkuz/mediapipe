@@ -597,7 +597,7 @@ RegionFlowComputation::RegionFlowComputation(
   }
 
   ABSL_CHECK_NE(options.tracking_options().output_flow_direction(),
-                TrackingOptions::CONSECUTIVELY)
+                TrackingOptions::FLOW_DIRECTION_CONSECUTIVELY)
       << "Output direction must be either set to FORWARD or BACKWARD.";
   use_downsampling_ = options_.downsample_mode() !=
                       RegionFlowComputationOptions::REGION_FLOW_DOWNSAMPLE_NONE;
@@ -698,7 +698,7 @@ RegionFlowComputation::RegionFlowComputation(
 
   max_long_track_length_ = 1;
   switch (options_.tracking_options().tracking_policy()) {
-    case TrackingOptions::POLICY_SINGLE_FRAME:
+    case TrackingOptions::FLOW_DIRECTION_POLICY_SINGLE_FRAME:
       if (options_.tracking_options().multi_frames_to_track() > 1) {
         ABSL_LOG(ERROR) << "TrackingOptions::multi_frames_to_track is > 1, "
                         << "but tracking_policy is set to POLICY_SINGLE_FRAME. "
@@ -707,11 +707,11 @@ RegionFlowComputation::RegionFlowComputation(
 
       frames_to_track_ = 1;
       break;
-    case TrackingOptions::POLICY_MULTI_FRAME:
+    case TrackingOptions::FLOW_DIRECTION_POLICY_MULTI_FRAME:
       ABSL_CHECK_GT(options_.tracking_options().multi_frames_to_track(), 0);
       frames_to_track_ = options_.tracking_options().multi_frames_to_track();
       break;
-    case TrackingOptions::POLICY_LONG_TRACKS:
+    case TrackingOptions::FLOW_DIRECTION_POLICY_LONG_TRACKS:
       if (options_.tracking_options().multi_frames_to_track() > 1) {
         ABSL_LOG(ERROR) << "TrackingOptions::multi_frames_to_track is > 1, "
                         << "but tracking_policy is set to POLICY_LONG_TRACKS. "
@@ -720,14 +720,14 @@ RegionFlowComputation::RegionFlowComputation(
       }
 
       if (options_.tracking_options().internal_tracking_direction() !=
-          TrackingOptions::FORWARD) {
+          TrackingOptions::FLOW_DIRECTION_FORWARD) {
         ABSL_LOG(ERROR)
             << "Long tracks are only supported if tracking direction "
             << "is set to FORWARD. Adjusting direction to FORWARD. "
             << "This does not affect the expected "
             << "output_flow_direction";
         options_.mutable_tracking_options()->set_internal_tracking_direction(
-            TrackingOptions::FORWARD);
+            TrackingOptions::FLOW_DIRECTION_FORWARD);
       }
 
       frames_to_track_ = 1;
@@ -1115,7 +1115,7 @@ bool RegionFlowComputation::AddImageAndTrack(
                            options_.tracking_options().output_flow_direction();
 
   switch (internal_flow_direction) {
-    case TrackingOptions::FORWARD:
+    case TrackingOptions::FLOW_DIRECTION_FORWARD:
       if (long_track_data_ != nullptr && curr_frames_to_track > 0) {
         // Long feature tracking.
         TrackedFeatureList curr_result;
@@ -1132,7 +1132,7 @@ bool RegionFlowComputation::AddImageAndTrack(
         }
       }
       break;
-    case TrackingOptions::BACKWARD:
+    case TrackingOptions::FLOW_DIRECTION_BACKWARD:
       for (int i = 1; i <= curr_frames_to_track; ++i) {
         if (!synthetic_tracks && i > 1) {
           InitializeFeatureLocationsFromPreviousResult(-i + 1, -i);
@@ -1141,9 +1141,9 @@ bool RegionFlowComputation::AddImageAndTrack(
                           nullptr, region_flow_results_[i - 1].get());
       }
       break;
-    case TrackingOptions::CONSECUTIVELY:
+    case TrackingOptions::FLOW_DIRECTION_CONSECUTIVELY:
       const bool invert_flow_forward =
-          TrackingOptions::FORWARD !=
+          TrackingOptions::FLOW_DIRECTION_FORWARD !=
           options_.tracking_options().output_flow_direction();
       const bool invert_flow_backward = !invert_flow_forward;
       for (int i = curr_frames_to_track; i >= 1; --i) {
@@ -1635,7 +1635,7 @@ void RegionFlowComputation::AdaptiveGoodFeaturesToTrack(
   block_height = max(1, block_height);
 
   bool use_harris = tracking_options.corner_extraction_method() ==
-                    TrackingOptions::EXTRACTION_HARRIS;
+                    TrackingOptions::FLOW_DIRECTION_EXTRACTION_HARRIS;
 
   const int adaptive_levels =
       options_.tracking_options().adaptive_features_levels();
@@ -1653,7 +1653,7 @@ void RegionFlowComputation::AdaptiveGoodFeaturesToTrack(
           : tracking_options.min_eig_val_settings().feature_quality_level();
 
   bool use_fast = tracking_options.corner_extraction_method() ==
-                  TrackingOptions::EXTRACTION_FAST;
+                  TrackingOptions::FLOW_DIRECTION_EXTRACTION_FAST;
   cv::Ptr<cv::FastFeatureDetector> fast_detector;
   if (use_fast) {
     fast_detector = cv::FastFeatureDetector::create(
@@ -2332,9 +2332,9 @@ void RegionFlowComputation::ExtractFeatures(
     // position, for BACKWARD output flow, flow is inverted, so that feature
     // locations already point to locations in the current frame.
     ABSL_CHECK_EQ(options_.tracking_options().internal_tracking_direction(),
-                  TrackingOptions::FORWARD);
+                  TrackingOptions::FLOW_DIRECTION_FORWARD);
     float match_sign = options_.tracking_options().output_flow_direction() ==
-                               TrackingOptions::FORWARD
+                               TrackingOptions::FLOW_DIRECTION_FORWARD
                            ? 1.0f
                            : 0.0f;
     const float inv_downsample_scale_ = 1.0f / downsample_scale_;
@@ -2578,7 +2578,7 @@ void RegionFlowComputation::TrackFeatures(FrameTrackingData* from_data_ptr,
   }
 
   if (options_.tracking_options().klt_tracker_implementation() ==
-      TrackingOptions::KLT_OPENCV) {
+      TrackingOptions::FLOW_DIRECTION_KLT_OPENCV) {
     cv::calcOpticalFlowPyrLK(input_frame1, input_frame2, features1, features2,
                              feature_status_, feature_track_error_,
                              cv_window_size, pyramid_levels_, cv_criteria,
