@@ -89,6 +89,7 @@ message RegionFlowFeature {
 
   // Flags indicating specific statuses.
   enum Flags {
+    FLAG_UNKNOWN = 0;
     FLAG_BROKEN_TRACK = 1;  // Used for long feature tracks if track id
                             // was reset.
   }
@@ -260,6 +261,7 @@ message SalientPoint {
   optional float norm_point_y = 2 [default = 0.0];
 
   enum SalientPointType {
+    TYPE_UNKNOWN = 0;
     TYPE_INCLUDE = 1;
     TYPE_EXCLUDE_LEFT = 2;
     TYPE_EXCLUDE_RIGHT = 3;

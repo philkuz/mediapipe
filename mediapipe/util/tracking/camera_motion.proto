@@ -144,6 +144,7 @@ message CameraMotion {
 
   // Set of optional *bit* flags set for various purposes.
   enum Flags {
+    FLAG_UNKNOWN = 0;
     FLAG_SHOT_BOUNDARY = 1;  // Set to indicate presence of a
                              // shot boundary.
     FLAG_BLURRY_FRAME = 2;

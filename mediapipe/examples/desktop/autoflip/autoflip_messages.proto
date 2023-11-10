@@ -40,6 +40,7 @@ message Border {
   // Position for static area.
   // Next tag: 3
   enum RelativePosition {
+    UNKNOWN = 0;
     TOP = 1;
     BOTTOM = 2;
   }

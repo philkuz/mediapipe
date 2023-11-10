@@ -24,6 +24,7 @@ message PacketThinnerCalculatorOptions {
   }
 
   enum ThinnerType {
+    UNKNOWN = 0;
     ASYNC = 1;  // Asynchronous thinner, described below [default].
     SYNC = 2;   // Synchronous thinner, also described below.
   }

@@ -336,6 +336,7 @@ message MotionEstimationOptions {
 
   // Controls how multiple models via EstimateMotionsParallel are estimated.
   enum EstimationPolicy {
+    UNKNOWN = 0;
     INDEPENDENT_PARALLEL = 1;  // Models are estimated independently across
                                // frames in parallel.
     TEMPORAL_IRLS_MASK = 2;    // Previous frame's estimation biases
@@ -626,6 +627,7 @@ message MotionEstimationOptions {
   // Weight initialization for homography estimation. This is to bias homography
   // estimation either to foreground or background.
   enum HomographyIrlsWeightInitialization {
+    IRLS_WEIGHT_UNKNOWN = 0;
     IRLS_WEIGHT_CONSTANT_ONE = 1;     // Constant, treat all features equally.
     IRLS_WEIGHT_CENTER_GAUSSIAN = 2;  // Weight features in the center higher.
                                       // Tends to lock onto foreground.

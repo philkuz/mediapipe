@@ -47,6 +47,7 @@ message FocusPoint {
   optional float norm_point_y = 2 [default = 0.0];
 
   enum FocusPointType {
+    TYPE_UNKNOWN = 0;
     TYPE_INCLUDE = 1;
     TYPE_EXCLUDE_LEFT = 2;
     TYPE_EXCLUDE_RIGHT = 3;

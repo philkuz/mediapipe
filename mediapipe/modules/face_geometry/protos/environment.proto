@@ -59,6 +59,7 @@ option java_outer_classname = "EnvironmentProto";
 // sure all the input landmarks are in-sync with this location is crucial
 // for receiving the correct output face geometry and visual renders.
 enum OriginPointLocation {
+  UNKNOWN = 0;
   BOTTOM_LEFT_CORNER = 1;
   TOP_LEFT_CORNER = 2;
 }
