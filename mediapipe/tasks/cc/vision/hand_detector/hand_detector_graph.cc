@@ -96,9 +96,9 @@ void ConfigureNonMaxSuppressionCalculator(
     mediapipe::NonMaxSuppressionCalculatorOptions* options) {
   options->set_min_suppression_threshold(0.3);
   options->set_overlap_type(
-      mediapipe::NonMaxSuppressionCalculatorOptions::INTERSECTION_OVER_UNION);
+      mediapipe::NonMaxSuppressionCalculatorOptions::NMS_ALGO_INTERSECTION_OVER_UNION);
   options->set_algorithm(
-      mediapipe::NonMaxSuppressionCalculatorOptions::WEIGHTED);
+      mediapipe::NonMaxSuppressionCalculatorOptions::NMS_ALGO_WEIGHTED);
   // TODO "return_empty_detections" was removed from 1P graph,
   // consider setting it from metadata accordingly.
   options->set_return_empty_detections(true);

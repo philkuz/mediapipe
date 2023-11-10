@@ -650,9 +650,9 @@ void ConfigureNonMaxSuppressionCalculator(
   options->set_min_suppression_threshold(
       detector_options.min_suppression_threshold());
   options->set_overlap_type(
-      mediapipe::NonMaxSuppressionCalculatorOptions::INTERSECTION_OVER_UNION);
+      mediapipe::NonMaxSuppressionCalculatorOptions::NMS_ALGO_INTERSECTION_OVER_UNION);
   options->set_algorithm(
-      mediapipe::NonMaxSuppressionCalculatorOptions::DEFAULT);
+      mediapipe::NonMaxSuppressionCalculatorOptions::NMS_ALGO_DEFAULT);
   options->set_max_num_detections(detector_options.max_results());
 }
 

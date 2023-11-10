@@ -60,9 +60,9 @@ message NonMaxSuppressionCalculatorOptions {
 
   // Algorithms that can be used to apply non-maximum suppression.
   enum NmsAlgorithm {
-    DEFAULT = 0;
+    NMS_ALGO_DEFAULT = 0;
     // Only supports relative bounding box for weighted NMS.
-    WEIGHTED = 1;
+    NMS_ALGO_WEIGHTED = 1;
   }
-  optional NmsAlgorithm algorithm = 7 [default = DEFAULT];
+  optional NmsAlgorithm algorithm = 7 [default = NMS_ALGO_DEFAULT];
 }

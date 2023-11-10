@@ -83,13 +83,13 @@ float OverlapSimilarity(
   const float intersection_area = Rectangle_f(rect1).Intersect(rect2).Area();
   float normalization;
   switch (overlap_type) {
-    case NonMaxSuppressionCalculatorOptions::JACCARD:
+    case NonMaxSuppressionCalculatorOptions::NMS_ALGO_JACCARD:
       normalization = Rectangle_f(rect1).Union(rect2).Area();
       break;
-    case NonMaxSuppressionCalculatorOptions::MODIFIED_JACCARD:
+    case NonMaxSuppressionCalculatorOptions::NMS_ALGO_MODIFIED_JACCARD:
       normalization = rect2.Area();
       break;
-    case NonMaxSuppressionCalculatorOptions::INTERSECTION_OVER_UNION:
+    case NonMaxSuppressionCalculatorOptions::NMS_ALGO_INTERSECTION_OVER_UNION:
       normalization = rect1.Area() + rect2.Area() - intersection_area;
       break;
     default:
@@ -236,7 +236,7 @@ class NonMaxSuppressionCalculator : public CalculatorBase {
     auto* retained_detections = new Detections();
     retained_detections->reserve(max_num_detections);
 
-    if (options_.algorithm() == NonMaxSuppressionCalculatorOptions::WEIGHTED) {
+    if (options_.algorithm() == NonMaxSuppressionCalculatorOptions::NMS_ALGO_WEIGHTED) {
       WeightedNonMaxSuppression(indexed_scores, pruned_detections,
                                 max_num_detections, cc, retained_detections);
     } else {

@@ -120,9 +120,9 @@ void ConfigureNonMaxSuppressionCalculator(
   options->set_min_suppression_threshold(
       tasks_options.min_suppression_threshold());
   options->set_overlap_type(
-      mediapipe::NonMaxSuppressionCalculatorOptions::INTERSECTION_OVER_UNION);
+      mediapipe::NonMaxSuppressionCalculatorOptions::NMS_ALGO_INTERSECTION_OVER_UNION);
   options->set_algorithm(
-      mediapipe::NonMaxSuppressionCalculatorOptions::WEIGHTED);
+      mediapipe::NonMaxSuppressionCalculatorOptions::NMS_ALGO_WEIGHTED);
 }
 
 void ConfigureDetectionsToRectsCalculator(
