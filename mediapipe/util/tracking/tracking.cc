@@ -3186,7 +3186,7 @@ void MotionVectorFrameFromTrackingData(const TrackingData& tracking_data,
   scale_y /= tracking_data.domain_height();
 
   const bool use_background_model =
-      !(tracking_data.frame_flags() & TrackingData::FLAG_BACKGROUND_UNSTABLE);
+      !(tracking_data.frame_flags() & TrackingData::TRACKING_FLAG_BACKGROUND_UNSTABLE);
 
   Homography homog_scale = HomographyAdapter::Embed(
       AffineAdapter::FromArgs(0, 0, scale_x, 0, 0, scale_y));
@@ -3202,9 +3202,9 @@ void MotionVectorFrameFromTrackingData(const TrackingData& tracking_data,
   motion_vector_frame->background_model.CopyFrom(background_model_scaled);
   motion_vector_frame->valid_background_model = use_background_model;
   motion_vector_frame->is_duplicated =
-      tracking_data.frame_flags() & TrackingData::FLAG_DUPLICATED;
+      tracking_data.frame_flags() & TrackingData::TRACKING_FLAG_DUPLICATED;
   motion_vector_frame->is_chunk_boundary =
-      tracking_data.frame_flags() & TrackingData::FLAG_CHUNK_BOUNDARY;
+      tracking_data.frame_flags() & TrackingData::TRACKING_FLAG_CHUNK_BOUNDARY;
   motion_vector_frame->aspect_ratio = tracking_data.frame_aspect();
   motion_vector_frame->motion_vectors.reserve(motion_data.row_indices_size());
 

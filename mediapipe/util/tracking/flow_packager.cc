@@ -162,7 +162,7 @@ void FlowPackager::PackFlow(const RegionFlowFeatureList& feature_list,
 
   if (camera_motion == nullptr ||
       camera_motion->type() > CameraMotion::UNSTABLE_SIM) {
-    flags |= TrackingData::FLAG_BACKGROUND_UNSTABLE;
+    flags |= TrackingData::TRACKING_FLAG_BACKGROUND_UNSTABLE;
   } else {
     Homography transform;
     CameraMotionToHomography(*camera_motion, &transform);
@@ -181,7 +181,7 @@ void FlowPackager::PackFlow(const RegionFlowFeatureList& feature_list,
   }
 
   if (feature_list.is_duplicated()) {
-    flags |= TrackingData::FLAG_DUPLICATED;
+    flags |= TrackingData::TRACKING_FLAG_DUPLICATED;
   }
   tracking_data->set_frame_flags(flags);
 
@@ -281,18 +281,18 @@ void FlowPackager::EncodeTrackingData(const TrackingData& tracking_data,
   int32_t frame_flags = 0;
   const bool high_profile = options_.use_high_profile();
   if (high_profile) {
-    frame_flags |= TrackingData::FLAG_PROFILE_HIGH;
+    frame_flags |= TrackingData::TRACKING_FLAG_PROFILE_HIGH;
   } else {
-    frame_flags |= TrackingData::FLAG_PROFILE_BASELINE;  // No op.
+    frame_flags |= TrackingData::TRACKING_FLAG_PROFILE_BASELINE;  // No op.
   }
 
   if (options_.high_fidelity_16bit_encode()) {
-    frame_flags |= TrackingData::FLAG_HIGH_FIDELITY_VECTORS;
+    frame_flags |= TrackingData::TRACKING_FLAG_HIGH_FIDELITY_VECTORS;
   }
 
   // Copy background flag.
   frame_flags |=
-      tracking_data.frame_flags() & TrackingData::FLAG_BACKGROUND_UNSTABLE;
+      tracking_data.frame_flags() & TrackingData::TRACKING_FLAG_BACKGROUND_UNSTABLE;
 
   const TrackingData::MotionData& motion_data = tracking_data.motion_data();
   int32_t num_vectors = motion_data.num_elements();
@@ -639,9 +639,9 @@ void FlowPackager::DecodeTrackingData(const BinaryTrackingData& container_data,
   TrackingData::MotionData* motion_data = tracking_data->mutable_motion_data();
   motion_data->set_num_elements(num_vectors);
 
-  const bool high_profile = frame_flags & TrackingData::FLAG_PROFILE_HIGH;
+  const bool high_profile = frame_flags & TrackingData::TRACKING_FLAG_PROFILE_HIGH;
   const bool high_fidelity =
-      frame_flags & TrackingData::FLAG_HIGH_FIDELITY_VECTORS;
+      frame_flags & TrackingData::TRACKING_FLAG_HIGH_FIDELITY_VECTORS;
   const float flow_denom = 1.0f / scale;
 
   std::vector<uint8_t> col_starts_delta;

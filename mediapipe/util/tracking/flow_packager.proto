@@ -55,15 +55,15 @@ import "mediapipe/util/tracking/region_flow.proto";
 // Next flag: 9
 message TrackingData {
   enum FrameFlags {
-    FLAG_PROFILE_BASELINE = 0;
-    FLAG_PROFILE_HIGH = 1;
-    FLAG_HIGH_FIDELITY_VECTORS = 2;
-    FLAG_BACKGROUND_UNSTABLE = 4;  // Background model could not be estimated.
-    FLAG_DUPLICATED = 8;           // Frame is duplicated, i.e. identical to
+    TRACKING_FLAG_PROFILE_BASELINE = 0;
+    TRACKING_FLAG_PROFILE_HIGH = 1;
+    TRACKING_FLAG_HIGH_FIDELITY_VECTORS = 2;
+    TRACKING_FLAG_BACKGROUND_UNSTABLE = 4;  // Background model could not be estimated.
+    TRACKING_FLAG_DUPLICATED = 8;           // Frame is duplicated, i.e. identical to
                                    // previous one.
     // Indicates the beginning of a new chunk. In this case the track_id's
     // are not compatible w.r.t. previous one.
-    FLAG_CHUNK_BOUNDARY = 16;
+    TRACKING_FLAG_CHUNK_BOUNDARY = 16;
   }
 
   optional int32 frame_flags = 1 [default = 0];

@@ -792,7 +792,7 @@ void BoxTracker::TrackingImpl(const TrackingImplArgs& a) {
       // If this is the first frame in a chunk, there might be an unobserved
       // chunk boundary at the first frame.
       if (f == 0 && a.chunk_data->item(0).tracking_data().frame_flags() &
-                        TrackingData::FLAG_CHUNK_BOUNDARY) {
+                        TrackingData::TRACKING_FLAG_CHUNK_BOUNDARY) {
         mvf.is_chunk_boundary = true;
       }
 
