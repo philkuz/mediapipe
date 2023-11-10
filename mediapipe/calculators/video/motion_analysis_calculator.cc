@@ -725,17 +725,17 @@ absl::Status MotionAnalysisCalculator::InitOnProcess(
     switch (video_stream->Get<ImageFrame>().Format()) {
       case ImageFormat::FORMAT_GRAY8:
         image_format = image_format2 =
-            RegionFlowComputationOptions::FORMAT_GRAYSCALE;
+            RegionFlowComputationOptions::REGION_FLOW_FORMAT_GRAYSCALE;
         break;
 
       case ImageFormat::FORMAT_SRGB:
-        image_format = RegionFlowComputationOptions::FORMAT_RGB;
-        image_format2 = RegionFlowComputationOptions::FORMAT_BGR;
+        image_format = RegionFlowComputationOptions::REGION_FLOW_FORMAT_RGB;
+        image_format2 = RegionFlowComputationOptions::REGION_FLOW_FORMAT_BGR;
         break;
 
       case ImageFormat::FORMAT_SRGBA:
-        image_format = RegionFlowComputationOptions::FORMAT_RGBA;
-        image_format2 = RegionFlowComputationOptions::FORMAT_BGRA;
+        image_format = RegionFlowComputationOptions::REGION_FLOW_FORMAT_RGBA;
+        image_format2 = RegionFlowComputationOptions::REGION_FLOW_FORMAT_BGRA;
         break;
 
       default:
@@ -752,7 +752,7 @@ absl::Status MotionAnalysisCalculator::InitOnProcess(
     // already downsampled frames but the resulting CameraMotion should
     // be computed on higher resolution as specifed by the downsample scale.
     if (region_options->downsample_mode() ==
-        RegionFlowComputationOptions::DOWNSAMPLE_TO_INPUT_SIZE) {
+        RegionFlowComputationOptions::REGION_FLOW_DOWNSAMPLE_TO_INPUT_SIZE) {
       const float scale = region_options->downsample_factor();
       frame_width_ = static_cast<int>(std::round(frame_width_ * scale));
       frame_height_ = static_cast<int>(std::round(frame_height_ * scale));

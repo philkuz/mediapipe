@@ -333,27 +333,27 @@ message RegionFlowComputationOptions {
   // the nearest even dimension, i.e. 350p with a downsample_factor of 2.0
   // would expect an input of size 176p.
   enum DownsampleMode {
-    DOWNSAMPLE_UNKNOWN = 0;
+    REGION_FLOW_DOWNSAMPLE_UNKNOWN = 0;
     // No downsampling.
-    DOWNSAMPLE_NONE = 1;
+    REGION_FLOW_DOWNSAMPLE_NONE = 1;
     // Downsizes the input frame such that frame_size == downsampling_size,
     // where frame_size := max(width, height).
-    DOWNSAMPLE_TO_MAX_SIZE = 2;
+    REGION_FLOW_DOWNSAMPLE_TO_MAX_SIZE = 2;
     // Downsizes frame by pre-defined factor, downsample_factor below.
-    DOWNSAMPLE_BY_FACTOR = 3;
+    REGION_FLOW_DOWNSAMPLE_BY_FACTOR = 3;
     // Downsampling based on downsampling schedule, see DownsampleSchedule below
     // for details.
-    DOWNSAMPLE_BY_SCHEDULE = 4;
+    REGION_FLOW_DOWNSAMPLE_BY_SCHEDULE = 4;
     // Downsizes the input frame such that frame_size == downsampling_size,
     // where frame_size := min(width, height).
-    DOWNSAMPLE_TO_MIN_SIZE = 5;
+    REGION_FLOW_DOWNSAMPLE_TO_MIN_SIZE = 5;
     // Input frame is assumed to be already downsampled by the factor specified
     // by downsample_factor below. For example if the original frame is 720p,
     // and downsample_factor is set to 2.0, then we expect as input 360p.
-    DOWNSAMPLE_TO_INPUT_SIZE = 6;
+    REGION_FLOW_DOWNSAMPLE_TO_INPUT_SIZE = 6;
   }
 
-  optional DownsampleMode downsample_mode = 11 [default = DOWNSAMPLE_NONE];
+  optional DownsampleMode downsample_mode = 11 [default = REGION_FLOW_DOWNSAMPLE_NONE];
 
   // Specify the size of either dimension here, the frame will be
   // downsampled to fit downsampling_size.

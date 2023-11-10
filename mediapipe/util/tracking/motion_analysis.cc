@@ -93,7 +93,7 @@ MotionAnalysis::MotionAnalysis(const MotionAnalysisOptions& options,
       use_spatial_bias;
 
   if (compute_feature_descriptors_) {
-    ABSL_CHECK_EQ(RegionFlowComputationOptions::FORMAT_RGB,
+    ABSL_CHECK_EQ(RegionFlowComputationOptions::REGION_FLOW_FORMAT_RGB,
                   options_.flow_options().image_format())
         << "Feature descriptors only support RGB currently.";
     prev_frame_.reset(new cv::Mat(frame_height_, frame_width_, CV_8UC3));
@@ -153,7 +153,7 @@ void MotionAnalysis::InitPolicyOptions() {
 
       // Speed.
       flow_options->set_downsample_mode(
-          RegionFlowComputationOptions::DOWNSAMPLE_BY_SCHEDULE);
+          RegionFlowComputationOptions::REGION_FLOW_DOWNSAMPLE_BY_SCHEDULE);
 
       motion_options->set_estimation_policy(
           MotionEstimationOptions::TEMPORAL_LONG_FEATURE_BIAS);
@@ -197,7 +197,7 @@ void MotionAnalysis::InitPolicyOptions() {
       tracking_options->set_max_features(500);
 
       flow_options->set_downsample_mode(
-          RegionFlowComputationOptions::DOWNSAMPLE_TO_MIN_SIZE);
+          RegionFlowComputationOptions::REGION_FLOW_DOWNSAMPLE_TO_MIN_SIZE);
       flow_options->set_round_downsample_factor(true);
       flow_options->set_downsampling_size(256);
       flow_options->set_pre_blur_sigma(0);
@@ -303,7 +303,7 @@ void MotionAnalysis::InitPolicyOptions() {
 
       // Speed.
       flow_options->set_downsample_mode(
-          RegionFlowComputationOptions::DOWNSAMPLE_BY_SCHEDULE);
+          RegionFlowComputationOptions::REGION_FLOW_DOWNSAMPLE_BY_SCHEDULE);
 
       // Less quality features.
       flow_options->set_absolute_inlier_error_threshold(4);

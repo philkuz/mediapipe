@@ -149,22 +149,22 @@ void RegionFlowComputationTest::MakeMovie(
   };
 
   switch (format) {
-    case RegionFlowComputationOptions::FORMAT_RGB:
+    case RegionFlowComputationOptions::REGION_FLOW_FORMAT_RGB:
       break;
 
-    case RegionFlowComputationOptions::FORMAT_BGR:
+    case RegionFlowComputationOptions::REGION_FLOW_FORMAT_BGR:
       convert(CV_8UC3, cv::COLOR_RGB2BGR);
       break;
 
-    case RegionFlowComputationOptions::FORMAT_GRAYSCALE:
+    case RegionFlowComputationOptions::REGION_FLOW_FORMAT_GRAYSCALE:
       convert(CV_8UC1, cv::COLOR_RGB2GRAY);
       break;
 
-    case RegionFlowComputationOptions::FORMAT_RGBA:
+    case RegionFlowComputationOptions::REGION_FLOW_FORMAT_RGBA:
       convert(CV_8UC4, cv::COLOR_RGB2RGBA);
       break;
 
-    case RegionFlowComputationOptions::FORMAT_BGRA:
+    case RegionFlowComputationOptions::REGION_FLOW_FORMAT_BGRA:
       convert(CV_8UC4, cv::COLOR_RGB2BGRA);
       break;
   }
@@ -241,15 +241,15 @@ TEST_P(RegionFlowComputationTest, FramePairTest) {
   EXPECT_NE(base_options_.tracking_options().output_flow_direction(),
             TrackingOptions::CONSECUTIVELY);
   // Test on grayscale input.
-  RunFramePairTest(RegionFlowComputationOptions::FORMAT_GRAYSCALE);
+  RunFramePairTest(RegionFlowComputationOptions::REGION_FLOW_FORMAT_GRAYSCALE);
   // Test on RGB input.
-  RunFramePairTest(RegionFlowComputationOptions::FORMAT_RGB);
+  RunFramePairTest(RegionFlowComputationOptions::REGION_FLOW_FORMAT_RGB);
   // Test on BGR input.
-  RunFramePairTest(RegionFlowComputationOptions::FORMAT_BGR);
+  RunFramePairTest(RegionFlowComputationOptions::REGION_FLOW_FORMAT_BGR);
   // Test on RGBA input.
-  RunFramePairTest(RegionFlowComputationOptions::FORMAT_RGBA);
+  RunFramePairTest(RegionFlowComputationOptions::REGION_FLOW_FORMAT_RGBA);
   // Test on BGRA input.
-  RunFramePairTest(RegionFlowComputationOptions::FORMAT_BGRA);
+  RunFramePairTest(RegionFlowComputationOptions::REGION_FLOW_FORMAT_BGRA);
 }
 
 TEST_P(RegionFlowComputationTest, ResolutionTests) {
