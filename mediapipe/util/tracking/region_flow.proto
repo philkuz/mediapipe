@@ -261,16 +261,16 @@ message SalientPoint {
   optional float norm_point_y = 2 [default = 0.0];
 
   enum SalientPointType {
-    TYPE_UNKNOWN = 0;
-    TYPE_INCLUDE = 1;
-    TYPE_EXCLUDE_LEFT = 2;
-    TYPE_EXCLUDE_RIGHT = 3;
+    SALIENT_POINT_TYPE_UNKNOWN = 0;
+    SALIENT_POINT_TYPE_INCLUDE = 1;
+    SALIENT_POINT_TYPE_EXCLUDE_LEFT = 2;
+    SALIENT_POINT_TYPE_EXCLUDE_RIGHT = 3;
   }
 
   // Salient point type. By default we try to frame the salient point within
   // the bounding box specified by left, bottom, right, top. Alternatively, one
   // can choose to exclude the point. For details, see discussion above.
-  optional SalientPointType type = 11 [default = TYPE_INCLUDE];
+  optional SalientPointType type = 11 [default = SALIENT_POINT_TYPE_INCLUDE];
 
   // Bounds are specified in normalized coordinates [0, 1], FROM the specified
   // border. Opposing bounds (e.g. left and right) may not add to values
