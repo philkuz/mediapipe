@@ -65,12 +65,12 @@ message SpectrogramCalculatorOptions {
 
   // Which window to use when computing the FFT.
   enum WindowType {
-    HANN = 0;
-    HAMMING = 1;
-    COSINE = 2;
-    SQRT_HANN = 4;  // Alias of COSINE.
+    WINDOW_TYPE_HANN = 0;
+    WINDOW_TYPE_HAMMING = 1;
+    WINDOW_TYPE_COSINE = 2;
+    WINDOW_TYPE_SQRT_HANN = 4;  // Alias of COSINE.
   }
-  optional WindowType window_type = 6 [default = HANN];
+  optional WindowType window_type = 6 [default = WINDOW_TYPE_HANN];
 
   // Support a fixed multiplicative scaling of the output.  This is applied
   // uniformly regardless of output type (i.e., even dBs are multiplied, not

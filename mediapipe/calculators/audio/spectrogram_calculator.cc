@@ -92,7 +92,7 @@ class SpectrogramCalculator : public CalculatorBase {
         cc->Options<SpectrogramCalculatorOptions>();
     if (!spectrogram_options.allow_multichannel_input()) {
       if (spectrogram_options.output_type() ==
-          SpectrogramCalculatorOptions::COMPLEX) {
+          SpectrogramCalculatorOptions::WINDOW_TYPE_COMPLEX) {
         cc->Outputs().Index(0).Set<Eigen::MatrixXcf>(
             // Complex spectrogram frames with TimeSeriesHeader.
         );
@@ -103,7 +103,7 @@ class SpectrogramCalculator : public CalculatorBase {
       }
     } else {
       if (spectrogram_options.output_type() ==
-          SpectrogramCalculatorOptions::COMPLEX) {
+          SpectrogramCalculatorOptions::WINDOW_TYPE_COMPLEX) {
         cc->Outputs().Index(0).Set<std::vector<Eigen::MatrixXcf>>(
             // Complex spectrogram frames with MultiStreamTimeSeriesHeader.
         );
@@ -215,12 +215,12 @@ std::unique_ptr<audio_dsp::WindowFunction> MakeWindowFun(
     const SpectrogramCalculatorOptions::WindowType window_type) {
   switch (window_type) {
     // The cosine window and square root of Hann are equivalent.
-    case SpectrogramCalculatorOptions::COSINE:
-    case SpectrogramCalculatorOptions::SQRT_HANN:
+    case SpectrogramCalculatorOptions::WINDOW_TYPE_COSINE:
+    case SpectrogramCalculatorOptions::WINDOW_TYPE_SQRT_HANN:
       return std::make_unique<audio_dsp::CosineWindow>();
-    case SpectrogramCalculatorOptions::HANN:
+    case SpectrogramCalculatorOptions::WINDOW_TYPE_HANN:
       return std::make_unique<audio_dsp::HannWindow>();
-    case SpectrogramCalculatorOptions::HAMMING:
+    case SpectrogramCalculatorOptions::WINDOW_TYPE_HAMMING:
       return std::make_unique<audio_dsp::HammingWindow>();
   }
   return nullptr;
@@ -439,28 +439,28 @@ absl::Status SpectrogramCalculator::ProcessVector(const Matrix& input_stream,
       // These blocks deliberately ignore clang-format to preserve the
       // "silhouette" of the different cases.
       // clang-format off
-    case SpectrogramCalculatorOptions::COMPLEX: {
+    case SpectrogramCalculatorOptions::WINDOW_TYPE_COMPLEX: {
       return ProcessVectorToOutput(
           input_stream,
           +[](const Eigen::MatrixXcf& col) -> const Eigen::MatrixXcf {
             return col;
           }, cc);
     }
-    case SpectrogramCalculatorOptions::SQUARED_MAGNITUDE: {
+    case SpectrogramCalculatorOptions::WINDOW_TYPE_SQUARED_MAGNITUDE: {
       return ProcessVectorToOutput(
           input_stream,
           +[](const Matrix& col) -> const Matrix {
             return col;
           }, cc);
     }
-    case SpectrogramCalculatorOptions::LINEAR_MAGNITUDE: {
+    case SpectrogramCalculatorOptions::WINDOW_TYPE_LINEAR_MAGNITUDE: {
       return ProcessVectorToOutput(
           input_stream,
           +[](const Matrix& col) -> const Matrix {
             return col.array().sqrt().matrix();
           }, cc);
     }
-    case SpectrogramCalculatorOptions::DECIBELS: {
+    case SpectrogramCalculatorOptions::WINDOW_TYPE_DECIBELS: {
       return ProcessVectorToOutput(
           input_stream,
           +[](const Matrix& col) -> const Matrix {

@@ -233,7 +233,7 @@ class SpectrogramCalculatorTest
           packet.Timestamp(), initial_timestamp, cumulative_output_frames,
           expected_header.sample_rate()));
       if (!options_.allow_multichannel_input()) {
-        if (options_.output_type() == SpectrogramCalculatorOptions::COMPLEX) {
+        if (options_.output_type() == SpectrogramCalculatorOptions::WINDOW_TYPE_COMPLEX) {
           const Eigen::MatrixXcf& matrix = packet.Get<Eigen::MatrixXcf>();
           cumulative_output_frames += matrix.cols();
         } else {
@@ -241,7 +241,7 @@ class SpectrogramCalculatorTest
           cumulative_output_frames += matrix.cols();
         }
       } else {
-        if (options_.output_type() == SpectrogramCalculatorOptions::COMPLEX) {
+        if (options_.output_type() == SpectrogramCalculatorOptions::WINDOW_TYPE_COMPLEX) {
           const Eigen::MatrixXcf& matrix =
               packet.Get<std::vector<Eigen::MatrixXcf>>().at(0);
           cumulative_output_frames += matrix.cols();
@@ -500,7 +500,7 @@ TEST_F(SpectrogramCalculatorTest, A440ToneIsPeakBin) {
 TEST_F(SpectrogramCalculatorTest, SquaredMagnitudeOutputLooksRight) {
   options_.set_frame_duration_seconds(100.0 / input_sample_rate_);
   options_.set_frame_overlap_seconds(60.0 / input_sample_rate_);
-  options_.set_output_type(SpectrogramCalculatorOptions::SQUARED_MAGNITUDE);
+  options_.set_output_type(SpectrogramCalculatorOptions::WINDOW_TYPE_SQUARED_MAGNITUDE);
   const std::vector<int> input_packet_sizes = {140};
 
   InitializeGraph();
@@ -536,7 +536,7 @@ TEST_F(SpectrogramCalculatorTest, DefaultOutputIsSquaredMagnitude) {
 TEST_F(SpectrogramCalculatorTest, LinearMagnitudeOutputLooksRight) {
   options_.set_frame_duration_seconds(100.0 / input_sample_rate_);
   options_.set_frame_overlap_seconds(60.0 / input_sample_rate_);
-  options_.set_output_type(SpectrogramCalculatorOptions::LINEAR_MAGNITUDE);
+  options_.set_output_type(SpectrogramCalculatorOptions::WINDOW_TYPE_LINEAR_MAGNITUDE);
   const std::vector<int> input_packet_sizes = {140};
 
   InitializeGraph();
@@ -554,7 +554,7 @@ TEST_F(SpectrogramCalculatorTest, LinearMagnitudeOutputLooksRight) {
 TEST_F(SpectrogramCalculatorTest, DbMagnitudeOutputLooksRight) {
   options_.set_frame_duration_seconds(100.0 / input_sample_rate_);
   options_.set_frame_overlap_seconds(60.0 / input_sample_rate_);
-  options_.set_output_type(SpectrogramCalculatorOptions::DECIBELS);
+  options_.set_output_type(SpectrogramCalculatorOptions::WINDOW_TYPE_DECIBELS);
   const std::vector<int> input_packet_sizes = {140};
 
   InitializeGraph();
@@ -572,7 +572,7 @@ TEST_F(SpectrogramCalculatorTest, DbMagnitudeOutputLooksRight) {
 TEST_F(SpectrogramCalculatorTest, OutputScalingLooksRight) {
   options_.set_frame_duration_seconds(100.0 / input_sample_rate_);
   options_.set_frame_overlap_seconds(60.0 / input_sample_rate_);
-  options_.set_output_type(SpectrogramCalculatorOptions::DECIBELS);
+  options_.set_output_type(SpectrogramCalculatorOptions::WINDOW_TYPE_DECIBELS);
   double output_scale = 2.5;
   options_.set_output_scale(output_scale);
   const std::vector<int> input_packet_sizes = {140};
@@ -593,7 +593,7 @@ TEST_F(SpectrogramCalculatorTest, OutputScalingLooksRight) {
 TEST_F(SpectrogramCalculatorTest, ComplexOutputLooksRight) {
   options_.set_frame_duration_seconds(100.0 / input_sample_rate_);
   options_.set_frame_overlap_seconds(60.0 / input_sample_rate_);
-  options_.set_output_type(SpectrogramCalculatorOptions::COMPLEX);
+  options_.set_output_type(SpectrogramCalculatorOptions::WINDOW_TYPE_COMPLEX);
   const std::vector<int> input_packet_sizes = {140};
 
   InitializeGraph();
@@ -613,7 +613,7 @@ TEST_F(SpectrogramCalculatorTest, ComplexOutputLooksRightForImpulses) {
   options_.set_frame_duration_seconds(frame_size_samples / input_sample_rate_);
   options_.set_frame_overlap_seconds(0.0 / input_sample_rate_);
   options_.set_pad_final_packet(false);
-  options_.set_output_type(SpectrogramCalculatorOptions::COMPLEX);
+  options_.set_output_type(SpectrogramCalculatorOptions::WINDOW_TYPE_COMPLEX);
   const std::vector<int> input_packet_sizes = {frame_size_samples,
                                                frame_size_samples};
   const std::vector<int> input_packet_impulse_offsets = {49, 50};
@@ -661,7 +661,7 @@ TEST_F(SpectrogramCalculatorTest, SquaredMagnitudeOutputLooksRightForNonDC) {
   const int frame_size_samples = 100;
   options_.set_frame_duration_seconds(frame_size_samples / input_sample_rate_);
   options_.set_frame_overlap_seconds(60.0 / input_sample_rate_);
-  options_.set_output_type(SpectrogramCalculatorOptions::SQUARED_MAGNITUDE);
+  options_.set_output_type(SpectrogramCalculatorOptions::WINDOW_TYPE_SQUARED_MAGNITUDE);
   const std::vector<int> input_packet_sizes = {140};
 
   InitializeGraph();
@@ -828,7 +828,7 @@ TEST_F(SpectrogramCalculatorTest,
   options_.set_frame_overlap_seconds(60.0 / input_sample_rate_);
   options_.set_pad_final_packet(false);
   options_.set_allow_multichannel_input(true);
-  options_.set_output_type(SpectrogramCalculatorOptions::COMPLEX);
+  options_.set_output_type(SpectrogramCalculatorOptions::WINDOW_TYPE_COMPLEX);
   num_input_channels_ = 2;
   InitializeGraph();
   FillInputHeader();
