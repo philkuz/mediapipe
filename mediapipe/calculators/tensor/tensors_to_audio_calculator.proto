@@ -34,17 +34,17 @@ message TensorsToAudioCalculatorOptions {
   optional int64 num_overlapping_samples = 3 [default = 0];
 
   enum DftTensorFormat {
-    DFT_TENSOR_FORMAT_UNKNOWN = 0;
+    T2A_DFT_TENSOR_FORMAT_UNKNOWN = 0;
     // The input dft tensor without dc and nyquist components.
-    WITHOUT_DC_AND_NYQUIST = 1;
+    T2A_WITHOUT_DC_AND_NYQUIST = 1;
     // The input dft tensor contains the nyquist component as the last
     // two values.
-    WITH_NYQUIST = 2;
+    T2A_WITH_NYQUIST = 2;
     // The input dft tensor contains the dc component as the first two values
     // and the nyquist component as the last two values.
-    WITH_DC_AND_NYQUIST = 3;
+    T2A_WITH_DC_AND_NYQUIST = 3;
   }
-  optional DftTensorFormat dft_tensor_format = 11 [default = WITH_NYQUIST];
+  optional DftTensorFormat dft_tensor_format = 11 [default = T2A_WITH_NYQUIST];
 
   // The volume gain, measured in dB.
   // Scale the output audio amplitude by 10^(volume_gain_db/20).
