@@ -60,14 +60,14 @@ message AudioToTensorCalculatorOptions {
   // Determines the "flushing" behavior in stream mode.
   enum FlushMode {
     // Unspecified (causes an error). Won't be used because of the default.
-    NONE = 0;
+    FLUSH_MODE_NONE = 0;
     // Emit a packet with the entire remainder at `Timestamp::Max`.
-    ENTIRE_TAIL_AT_TIMESTAMP_MAX = 1;
+    FLUSH_MODE_ENTIRE_TAIL_AT_TIMESTAMP_MAX = 1;
     // Continue emitting framed packets with relevant timestamps.
-    PROCEED_AS_USUAL = 2;
+    FLUSH_MODE_PROCEED_AS_USUAL = 2;
   }
 
-  optional FlushMode flush_mode = 10 [default = ENTIRE_TAIL_AT_TIMESTAMP_MAX];
+  optional FlushMode flush_mode = 10 [default = FLUSH_MODE_ENTIRE_TAIL_AT_TIMESTAMP_MAX];
 
   enum DftTensorFormat {
     DFT_TENSOR_FORMAT_UNKNOWN = 0;
