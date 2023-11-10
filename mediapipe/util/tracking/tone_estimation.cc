@@ -36,9 +36,9 @@ ToneEstimation::ToneEstimation(const ToneEstimationOptions& options,
       original_width_(frame_width),
       original_height_(frame_height) {
   switch (options_.downsample_mode()) {
-    case ToneEstimationOptions::DOWNSAMPLE_NONE:
+    case ToneEstimationOptions::TONE_DOWNSAMPLE_NONE:
       break;
-    case ToneEstimationOptions::DOWNSAMPLE_TO_MAX_SIZE: {
+    case ToneEstimationOptions::TONE_DOWNSAMPLE_TO_MAX_SIZE: {
       const float max_size = std::max(frame_width_, frame_height_);
       if (max_size > 1.03f * options_.downsampling_size()) {
         downsample_scale_ = max_size / options_.downsampling_size();
@@ -48,7 +48,7 @@ ToneEstimation::ToneEstimation(const ToneEstimationOptions& options,
       }
       break;
     }
-    case ToneEstimationOptions::DOWNSAMPLE_TO_MIN_SIZE: {
+    case ToneEstimationOptions::TONE_DOWNSAMPLE_TO_MIN_SIZE: {
       const float min_size = std::min(frame_width_, frame_height_);
       if (min_size > 1.03f * options_.downsampling_size()) {
         downsample_scale_ = min_size / options_.downsampling_size();
@@ -59,7 +59,7 @@ ToneEstimation::ToneEstimation(const ToneEstimationOptions& options,
 
       break;
     }
-    case ToneEstimationOptions::DOWNSAMPLE_BY_FACTOR: {
+    case ToneEstimationOptions::TONE_DOWNSAMPLE_BY_FACTOR: {
       ABSL_CHECK_GE(options_.downsample_factor(), 1);
       frame_width_ /= options_.downsample_factor();
       frame_height_ /= options_.downsample_factor();

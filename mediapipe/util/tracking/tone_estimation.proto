@@ -163,18 +163,18 @@ message ToneEstimationOptions {
   // resolution dependent part of the tone estimation.
   // tracking if desired).
   enum DownsampleMode {
-    DOWNSAMPLE_UNKNOWN = 0;
-    DOWNSAMPLE_NONE = 1;         // no downsampling.
-    DOWNSAMPLE_TO_MAX_SIZE = 2;  // downsizes frame such that frame_size ==
+    TONE_DOWNSAMPLE_UNKNOWN = 0;
+    TONE_DOWNSAMPLE_NONE = 1;         // no downsampling.
+    TONE_DOWNSAMPLE_TO_MAX_SIZE = 2;  // downsizes frame such that frame_size ==
                                  // downsampling_size.
                                  // frame_size := max(width, height).
-    DOWNSAMPLE_BY_FACTOR = 3;    // downsizes frame by pre-defined factor.
-    DOWNSAMPLE_TO_MIN_SIZE = 4;  // downsizes frame such that frame_size ==
+    TONE_DOWNSAMPLE_BY_FACTOR = 3;    // downsizes frame by pre-defined factor.
+    TONE_DOWNSAMPLE_TO_MIN_SIZE = 4;  // downsizes frame such that frame_size ==
                                  // downsampling_size.
                                  // frame_size := min(width, height).
   }
 
-  optional DownsampleMode downsample_mode = 10 [default = DOWNSAMPLE_NONE];
+  optional DownsampleMode downsample_mode = 10 [default = TONE_DOWNSAMPLE_NONE];
 
   // Specify the size of either dimension here, the frame will be
   // downsampled to fit downsampling_size.
