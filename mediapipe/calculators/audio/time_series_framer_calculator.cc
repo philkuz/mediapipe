@@ -378,17 +378,17 @@ absl::Status TimeSeriesFramerCalculator::Open(CalculatorContext* cc) {
   std::vector<double> window_vector;
   use_window_ = false;
   switch (framer_options.window_function()) {
-    case TimeSeriesFramerCalculatorOptions::HAMMING:
+    case TimeSeriesFramerCalculatorOptions::WINDOW_HAMMING:
       audio_dsp::HammingWindow().GetPeriodicSamples(frame_duration_samples_,
                                                     &window_vector);
       use_window_ = true;
       break;
-    case TimeSeriesFramerCalculatorOptions::HANN:
+    case TimeSeriesFramerCalculatorOptions::WINDOW_HANN:
       audio_dsp::HannWindow().GetPeriodicSamples(frame_duration_samples_,
                                                  &window_vector);
       use_window_ = true;
       break;
-    case TimeSeriesFramerCalculatorOptions::NONE:
+    case TimeSeriesFramerCalculatorOptions::WINDOW_NONE:
       break;
   }
 

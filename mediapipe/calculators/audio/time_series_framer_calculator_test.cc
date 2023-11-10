@@ -110,15 +110,15 @@ class TimeSeriesFramerCalculatorTest
     const int frame_duration_samples = FrameDurationSamples();
     std::vector<double> window_vector;
     switch (options_.window_function()) {
-      case TimeSeriesFramerCalculatorOptions::HAMMING:
+      case TimeSeriesFramerCalculatorOptions::WINDOW_HAMMING:
         audio_dsp::HammingWindow().GetPeriodicSamples(frame_duration_samples,
                                                       &window_vector);
         break;
-      case TimeSeriesFramerCalculatorOptions::HANN:
+      case TimeSeriesFramerCalculatorOptions::WINDOW_HANN:
         audio_dsp::HannWindow().GetPeriodicSamples(frame_duration_samples,
                                                    &window_vector);
         break;
-      case TimeSeriesFramerCalculatorOptions::NONE:
+      case TimeSeriesFramerCalculatorOptions::WINDOW_NONE:
         window_vector.assign(frame_duration_samples, 1.0f);
         break;
     }
@@ -237,7 +237,7 @@ TEST_F(TimeSeriesFramerCalculatorTest, IntegerSampleDurationNoOverlap) {
 TEST_F(TimeSeriesFramerCalculatorTest,
        IntegerSampleDurationNoOverlapHammingWindow) {
   options_.set_frame_duration_seconds(100.0 / input_sample_rate_);
-  options_.set_window_function(TimeSeriesFramerCalculatorOptions::HAMMING);
+  options_.set_window_function(TimeSeriesFramerCalculatorOptions::WINDOW_HAMMING);
   MP_ASSERT_OK(Run());
   CheckOutput();
 }
@@ -245,7 +245,7 @@ TEST_F(TimeSeriesFramerCalculatorTest,
 TEST_F(TimeSeriesFramerCalculatorTest,
        IntegerSampleDurationNoOverlapHannWindow) {
   options_.set_frame_duration_seconds(100.0 / input_sample_rate_);
-  options_.set_window_function(TimeSeriesFramerCalculatorOptions::HANN);
+  options_.set_window_function(TimeSeriesFramerCalculatorOptions::WINDOW_HANN);
   MP_ASSERT_OK(Run());
   CheckOutput();
 }
@@ -386,12 +386,12 @@ TEST_F(TimeSeriesFramerCalculatorWindowingSanityTest, NoWindowSanityCheck) {
 
 TEST_F(TimeSeriesFramerCalculatorWindowingSanityTest,
        HammingWindowSanityCheck) {
-  options_.set_window_function(TimeSeriesFramerCalculatorOptions::HAMMING);
+  options_.set_window_function(TimeSeriesFramerCalculatorOptions::WINDOW_HAMMING);
   RunAndTestSinglePacketAverage(0.54f);
 }
 
 TEST_F(TimeSeriesFramerCalculatorWindowingSanityTest, HannWindowSanityCheck) {
-  options_.set_window_function(TimeSeriesFramerCalculatorOptions::HANN);
+  options_.set_window_function(TimeSeriesFramerCalculatorOptions::WINDOW_HANN);
   RunAndTestSinglePacketAverage(0.5f);
 }
 

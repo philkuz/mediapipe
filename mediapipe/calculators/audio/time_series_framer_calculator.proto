@@ -57,11 +57,11 @@ message TimeSeriesFramerCalculatorOptions {
 
   // Optional windowing function. The default is NONE (no windowing function).
   enum WindowFunction {
-    NONE = 0;
-    HAMMING = 1;
-    HANN = 2;
+    WINDOW_NONE = 0;
+    WINDOW_HAMMING = 1;
+    WINDOW_HANN = 2;
   }
-  optional WindowFunction window_function = 4 [default = NONE];
+  optional WindowFunction window_function = 4 [default = WINDOW_NONE];
 
   // If use_local_timestamp is true, the output packet's timestamp is based on
   // the last sample of the packet and it's inferred from the latest input
