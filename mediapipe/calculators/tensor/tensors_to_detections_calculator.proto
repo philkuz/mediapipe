@@ -120,13 +120,13 @@ message TensorsToDetectionsCalculatorOptions {
   // of keypoint predictions.
   enum BoxFormat {
     // if UNSPECIFIED, the calculator assumes YXHW
-    UNSPECIFIED = 0;
+    BOX_FORMAT_UNSPECIFIED = 0;
     // bbox [y_center, x_center, height, width], keypoint [y, x]
-    YXHW = 1;
+    BOX_FORMAT_YXHW = 1;
     // bbox [x_center, y_center, width, height], keypoint [x, y]
-    XYWH = 2;
+    BOX_FORMAT_XYWH = 2;
     // bbox [xmin, ymin, xmax, ymax], keypoint [x, y]
-    XYXY = 3;
+    BOX_FORMAT_XYXY = 3;
   }
-  optional BoxFormat box_format = 24 [default = UNSPECIFIED];
+  optional BoxFormat box_format = 24 [default = BOX_FORMAT_UNSPECIFIED];
 }

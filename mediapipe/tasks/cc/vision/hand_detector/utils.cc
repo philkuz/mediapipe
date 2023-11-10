@@ -65,7 +65,7 @@ absl::Status ConfigureTensorsToDetectionsCalculator(
   options.set_num_keypoints(kPalmKeypointNum);
   options.set_num_values_per_keypoint(kKeypointCoordsNum);
   options.set_sigmoid_score(true);
-  options.set_box_format(mediapipe::TensorsToDetectionsCalculatorOptions::XYWH);
+  options.set_box_format(mediapipe::TensorsToDetectionsCalculatorOptions::BOX_FORMAT_XYWH);
   options.set_min_score_thresh(min_detection_confidence);
   options.set_x_scale(tensor_width);
   options.set_y_scale(tensor_height);

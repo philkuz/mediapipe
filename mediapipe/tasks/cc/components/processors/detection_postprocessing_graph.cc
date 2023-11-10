@@ -584,7 +584,7 @@ absl::Status ConfigureOutModelNmsTensorsToDetectionsCalculator(
   }
   // Options not configured through metadata.
   options->set_box_format(
-      mediapipe::TensorsToDetectionsCalculatorOptions::YXHW);
+      mediapipe::TensorsToDetectionsCalculatorOptions::BOX_FORMAT_YXHW);
   options->set_min_score_thresh(specs.score_threshold);
   if (specs.is_allowlist) {
     options->mutable_allow_classes()->Assign(

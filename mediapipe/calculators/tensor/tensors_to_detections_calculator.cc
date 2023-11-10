@@ -133,9 +133,9 @@ BoxFormat GetBoxFormat(const TensorsToDetectionsCalculatorOptions& options) {
   if (options.has_box_format()) {
     return options.box_format();
   } else if (options.reverse_output_order()) {
-    return mediapipe::TensorsToDetectionsCalculatorOptions::XYWH;
+    return mediapipe::TensorsToDetectionsCalculatorOptions::BOX_FORMAT_XYWH;
   }
-  return mediapipe::TensorsToDetectionsCalculatorOptions::YXHW;
+  return mediapipe::TensorsToDetectionsCalculatorOptions::BOX_FORMAT_YXHW;
 }
 
 }  // namespace
@@ -224,7 +224,7 @@ class TensorsToDetectionsCalculator : public Node {
   int num_coords_ = 0;
   int max_results_ = -1;
   BoxFormat box_output_format_ =
-      mediapipe::TensorsToDetectionsCalculatorOptions::YXHW;
+      mediapipe::TensorsToDetectionsCalculatorOptions::BOX_FORMAT_YXHW;
 
   // Set of allowed or ignored class indices.
   struct ClassIndexSet {
@@ -783,20 +783,20 @@ absl::Status TensorsToDetectionsCalculator::DecodeBoxes(
     float w = 0.0;
     // TODO
     switch (box_output_format_) {
-      case mediapipe::TensorsToDetectionsCalculatorOptions::UNSPECIFIED:
-      case mediapipe::TensorsToDetectionsCalculatorOptions::YXHW:
+      case mediapipe::TensorsToDetectionsCalculatorOptions::BOX_FORMAT_UNSPECIFIED:
+      case mediapipe::TensorsToDetectionsCalculatorOptions::BOX_FORMAT_YXHW:
         y_center = raw_boxes[box_offset];
         x_center = raw_boxes[box_offset + 1];
         h = raw_boxes[box_offset + 2];
         w = raw_boxes[box_offset + 3];
         break;
-      case mediapipe::TensorsToDetectionsCalculatorOptions::XYWH:
+      case mediapipe::TensorsToDetectionsCalculatorOptions::BOX_FORMAT_XYWH:
         x_center = raw_boxes[box_offset];
         y_center = raw_boxes[box_offset + 1];
         w = raw_boxes[box_offset + 2];
         h = raw_boxes[box_offset + 3];
         break;
-      case mediapipe::TensorsToDetectionsCalculatorOptions::XYXY:
+      case mediapipe::TensorsToDetectionsCalculatorOptions::BOX_FORMAT_XYXY:
         x_center = (-raw_boxes[box_offset] + raw_boxes[box_offset + 2]) / 2;
         y_center = (-raw_boxes[box_offset + 1] + raw_boxes[box_offset + 3]) / 2;
         w = raw_boxes[box_offset + 2] + raw_boxes[box_offset];
@@ -834,13 +834,13 @@ absl::Status TensorsToDetectionsCalculator::DecodeBoxes(
         float keypoint_y = 0.0;
         float keypoint_x = 0.0;
         switch (box_output_format_) {
-          case mediapipe::TensorsToDetectionsCalculatorOptions::UNSPECIFIED:
-          case mediapipe::TensorsToDetectionsCalculatorOptions::YXHW:
+          case mediapipe::TensorsToDetectionsCalculatorOptions::BOX_FORMAT_UNSPECIFIED:
+          case mediapipe::TensorsToDetectionsCalculatorOptions::BOX_FORMAT_YXHW:
             keypoint_y = raw_boxes[offset];
             keypoint_x = raw_boxes[offset + 1];
             break;
-          case mediapipe::TensorsToDetectionsCalculatorOptions::XYWH:
-          case mediapipe::TensorsToDetectionsCalculatorOptions::XYXY:
+          case mediapipe::TensorsToDetectionsCalculatorOptions::BOX_FORMAT_XYWH:
+          case mediapipe::TensorsToDetectionsCalculatorOptions::BOX_FORMAT_XYXY:
             keypoint_x = raw_boxes[offset];
             keypoint_y = raw_boxes[offset + 1];
             break;
@@ -930,14 +930,14 @@ Detection TensorsToDetectionsCalculator::ConvertToDetection(
 absl::Status TensorsToDetectionsCalculator::GpuInit(CalculatorContext* cc) {
   int output_format_flag = 0;
   switch (box_output_format_) {
-    case mediapipe::TensorsToDetectionsCalculatorOptions::UNSPECIFIED:
-    case mediapipe::TensorsToDetectionsCalculatorOptions::YXHW:
+    case mediapipe::TensorsToDetectionsCalculatorOptions::BOX_FORMAT_UNSPECIFIED:
+    case mediapipe::TensorsToDetectionsCalculatorOptions::BOX_FORMAT_YXHW:
       output_format_flag = 0;
       break;
-    case mediapipe::TensorsToDetectionsCalculatorOptions::XYWH:
+    case mediapipe::TensorsToDetectionsCalculatorOptions::BOX_FORMAT_XYWH:
       output_format_flag = 1;
       break;
-    case mediapipe::TensorsToDetectionsCalculatorOptions::XYXY:
+    case mediapipe::TensorsToDetectionsCalculatorOptions::BOX_FORMAT_XYXY:
       output_format_flag = 2;
       break;
   }
