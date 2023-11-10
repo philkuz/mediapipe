@@ -148,25 +148,25 @@ template <class Model>
 Model UnstableCameraMotionToModel(const CameraMotion& camera_motion,
                                   CameraMotion::Type unstable_type) {
   switch (unstable_type) {
-    case CameraMotion::CAMERA_MOTION_TYPE_INVALID:
+    case CameraMotion::CAMERA_MOTION_CAMERA_MOTION_TYPE_INVALID:
       return Model();  // Identity.
 
-    case CameraMotion::CAMERA_MOTION_TYPE_UNSTABLE: {
+    case CameraMotion::CAMERA_MOTION_CAMERA_MOTION_TYPE_UNSTABLE: {
       return ModelAdapter<Model>::Embed(
           CameraMotionToModel<TranslationModel>(camera_motion));
     }
 
-    case CameraMotion::CAMERA_MOTION_TYPE_UNSTABLE_SIM: {
+    case CameraMotion::CAMERA_MOTION_CAMERA_MOTION_TYPE_UNSTABLE_SIM: {
       return ModelAdapter<Model>::Embed(
           CameraMotionToModel<LinearSimilarityModel>(camera_motion));
     }
 
-    case CameraMotion::CAMERA_MOTION_TYPE_UNSTABLE_HOMOG: {
+    case CameraMotion::CAMERA_MOTION_CAMERA_MOTION_TYPE_UNSTABLE_HOMOG: {
       return ModelAdapter<Model>::Embed(
           CameraMotionToModel<Homography>(camera_motion));
     }
 
-    case CameraMotion::CAMERA_MOTION_TYPE_VALID:
+    case CameraMotion::CAMERA_MOTION_CAMERA_MOTION_TYPE_VALID:
       ABSL_LOG(FATAL) << "Specify a type != VALID";
       return Model();
   }
@@ -178,7 +178,7 @@ inline TranslationModel ProjectToTypeModel(const TranslationModel& model,
                                            float frame_height,
                                            CameraMotion::Type type) {
   switch (type) {
-    case CameraMotion::CAMERA_MOTION_TYPE_INVALID:
+    case CameraMotion::CAMERA_MOTION_CAMERA_MOTION_TYPE_INVALID:
       return TranslationModel();  // Identity.
     default:
       return model;
@@ -190,10 +190,10 @@ inline LinearSimilarityModel ProjectToTypeModel(
     const LinearSimilarityModel& model, float frame_width, float frame_height,
     CameraMotion::Type type) {
   switch (type) {
-    case CameraMotion::CAMERA_MOTION_TYPE_INVALID:
+    case CameraMotion::CAMERA_MOTION_CAMERA_MOTION_TYPE_INVALID:
       return LinearSimilarityModel();  // Identity.
 
-    case CameraMotion::CAMERA_MOTION_TYPE_UNSTABLE:
+    case CameraMotion::CAMERA_MOTION_CAMERA_MOTION_TYPE_UNSTABLE:
       return LinearSimilarityAdapter::Embed(
           TranslationAdapter::ProjectFrom(model, frame_width, frame_height));
 
@@ -206,14 +206,14 @@ template <class Model>
 Model ProjectToTypeModel(const Model& model, float frame_width,
                          float frame_height, CameraMotion::Type type) {
   switch (type) {
-    case CameraMotion::CAMERA_MOTION_TYPE_INVALID:
+    case CameraMotion::CAMERA_MOTION_CAMERA_MOTION_TYPE_INVALID:
       return Model();  // Identity.
 
-    case CameraMotion::CAMERA_MOTION_TYPE_UNSTABLE:
+    case CameraMotion::CAMERA_MOTION_CAMERA_MOTION_TYPE_UNSTABLE:
       return ModelAdapter<Model>::Embed(
           TranslationAdapter::ProjectFrom(model, frame_width, frame_height));
 
-    case CameraMotion::CAMERA_MOTION_TYPE_UNSTABLE_SIM:
+    case CameraMotion::CAMERA_MOTION_CAMERA_MOTION_TYPE_UNSTABLE_SIM:
       return ModelAdapter<Model>::Embed(LinearSimilarityAdapter::ProjectFrom(
           model, frame_width, frame_height));
 
@@ -255,7 +255,7 @@ void DownsampleMotionModels(
     const int last_idx =
         std::min<int>(model_idx + downsample_scale, num_models) - 1;
 
-    CameraMotion::Type sampled_type = CameraMotion::CAMERA_MOTION_TYPE_VALID;
+    CameraMotion::Type sampled_type = CameraMotion::CAMERA_MOTION_CAMERA_MOTION_TYPE_VALID;
     if (model_type) {
       // Get least stable model within downsample window (max operation).
       for (int i = model_idx; i <= last_idx; ++i) {

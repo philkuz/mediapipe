@@ -144,24 +144,24 @@ message CameraMotion {
 
   // Set of optional *bit* flags set for various purposes.
   enum Flags {
-    FLAG_UNKNOWN = 0;
-    FLAG_SHOT_BOUNDARY = 1;  // Set to indicate presence of a
+    CAMERA_MOTION_FLAG_UNKNOWN = 0;
+    CAMERA_MOTION_FLAG_SHOT_BOUNDARY = 1;  // Set to indicate presence of a
                              // shot boundary.
-    FLAG_BLURRY_FRAME = 2;
-    FLAG_MAJOR_OVERLAY = 4;
-    FLAG_SHARP_FRAME = 8;           // Set if frame is considered sharp
+    CAMERA_MOTION_FLAG_BLURRY_FRAME = 2;
+    CAMERA_MOTION_FLAG_MAJOR_OVERLAY = 4;
+    CAMERA_MOTION_FLAG_SHARP_FRAME = 8;           // Set if frame is considered sharp
                                     // in a neighborhood of frames.
-    FLAG_SINGULAR_ESTIMATION = 16;  // Indicates that estimation resulted
+    CAMERA_MOTION_FLAG_SINGULAR_ESTIMATION = 16;  // Indicates that estimation resulted
                                     // in singular optimization problem.
                                     // Used internally by MotionEstimation.
     // Indicates if shot boundary is part of a fade. If so, all frames of the
     // fade will be labeled with the FLAG but only the begin and end of the fade
     // will have the FLAG_SHOT_BOUNDARY set.
-    FLAG_SHOT_FADE = 32;
+    CAMERA_MOTION_FLAG_SHOT_FADE = 32;
 
-    FLAG_DUPLICATED = 64;     // Set if frame is exact duplicate of
+    CAMERA_MOTION_FLAG_DUPLICATED = 64;     // Set if frame is exact duplicate of
                               // previous frame.
-    FLAG_CENTER_FRAME = 128;  // Indicates this frame is at the
+    CAMERA_MOTION_FLAG_CENTER_FRAME = 128;  // Indicates this frame is at the
                               // center of the sequence. Currently
                               // used to constrain stabilizing crop
                               // transform.
