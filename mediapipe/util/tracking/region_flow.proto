@@ -89,8 +89,8 @@ message RegionFlowFeature {
 
   // Flags indicating specific statuses.
   enum Flags {
-    FLAG_UNKNOWN = 0;
-    FLAG_BROKEN_TRACK = 1;  // Used for long feature tracks if track id
+    REGION_FLOW_FLAG_UNKNOWN = 0;
+    REGION_FLOW_FLAG_BROKEN_TRACK = 1;  // Used for long feature tracks if track id
                             // was reset.
   }
 

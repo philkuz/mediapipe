@@ -2865,7 +2865,7 @@ void RegionFlowComputation::TrackFeatures(FrameTrackingData* from_data_ptr,
                          verify_distance[i]);
 
     if (long_track_data_ != nullptr && track_ids1[match_idx] != track_ids2[i]) {
-      results.back().flags |= RegionFlowFeature::FLAG_BROKEN_TRACK;
+      results.back().flags |= RegionFlowFeature::REGION_FLOW_FLAG_BROKEN_TRACK;
     }
 
     if (IsVerifyLongFeatures()) {
