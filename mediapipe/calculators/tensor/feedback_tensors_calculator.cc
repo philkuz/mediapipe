@@ -68,18 +68,18 @@ class FeedbackTensorsCalculator : public Node {
 
   absl::Status Process(CalculatorContext* cc) override {
     if (feedback_tensors_location_ ==
-        mediapipe::FeedbackTensorsCalculatorOptions::NONE) {
+        mediapipe::FeedbackTensorsCalculatorOptions::FEEDBACK_NONE) {
       kTensorsOut(cc).Send(kInputTensorsIn(cc).packet().As<Tensors>());
       return absl::OkStatus();
     }
 
     std::vector<Tensor> outputs;
     switch (feedback_tensors_location_) {
-      case mediapipe::FeedbackTensorsCalculatorOptions::PREPENDED:
+      case mediapipe::FeedbackTensorsCalculatorOptions::FEEDBACK_PREPENDED:
         MP_RETURN_IF_ERROR(AddFeedbackTensors(cc, outputs));
         MP_RETURN_IF_ERROR(AddInputTensors(cc, outputs));
         break;
-      case mediapipe::FeedbackTensorsCalculatorOptions::APPENDED:
+      case mediapipe::FeedbackTensorsCalculatorOptions::FEEDBACK_APPENDED:
         MP_RETURN_IF_ERROR(AddInputTensors(cc, outputs));
         MP_RETURN_IF_ERROR(AddFeedbackTensors(cc, outputs));
         break;

@@ -35,13 +35,13 @@ message FeedbackTensorsCalculatorOptions {
 
   enum FeedbackTensorsLocation {
     // The feedback tensors will not be added.
-    NONE = 0;
+    FEEDBACK_NONE = 0;
     // The feedback tensors will be added before the input tensors.
-    PREPENDED = 1;
+    FEEDBACK_PREPENDED = 1;
     // The feedback tensors will be added after the input tensors.
-    APPENDED = 2;
+    FEEDBACK_APPENDED = 2;
   }
 
   // Determines the location of the feedback tensor(s) in the output vector.
-  optional FeedbackTensorsLocation location = 3 [default = APPENDED];
+  optional FeedbackTensorsLocation location = 3 [default = FEEDBACK_APPENDED];
 }
