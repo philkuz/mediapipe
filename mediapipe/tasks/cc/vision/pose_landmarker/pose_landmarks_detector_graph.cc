@@ -142,9 +142,9 @@ void ConfigureTensorsToLandmarksCalculator(
 
   if (sigmoid_activation) {
     options->set_visibility_activation(
-        mediapipe::TensorsToLandmarksCalculatorOptions_Activation_SIGMOID);
+        mediapipe::TensorsToLandmarksCalculatorOptions_Activation_ACTIVATION_SIGMOID);
     options->set_presence_activation(
-        mediapipe::TensorsToLandmarksCalculatorOptions_Activation_SIGMOID);
+        mediapipe::TensorsToLandmarksCalculatorOptions_Activation_ACTIVATION_SIGMOID);
   }
 }
 

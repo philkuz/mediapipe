@@ -30,7 +30,7 @@ float ApplyActivation(
         activation,
     float value) {
   switch (activation) {
-    case ::mediapipe::TfLiteTensorsToLandmarksCalculatorOptions::SIGMOID:
+    case ::mediapipe::TfLiteTensorsToLandmarksCalculatorOptions::ACTIVATION_SIGMOID:
       return Sigmoid(value);
       break;
     default:

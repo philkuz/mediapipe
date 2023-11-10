@@ -26,8 +26,8 @@ message TensorsToLandmarksCalculatorOptions {
   }
 
   enum Activation {
-    NONE = 0;
-    SIGMOID = 1;
+    ACTIVATION_NONE = 0;
+    ACTIVATION_SIGMOID = 1;
   }
 
   // [Required] Number of landmarks from the output of the model.
@@ -58,8 +58,8 @@ message TensorsToLandmarksCalculatorOptions {
   optional float normalize_z = 5 [default = 1.0];
 
   // Apply activation function to the tensor representing landmark visibility.
-  optional Activation visibility_activation = 7 [default = NONE];
+  optional Activation visibility_activation = 7 [default = ACTIVATION_NONE];
 
   // Apply activation function to the tensor representing landmark presence.
-  optional Activation presence_activation = 8 [default = NONE];
+  optional Activation presence_activation = 8 [default = ACTIVATION_NONE];
 }
