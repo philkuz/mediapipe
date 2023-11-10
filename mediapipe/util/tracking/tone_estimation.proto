@@ -73,11 +73,11 @@ message ToneChange {
   // ToneEstimationOptions), it is set to the lower dof type which was deemed
   // stable.
   enum Type {
-    VALID = 0;
-    INVALID = 10;  // Identity model, gain bias unrealiable.
+    TONE_TYPE_VALID = 0;
+    TONE_TYPE_INVALID = 10;  // Identity model, gain bias unrealiable.
   }
 
-  optional Type type = 14 [default = VALID];
+  optional Type type = 14 [default = TONE_TYPE_VALID];
 
   // Stats based on stability analysis.
   message StabilityStats {

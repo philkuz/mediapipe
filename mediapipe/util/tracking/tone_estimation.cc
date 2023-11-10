@@ -139,7 +139,7 @@ void ToneEstimation::EstimateToneChange(
       VLOG(1) << "Warning: Estimated gain-bias is unstable.";
       // Reset to identity.
       tone_change->mutable_gain_bias()->CopyFrom(GainBiasModel());
-      tone_change->set_type(ToneChange::INVALID);
+      tone_change->set_type(ToneChange::TONE_TYPE_INVALID);
     }
 
     // TODO: EstimateMixtureGainBiasModel();
