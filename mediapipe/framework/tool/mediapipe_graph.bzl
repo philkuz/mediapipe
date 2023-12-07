@@ -270,7 +270,7 @@ def mediapipe_options_library(
         out = name + ".cc",
         substitutions = {
             "{{MESSAGE_NAME_HEADER}}": native.package_name() + "/" + name + "_type_name.h",
-            "{{MESSAGE_PROTO_HEADER}}": native.package_name() + "/" + name.replace("pb_options_lib", ".pb.h"),
+            "{{MESSAGE_PROTO_HEADER}}": native.package_name() + "/" + name.replace("_proto", ".pb.h"),
             "{{DESCRIPTOR_INC_FILE_PATH}}": native.package_name() + "/" + proto_lib + "_descriptors.inc",
         },
         testonly = testonly,
