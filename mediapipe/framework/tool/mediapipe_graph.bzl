@@ -256,10 +256,10 @@ def mediapipe_options_library(
         name = name + "_type_name",
         srcs = [proto_lib + "_direct-direct-descriptor-set.proto.bin"],
         outs = [name + "_type_name.h"],
-        cmd = ("$(location " + "//mediapipe/framework/tool:message_type_util" + ") " +
+        cmd = ("$(location " + "@com_github_google_mediapipe//mediapipe/framework/tool:message_type_util" + ") " +
                ("--input_path=$(location %s) " % (proto_lib + "_direct-direct-descriptor-set.proto.bin")) +
                ("--root_type_macro_output_path=$(location %s) " % (name + "_type_name.h"))),
-        tools = ["//mediapipe/framework/tool:message_type_util"],
+        tools = ["@com_github_google_mediapipe//mediapipe/framework/tool:message_type_util"],
         visibility = visibility,
         testonly = testonly,
         compatible_with = compatible_with,
@@ -270,7 +270,7 @@ def mediapipe_options_library(
         out = name + ".cc",
         substitutions = {
             "{{MESSAGE_NAME_HEADER}}": native.package_name() + "/" + name + "_type_name.h",
-            "{{MESSAGE_PROTO_HEADER}}": native.package_name() + "/" + proto_lib.replace("_proto", ".pb.h"),
+            "{{MESSAGE_PROTO_HEADER}}": native.package_name() + "/" + name.replace("pb_options_lib", ".pb.h"),
             "{{DESCRIPTOR_INC_FILE_PATH}}": native.package_name() + "/" + proto_lib + "_descriptors.inc",
         },
         testonly = testonly,
@@ -287,7 +287,6 @@ def mediapipe_options_library(
             clean_dep("//mediapipe/framework:calculator_framework"),
             clean_dep("//mediapipe/framework/port:advanced_proto"),
             clean_dep("//mediapipe/framework/tool:options_registry"),
-            proto_lib.replace("_proto", "_cc_proto"),
         ] + deps,
         alwayslink = 1,
         visibility = visibility,
@@ -299,7 +298,7 @@ def mediapipe_options_library(
     mediapipe_reexport_library(
         name = name,
         actual = [
-            proto_lib.replace("_proto", "_cc_proto"),
+            proto_lib.replace("_proto", "_cc_library"),
             proto_lib.replace("_proto", "_options_registry"),
         ],
         visibility = visibility,
