@@ -211,18 +211,6 @@ cc_library(
         "@org_tensorflow//tensorflow/lite/kernels:builtin_ops",
     ] + selects.with_or({
         ":gpu_inference_disabled": [],
-        "//mediapipe:ios": [
-            "//mediapipe/gpu:MPPMetalHelper",
-            "//mediapipe/gpu:MPPMetalUtil",
-            "//mediapipe/gpu:gpu_buffer",
-            "//mediapipe/objc:mediapipe_framework_ios",
-            "@org_tensorflow//tensorflow/lite/delegates/gpu/common:shape",
-            "@org_tensorflow//tensorflow/lite/delegates/gpu/metal:buffer_convert",
-            "@org_tensorflow//tensorflow/lite/delegates/gpu:metal_delegate",
-            "@org_tensorflow//tensorflow/lite/delegates/gpu:metal_delegate_internal",
-            "//third_party/apple_frameworks:MetalKit",
-            "//third_party/apple_frameworks:CoreVideo",
-        ],
         "//conditions:default": [
             "//mediapipe/util/tflite:tflite_gpu_runner",
             "//mediapipe/gpu:gl_calculator_helper",
@@ -285,14 +273,6 @@ cc_library(
         "@org_tensorflow//tensorflow/lite/kernels:builtin_ops",
     ] + selects.with_or({
         ":gpu_inference_disabled": [],
-        "//mediapipe:ios": [
-            "//mediapipe/gpu:MPPMetalUtil",
-            "//mediapipe/gpu:MPPMetalHelper",
-            "//mediapipe/objc:mediapipe_framework_ios",
-            "@org_tensorflow//tensorflow/lite/delegates/gpu:metal_delegate",
-            "//third_party/apple_frameworks:MetalKit",
-            "//third_party/apple_frameworks:CoreVideo",
-        ],
         "//conditions:default": [
             "//mediapipe/gpu:gl_calculator_helper",
             "@org_tensorflow//tensorflow/lite/delegates/gpu:gl_delegate",
@@ -405,15 +385,6 @@ cc_library(
         "@org_tensorflow//tensorflow/lite:framework",
     ] + selects.with_or({
         ":gpu_inference_disabled": [],
-        "//mediapipe:ios": [
-            "//mediapipe/gpu:MPPMetalUtil",
-            "//mediapipe/gpu:gpu_buffer",
-            "//mediapipe/gpu:MPPMetalHelper",
-            "//mediapipe/objc:mediapipe_framework_ios",
-            "@org_tensorflow//tensorflow/lite/delegates/gpu:metal_delegate",
-            "//third_party/apple_frameworks:MetalKit",
-            "//third_party/apple_frameworks:CoreVideo",
-        ],
         "//conditions:default": [
             "//mediapipe/gpu:gl_calculator_helper",
             "@org_tensorflow//tensorflow/lite/delegates/gpu:gl_delegate",

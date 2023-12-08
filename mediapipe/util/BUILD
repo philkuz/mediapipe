@@ -91,9 +91,6 @@ cc_library(
         "@com_google_absl//absl/strings",
     ] + select({
         "//conditions:default": [],
-        "//mediapipe:android": [
-            "@androidndk//:cpufeatures",
-        ],
     }),
 )
 
