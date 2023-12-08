@@ -221,10 +221,6 @@ apple_static_library(
     deps = CALCULATORS_AND_GRAPHS + [
         "@org_tensorflow//third_party/icu/data:conversion_data",
     ] + select({
-        "//third_party:opencv_ios_sim_arm64_source_build": ["@ios_opencv_source//:opencv_xcframework"],
-        "//third_party:opencv_ios_arm64_source_build": ["@ios_opencv_source//:opencv_xcframework"],
-        "//third_party:opencv_ios_x86_64_source_build": ["@ios_opencv_source//:opencv_xcframework"],
-        "//third_party:opencv_ios_sim_fat_source_build": ["@ios_opencv_source//:opencv_xcframework"],
         "//conditions:default": ["@ios_opencv//:OpencvFramework"],
     }),
 )

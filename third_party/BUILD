@@ -26,21 +26,6 @@ cc_library(
     name = "glog",
     visibility = ["//visibility:public"],
     deps = select({
-        "//mediapipe:android_x86": [
-            "@com_github_glog_glog_no_gflags//:glog",
-        ],
-        "//mediapipe:android_x86_64": [
-            "@com_github_glog_glog_no_gflags//:glog",
-        ],
-        "//mediapipe:android_arm": [
-            "@com_github_glog_glog_no_gflags//:glog",
-        ],
-        "//mediapipe:android_arm64": [
-            "@com_github_glog_glog_no_gflags//:glog",
-        ],
-        "//mediapipe:ios": [
-            "@com_github_glog_glog_no_gflags//:glog",
-        ],
         "//mediapipe:macos": [
             "@com_github_glog_glog//:glog",
         ],
@@ -108,11 +93,7 @@ config_setting(
 alias(
     name = "opencv",
     actual = select({
-        ":opencv_source_build": "@com_github_opencv_opencv//:opencv",
-        ":opencv_ios_sim_arm64_source_build": "@ios_opencv_source//:opencv",
-        ":opencv_ios_arm64_source_build": "@ios_opencv_source//:opencv",
-        ":opencv_ios_x86_64_source_build": "@ios_opencv_source//:opencv",
-        "//conditions:default": ":opencv_binary",
+        "//conditions:default": "@com_github_opencv_opencv//:opencv",
     }),
     visibility = ["//visibility:public"],
 )
@@ -132,13 +113,6 @@ bzl_library(
 alias(
     name = "opencv_binary",
     actual = select({
-        "//mediapipe:android_x86": "@android_opencv//:libopencv_x86",
-        "//mediapipe:android_x86_64": "@android_opencv//:libopencv_x86_64",
-        "//mediapipe:android_arm": "@android_opencv//:libopencv_armeabi-v7a",
-        "//mediapipe:android_arm64": "@android_opencv//:libopencv_arm64-v8a",
-        "//mediapipe:ios": "@ios_opencv//:opencv",
-        "//mediapipe:macos": "@macos_opencv//:opencv",
-        "//mediapipe:windows": "@windows_opencv//:opencv",
         "//conditions:default": "@linux_opencv//:opencv",
     }),
 )

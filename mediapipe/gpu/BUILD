@@ -648,10 +648,6 @@ cc_library(
         "@com_google_absl//absl/log:absl_check",
     ] + select({
         "//conditions:default": [],
-        "//mediapipe:apple": [
-            ":cv_texture_cache_manager",
-            ":metal_shared_resources",
-        ],
     }),
 )
 
