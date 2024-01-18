@@ -25,7 +25,7 @@ class ImageResizer {
 
   bool Resize(const cv::Mat& input_mat, cv::Mat* output_mat) {
     cv::resize(input_mat, *output_mat, output_mat->size(), 0, 0,
-               cv::INTER_AREA);
+               cv::INTER_NEAREST);
     return true;
   }
 };
