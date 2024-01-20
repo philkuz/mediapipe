@@ -112,7 +112,7 @@ CameraMotion ComposeCameraMotion(const CameraMotion& lhs,
           << "Mixture homographies are not closed under composition, "
           << "Only rhs mixtures composed with lhs homographies "
           << "are supported.";
-    } else if (lhs.type() <= CameraMotion::CAMERA_MOTION_CAMERA_MOTION_TYPE_UNSTABLE_SIM) {
+    } else if (lhs.type() <= CameraMotion::CAMERA_MOTION_TYPE_UNSTABLE_SIM) {
       // We only composit base model when stability is sufficient.
       *result.mutable_mixture_homography() =
           MixtureHomographyAdapter::ComposeLeft(rhs.mixture_homography(),
@@ -267,27 +267,27 @@ void InitCameraMotionFromFeatureList(const RegionFlowFeatureList& feature_list,
 
 std::string CameraMotionFlagToString(const CameraMotion& camera_motion) {
   std::string text;
-  if (camera_motion.flags() & CameraMotion::CAMERA_MOTION_CAMERA_MOTION_TYPE_FLAG_SHOT_BOUNDARY) {
+  if (camera_motion.flags() & CameraMotion::CAMERA_MOTION_FLAG_SHOT_BOUNDARY) {
     text += "SHOT_BOUNDARY|";
   }
 
-  if (camera_motion.flags() & CameraMotion::CAMERA_MOTION_CAMERA_MOTION_TYPE_FLAG_BLURRY_FRAME) {
+  if (camera_motion.flags() & CameraMotion::CAMERA_MOTION_FLAG_BLURRY_FRAME) {
     text += absl::StrFormat("BLURRY_FRAME %.2f|", camera_motion.bluriness());
   }
 
-  if (camera_motion.flags() & CameraMotion::CAMERA_MOTION_CAMERA_MOTION_TYPE_FLAG_MAJOR_OVERLAY) {
+  if (camera_motion.flags() & CameraMotion::CAMERA_MOTION_FLAG_MAJOR_OVERLAY) {
     text += "MAJOR_OVERLAY|";
   }
 
-  if (camera_motion.flags() & CameraMotion::CAMERA_MOTION_CAMERA_MOTION_TYPE_FLAG_SHARP_FRAME) {
+  if (camera_motion.flags() & CameraMotion::CAMERA_MOTION_FLAG_SHARP_FRAME) {
     text += "SHARP_FRAME|";
   }
 
-  if (camera_motion.flags() & CameraMotion::CAMERA_MOTION_CAMERA_MOTION_TYPE_FLAG_SHOT_FADE) {
+  if (camera_motion.flags() & CameraMotion::CAMERA_MOTION_FLAG_SHOT_FADE) {
     text += "SHOT_FADE|";
   }
 
-  if (camera_motion.flags() & CameraMotion::CAMERA_MOTION_CAMERA_MOTION_TYPE_FLAG_DUPLICATED) {
+  if (camera_motion.flags() & CameraMotion::CAMERA_MOTION_FLAG_DUPLICATED) {
     text += "DUPLICATED|";
   }
   return text;
@@ -295,15 +295,15 @@ std::string CameraMotionFlagToString(const CameraMotion& camera_motion) {
 
 std::string CameraMotionTypeToString(const CameraMotion& motion) {
   switch (motion.type()) {
-    case CameraMotion::CAMERA_MOTION_CAMERA_MOTION_TYPE_VALID:
+    case CameraMotion::CAMERA_MOTION_TYPE_VALID:
       return "VALID";
-    case CameraMotion::CAMERA_MOTION_CAMERA_MOTION_TYPE_UNSTABLE_HOMOG:
+    case CameraMotion::CAMERA_MOTION_TYPE_UNSTABLE_HOMOG:
       return "UNSTABLE_HOMOG";
-    case CameraMotion::CAMERA_MOTION_CAMERA_MOTION_TYPE_UNSTABLE_SIM:
+    case CameraMotion::CAMERA_MOTION_TYPE_UNSTABLE_SIM:
       return "UNSTABLE_SIM";
-    case CameraMotion::CAMERA_MOTION_CAMERA_MOTION_TYPE_UNSTABLE:
+    case CameraMotion::CAMERA_MOTION_TYPE_UNSTABLE:
       return "UNSTABLE";
-    case CameraMotion::CAMERA_MOTION_CAMERA_MOTION_TYPE_INVALID:
+    case CameraMotion::CAMERA_MOTION_TYPE_INVALID:
       return "INVALID";
   }
 
@@ -355,20 +355,20 @@ CameraMotion FirstCameraMotionForLooping(
     }
 
     switch (motion.type()) {
-      case CameraMotion::CAMERA_MOTION_CAMERA_MOTION_TYPE_INVALID:
+      case CameraMotion::CAMERA_MOTION_TYPE_INVALID:
         has_translation = false;
         has_similarity = false;
         has_homography = false;
         break;
-      case CameraMotion::CAMERA_MOTION_CAMERA_MOTION_TYPE_UNSTABLE:
+      case CameraMotion::CAMERA_MOTION_TYPE_UNSTABLE:
         has_similarity = false;
         has_homography = false;
         break;
-      case CameraMotion::CAMERA_MOTION_CAMERA_MOTION_TYPE_UNSTABLE_SIM:
+      case CameraMotion::CAMERA_MOTION_TYPE_UNSTABLE_SIM:
         has_homography = false;
         break;
-      case CameraMotion::CAMERA_MOTION_CAMERA_MOTION_TYPE_VALID:
-      case CameraMotion::CAMERA_MOTION_CAMERA_MOTION_TYPE_UNSTABLE_HOMOG:
+      case CameraMotion::CAMERA_MOTION_TYPE_VALID:
+      case CameraMotion::CAMERA_MOTION_TYPE_UNSTABLE_HOMOG:
         break;
       default:
         ABSL_LOG(FATAL) << "Unknown CameraMotion::type.";

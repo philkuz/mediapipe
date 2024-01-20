@@ -934,7 +934,7 @@ void MotionAnalysisCalculator::AppendCameraMotionsFromHomographies(
   *identity.mutable_translation() = TranslationModel();
   *identity.mutable_linear_similarity() = LinearSimilarityModel();
   *identity.mutable_homography() = Homography();
-  identity.set_type(CameraMotion::CAMERA_MOTION_CAMERA_MOTION_TYPE_VALID);
+  identity.set_type(CameraMotion::CAMERA_MOTION_TYPE_VALID);
   identity.set_match_frame(0);
 
   RegionFlowFeatureList empty_list;
