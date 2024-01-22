@@ -554,11 +554,11 @@ RegionFlowComputation::RegionFlowComputation(
       frame_width_(frame_width),
       frame_height_(frame_height) {
   switch (options_.gain_correct_mode()) {
-    case RegionFlowComputationOptions::REGION_FLOW_GAIN_CORRECT_DEFAULT_USER:
+    case RegionFlowComputationOptions::GAIN_CORRECT_MODE_DEFAULT_USER:
       // Do nothing, simply use supplied bounds.
       break;
 
-    case RegionFlowComputationOptions::REGION_FLOW_GAIN_CORRECT_VIDEO: {
+    case RegionFlowComputationOptions::GAIN_CORRECT_MODE_VIDEO: {
       auto* gain_bias = options_.mutable_gain_bias_bounds();
       gain_bias->Clear();
       gain_bias->set_lower_gain(0.8f);
@@ -570,7 +570,7 @@ RegionFlowComputation::RegionFlowComputation(
       break;
     }
 
-    case RegionFlowComputationOptions::REGION_FLOW_GAIN_CORRECT_HDR: {
+    case RegionFlowComputationOptions::GAIN_CORRECT_MODE_HDR: {
       auto* gain_bias = options_.mutable_gain_bias_bounds();
       gain_bias->Clear();
       gain_bias->set_lower_gain(0.8f);
@@ -583,7 +583,7 @@ RegionFlowComputation::RegionFlowComputation(
       break;
     }
 
-    case RegionFlowComputationOptions::REGION_FLOW_GAIN_CORRECT_PHOTO_BURST: {
+    case RegionFlowComputationOptions::GAIN_CORRECT_MODE_PHOTO_BURST: {
       auto* gain_bias = options_.mutable_gain_bias_bounds();
       gain_bias->Clear();
       gain_bias->set_min_inlier_fraction(0.6f);
@@ -600,15 +600,15 @@ RegionFlowComputation::RegionFlowComputation(
                 TrackingOptions::FLOW_DIRECTION_CONSECUTIVELY)
       << "Output direction must be either set to FORWARD or BACKWARD.";
   use_downsampling_ = options_.downsample_mode() !=
-                      RegionFlowComputationOptions::REGION_FLOW_DOWNSAMPLE_NONE;
+                      RegionFlowComputationOptions::DOWNSAMPLE_MODE_NONE;
   downsample_scale_ = 1;
   original_width_ = frame_width_;
   original_height_ = frame_height_;
 
   switch (options_.downsample_mode()) {
-    case RegionFlowComputationOptions::REGION_FLOW_DOWNSAMPLE_NONE:
+    case RegionFlowComputationOptions::DOWNSAMPLE_MODE_NONE:
       break;
-    case RegionFlowComputationOptions::REGION_FLOW_DOWNSAMPLE_TO_MAX_SIZE: {
+    case RegionFlowComputationOptions::DOWNSAMPLE_MODE_TO_MAX_SIZE: {
       const float max_size = std::max(frame_width_, frame_height_);
       if (max_size > 1.03f * options_.downsampling_size()) {
         downsample_scale_ = max_size / options_.downsampling_size();
@@ -618,7 +618,7 @@ RegionFlowComputation::RegionFlowComputation(
       }
       break;
     }
-    case RegionFlowComputationOptions::REGION_FLOW_DOWNSAMPLE_TO_MIN_SIZE: {
+    case RegionFlowComputationOptions::DOWNSAMPLE_MODE_TO_MIN_SIZE: {
       const float min_size = std::min(frame_width_, frame_height_);
       if (min_size > 1.03f * options_.downsampling_size()) {
         downsample_scale_ = min_size / options_.downsampling_size();
@@ -628,13 +628,13 @@ RegionFlowComputation::RegionFlowComputation(
       }
       break;
     }
-    case RegionFlowComputationOptions::REGION_FLOW_DOWNSAMPLE_BY_FACTOR:
-    case RegionFlowComputationOptions::REGION_FLOW_DOWNSAMPLE_TO_INPUT_SIZE: {
+    case RegionFlowComputationOptions::DOWNSAMPLE_MODE_BY_FACTOR:
+    case RegionFlowComputationOptions::DOWNSAMPLE_MODE_TO_INPUT_SIZE: {
       ABSL_CHECK_GE(options_.downsample_factor(), 1);
       downsample_scale_ = options_.downsample_factor();
       break;
     }
-    case RegionFlowComputationOptions::REGION_FLOW_DOWNSAMPLE_BY_SCHEDULE: {
+    case RegionFlowComputationOptions::DOWNSAMPLE_MODE_BY_SCHEDULE: {
       const int frame_area = frame_width_ * frame_height_;
       if (frame_area <= (16 * 1.03 / 9 * 360 * 360)) {
         downsample_scale_ =
@@ -658,7 +658,7 @@ RegionFlowComputation::RegionFlowComputation(
 
   if (use_downsampling_ &&
       options_.downsample_mode() !=
-          RegionFlowComputationOptions::REGION_FLOW_DOWNSAMPLE_TO_INPUT_SIZE) {
+          RegionFlowComputationOptions::DOWNSAMPLE_MODE_TO_INPUT_SIZE) {
     // Make downscaled size even.
     frame_width_ += frame_width_ % 2;
     frame_height_ += frame_height_ % 2;
@@ -673,19 +673,19 @@ RegionFlowComputation::RegionFlowComputation(
 
   // Allocate temporary frames.
   switch (options_.image_format()) {
-    case RegionFlowComputationOptions::REGION_FLOW_FORMAT_RGB:
-    case RegionFlowComputationOptions::REGION_FLOW_FORMAT_BGR:
+    case RegionFlowComputationOptions::IMAGE_FORMAT_RGB:
+    case RegionFlowComputationOptions::IMAGE_FORMAT_BGR:
       curr_color_image_.reset(
           new cv::Mat(frame_height_, frame_width_, CV_8UC3));
       break;
 
-    case RegionFlowComputationOptions::REGION_FLOW_FORMAT_RGBA:
-    case RegionFlowComputationOptions::REGION_FLOW_FORMAT_BGRA:
+    case RegionFlowComputationOptions::IMAGE_FORMAT_RGBA:
+    case RegionFlowComputationOptions::IMAGE_FORMAT_BGRA:
       curr_color_image_.reset(
           new cv::Mat(frame_height_, frame_width_, CV_8UC4));
       break;
 
-    case RegionFlowComputationOptions::REGION_FLOW_FORMAT_GRAYSCALE:
+    case RegionFlowComputationOptions::IMAGE_FORMAT_GRAYSCALE:
       // Do nothing.
       break;
   }
@@ -698,7 +698,7 @@ RegionFlowComputation::RegionFlowComputation(
 
   max_long_track_length_ = 1;
   switch (options_.tracking_options().tracking_policy()) {
-    case TrackingOptions::FLOW_DIRECTION_POLICY_SINGLE_FRAME:
+    case TrackingOptions::TRACKING_POLICY_SINGLE_FRAME:
       if (options_.tracking_options().multi_frames_to_track() > 1) {
         ABSL_LOG(ERROR) << "TrackingOptions::multi_frames_to_track is > 1, "
                         << "but tracking_policy is set to POLICY_SINGLE_FRAME. "
@@ -707,11 +707,11 @@ RegionFlowComputation::RegionFlowComputation(
 
       frames_to_track_ = 1;
       break;
-    case TrackingOptions::FLOW_DIRECTION_POLICY_MULTI_FRAME:
+    case TrackingOptions::TRACKING_POLICY_MULTI_FRAME:
       ABSL_CHECK_GT(options_.tracking_options().multi_frames_to_track(), 0);
       frames_to_track_ = options_.tracking_options().multi_frames_to_track();
       break;
-    case TrackingOptions::FLOW_DIRECTION_POLICY_LONG_TRACKS:
+    case TrackingOptions::TRACKING_POLICY_LONG_TRACKS:
       if (options_.tracking_options().multi_frames_to_track() > 1) {
         ABSL_LOG(ERROR) << "TrackingOptions::multi_frames_to_track is > 1, "
                         << "but tracking_policy is set to POLICY_LONG_TRACKS. "
@@ -906,7 +906,7 @@ bool RegionFlowComputation::InitFrame(const cv::Mat& source,
   const cv::Mat* source_ptr = &source;
   if (use_downsampling_ &&
       options_.downsample_mode() !=
-          RegionFlowComputationOptions::REGION_FLOW_DOWNSAMPLE_TO_INPUT_SIZE) {
+          RegionFlowComputationOptions::DOWNSAMPLE_MODE_TO_INPUT_SIZE) {
     // Area based method best for downsampling.
     // For color images to temporary buffer.
     cv::Mat& resized = source.channels() == 1 ? dest_frame : *curr_color_image_;
@@ -935,15 +935,15 @@ bool RegionFlowComputation::InitFrame(const cv::Mat& source,
 
   if (source_ptr->channels() == 1 &&
       options_.image_format() !=
-          RegionFlowComputationOptions::REGION_FLOW_FORMAT_GRAYSCALE) {
-    options_.set_image_format(RegionFlowComputationOptions::REGION_FLOW_FORMAT_GRAYSCALE);
+          RegionFlowComputationOptions::IMAGE_FORMAT_GRAYSCALE) {
+    options_.set_image_format(RegionFlowComputationOptions::IMAGE_FORMAT_GRAYSCALE);
     ABSL_LOG(WARNING) << "#channels = 1, but image_format was not set to "
                          "FORMAT_GRAYSCALE. Assuming GRAYSCALE input.";
   }
 
   // Convert image to grayscale.
   switch (options_.image_format()) {
-    case RegionFlowComputationOptions::REGION_FLOW_FORMAT_RGB:
+    case RegionFlowComputationOptions::IMAGE_FORMAT_RGB:
       if (3 != source_ptr->channels()) {
         ABSL_LOG(ERROR) << "Expecting 3 channel input for RGB.";
         return false;
@@ -951,7 +951,7 @@ bool RegionFlowComputation::InitFrame(const cv::Mat& source,
       cv::cvtColor(*source_ptr, dest_frame, cv::COLOR_RGB2GRAY);
       break;
 
-    case RegionFlowComputationOptions::REGION_FLOW_FORMAT_BGR:
+    case RegionFlowComputationOptions::IMAGE_FORMAT_BGR:
       if (3 != source_ptr->channels()) {
         ABSL_LOG(ERROR) << "Expecting 3 channel input for BGR.";
         return false;
@@ -959,7 +959,7 @@ bool RegionFlowComputation::InitFrame(const cv::Mat& source,
       cv::cvtColor(*source_ptr, dest_frame, cv::COLOR_BGR2GRAY);
       break;
 
-    case RegionFlowComputationOptions::REGION_FLOW_FORMAT_RGBA:
+    case RegionFlowComputationOptions::IMAGE_FORMAT_RGBA:
       if (4 != source_ptr->channels()) {
         ABSL_LOG(ERROR) << "Expecting 4 channel input for RGBA.";
         return false;
@@ -967,7 +967,7 @@ bool RegionFlowComputation::InitFrame(const cv::Mat& source,
       cv::cvtColor(*source_ptr, dest_frame, cv::COLOR_RGBA2GRAY);
       break;
 
-    case RegionFlowComputationOptions::REGION_FLOW_FORMAT_BGRA:
+    case RegionFlowComputationOptions::IMAGE_FORMAT_BGRA:
       if (4 != source_ptr->channels()) {
         ABSL_LOG(ERROR) << "Expecting 4 channel input for BGRA.";
         return false;
@@ -975,7 +975,7 @@ bool RegionFlowComputation::InitFrame(const cv::Mat& source,
       cv::cvtColor(*source_ptr, dest_frame, cv::COLOR_BGRA2GRAY);
       break;
 
-    case RegionFlowComputationOptions::REGION_FLOW_FORMAT_GRAYSCALE:
+    case RegionFlowComputationOptions::IMAGE_FORMAT_GRAYSCALE:
       if (1 != source_ptr->channels()) {
         ABSL_LOG(ERROR) << "Expecting 1 channel input for GRAYSCALE.";
         return false;
@@ -1015,7 +1015,7 @@ bool RegionFlowComputation::AddImageAndTrack(
   MEASURE_TIME << "AddImageAndTrack";
 
   if (options_.downsample_mode() ==
-      RegionFlowComputationOptions::REGION_FLOW_DOWNSAMPLE_TO_INPUT_SIZE) {
+      RegionFlowComputationOptions::DOWNSAMPLE_MODE_TO_INPUT_SIZE) {
     if (frame_width_ != source.cols || frame_height_ != source.rows) {
       ABSL_LOG(ERROR) << "Source input dimensions incompatible with "
                       << "DOWNSAMPLE_TO_INPUT_SIZE. frame_width_: "
@@ -1635,7 +1635,7 @@ void RegionFlowComputation::AdaptiveGoodFeaturesToTrack(
   block_height = max(1, block_height);
 
   bool use_harris = tracking_options.corner_extraction_method() ==
-                    TrackingOptions::FLOW_DIRECTION_EXTRACTION_HARRIS;
+                    TrackingOptions::CORNER_EXTRACTION_METHOD_HARRIS;
 
   const int adaptive_levels =
       options_.tracking_options().adaptive_features_levels();
@@ -1653,7 +1653,7 @@ void RegionFlowComputation::AdaptiveGoodFeaturesToTrack(
           : tracking_options.min_eig_val_settings().feature_quality_level();
 
   bool use_fast = tracking_options.corner_extraction_method() ==
-                  TrackingOptions::FLOW_DIRECTION_EXTRACTION_FAST;
+                  TrackingOptions::CORNER_EXTRACTION_METHOD_FAST;
   cv::Ptr<cv::FastFeatureDetector> fast_detector;
   if (use_fast) {
     fast_detector = cv::FastFeatureDetector::create(
@@ -2578,7 +2578,7 @@ void RegionFlowComputation::TrackFeatures(FrameTrackingData* from_data_ptr,
   }
 
   if (options_.tracking_options().klt_tracker_implementation() ==
-      TrackingOptions::FLOW_DIRECTION_KLT_OPENCV) {
+      TrackingOptions::KLT_OPENCV) {
     cv::calcOpticalFlowPyrLK(input_frame1, input_frame2, features1, features2,
                              feature_status_, feature_track_error_,
                              cv_window_size, pyramid_levels_, cv_criteria,
@@ -3346,11 +3346,11 @@ float RegionFlowComputation::TrackedFeatureViewToRegionFlowFeatureList(
     feature->set_flags(feature_ptr->flags);
 
     switch (options_.irls_initialization()) {
-      case RegionFlowComputationOptions::REGION_FLOW_INIT_UNIFORM:
+      case RegionFlowComputationOptions::IRIS_INIT_UNIFORM:
         feature->set_irls_weight(1.0f);
         break;
 
-      case RegionFlowComputationOptions::REGION_FLOW_INIT_CONSISTENCY:
+      case RegionFlowComputationOptions::IRIS_INIT_CONSISTENCY:
         feature->set_irls_weight(2.0f * feature_ptr->irls_weight /
                                  feature_ptr->num_bins);
         break;

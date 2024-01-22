@@ -93,7 +93,7 @@ MotionAnalysis::MotionAnalysis(const MotionAnalysisOptions& options,
       use_spatial_bias;
 
   if (compute_feature_descriptors_) {
-    ABSL_CHECK_EQ(RegionFlowComputationOptions::REGION_FLOW_FORMAT_RGB,
+    ABSL_CHECK_EQ(RegionFlowComputationOptions::IMAGE_FORMAT_RGB,
                   options_.flow_options().image_format())
         << "Feature descriptors only support RGB currently.";
     prev_frame_.reset(new cv::Mat(frame_height_, frame_width_, CV_8UC3));
@@ -139,7 +139,7 @@ void MotionAnalysis::InitPolicyOptions() {
       tracking_options->set_internal_tracking_direction(
           TrackingOptions::FLOW_DIRECTION_FORWARD);
       tracking_options->set_tracking_policy(
-          TrackingOptions::FLOW_DIRECTION_POLICY_LONG_TRACKS);
+          TrackingOptions::TRACKING_POLICY_LONG_TRACKS);
 
       feature_bias_options->set_use_spatial_bias(false);
       feature_bias_options->set_seed_priors_from_bias(true);
@@ -153,7 +153,7 @@ void MotionAnalysis::InitPolicyOptions() {
 
       // Speed.
       flow_options->set_downsample_mode(
-          RegionFlowComputationOptions::REGION_FLOW_DOWNSAMPLE_BY_SCHEDULE);
+          RegionFlowComputationOptions::DOWNSAMPLE_MODE_BY_SCHEDULE);
 
       motion_options->set_estimation_policy(
           MotionEstimationOptions::TEMPORAL_LONG_FEATURE_BIAS);
@@ -173,7 +173,7 @@ void MotionAnalysis::InitPolicyOptions() {
       tracking_options->set_internal_tracking_direction(
           TrackingOptions::FLOW_DIRECTION_FORWARD);
       tracking_options->set_tracking_policy(
-          TrackingOptions::FLOW_DIRECTION_POLICY_LONG_TRACKS);
+          TrackingOptions::TRACKING_POLICY_LONG_TRACKS);
 
       motion_options->set_estimation_policy(
           MotionEstimationOptions::TEMPORAL_LONG_FEATURE_BIAS);
@@ -197,7 +197,7 @@ void MotionAnalysis::InitPolicyOptions() {
       tracking_options->set_max_features(500);
 
       flow_options->set_downsample_mode(
-          RegionFlowComputationOptions::REGION_FLOW_DOWNSAMPLE_TO_MIN_SIZE);
+          RegionFlowComputationOptions::DOWNSAMPLE_MODE_TO_MIN_SIZE);
       flow_options->set_round_downsample_factor(true);
       flow_options->set_downsampling_size(256);
       flow_options->set_pre_blur_sigma(0);
@@ -223,7 +223,7 @@ void MotionAnalysis::InitPolicyOptions() {
       tracking_options->set_internal_tracking_direction(
           TrackingOptions::FLOW_DIRECTION_FORWARD);
       tracking_options->set_tracking_policy(
-          TrackingOptions::FLOW_DIRECTION_POLICY_LONG_TRACKS);
+          TrackingOptions::TRACKING_POLICY_LONG_TRACKS);
 
       motion_options->set_estimation_policy(
           MotionEstimationOptions::TEMPORAL_IRLS_MASK);
@@ -269,7 +269,7 @@ void MotionAnalysis::InitPolicyOptions() {
       tracking_options->set_internal_tracking_direction(
           TrackingOptions::FLOW_DIRECTION_FORWARD);
       tracking_options->set_tracking_policy(
-          TrackingOptions::FLOW_DIRECTION_POLICY_LONG_TRACKS);
+          TrackingOptions::TRACKING_POLICY_LONG_TRACKS);
 
       feature_bias_options->set_use_spatial_bias(false);
       feature_bias_options->set_seed_priors_from_bias(true);
@@ -303,7 +303,7 @@ void MotionAnalysis::InitPolicyOptions() {
 
       // Speed.
       flow_options->set_downsample_mode(
-          RegionFlowComputationOptions::REGION_FLOW_DOWNSAMPLE_BY_SCHEDULE);
+          RegionFlowComputationOptions::DOWNSAMPLE_MODE_BY_SCHEDULE);
 
       // Less quality features.
       flow_options->set_absolute_inlier_error_threshold(4);
@@ -383,7 +383,7 @@ bool MotionAnalysis::AddFrameGeneric(
     // tracking has been requested.
     int max_track_index = 0;
     if (options_.flow_options().tracking_options().tracking_policy() ==
-        TrackingOptions::FLOW_DIRECTION_POLICY_MULTI_FRAME) {
+        TrackingOptions::TRACKING_POLICY_MULTI_FRAME) {
       max_track_index = std::min(
           options_.flow_options().tracking_options().multi_frames_to_track() -
               1,
