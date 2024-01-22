@@ -40,7 +40,7 @@ class {{SUBGRAPH_CLASS_NAME}} : public Subgraph {
     if (ok) {
       return config;
     } else {
-      return absl::InternalError("Could not parse subgraph.");
+      return absl::InternalError(absl::Substitute("Could not parse subgraph $0.", "{{SUBGRAPH_CLASS_NAME}}"));
     }
   }
 };
